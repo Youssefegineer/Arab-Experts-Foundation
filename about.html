@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نبذة عني - المستشار يسري رشاد | محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</title>
+    <meta name="description" content="المستشار يسري رشاد عراقي، محامي بالإستئناف العالي ومجلس الدولة والدستورية العليا. أكثر من 20 عاماً من الخبرة في الإستشارات القانونية والدفع أمام المحاكم المصرية.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#D4AF37',
+                            dark: '#F5D27F'
+                        },
+                        secondary: {
+                            light: '#1E293B',
+                            dark: '#F1F5F9'
+                        },
+                        darkBg: '#0F172A',
+                        lightBg: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        arabic: ['Tajawal', 'Arial', 'sans-serif'],
+                        elegant: ['Cormorant Garamond', 'serif']
+                    },
+                    boxShadow: {
+                        'gold': '0 10px 30px -5px rgba(212, 175, 55, 0.3)',
+                        'dark-gold': '0 10px 30px -5px rgba(245, 210, 127, 0.3)',
+                        'elegant': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        '3d': '0 20px 40px -10px rgba(0,0,0,0.3), 0 0 0 2px rgba(212,175,55,0.2) inset'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .elegant-text {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            right: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .dark .nav-link::after {
+            background-color: #F5D27F;
+        }
+        
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        }
+
+        .scroll-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .hover-lift:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pulse-gold {
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(212, 175, 55, 0.3); }
+            to { box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+        }
+
+        .perspective-container {
+            perspective: 1200px;
+        }
+
+        .hover-3d {
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .hover-3d:hover {
+            transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3);
+        }
+
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(6deg) rotateX(3deg);
+        }
+        
+        .profile-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        
+        .profile-img-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, transparent 60%);
+            z-index: 1;
+            border-radius: 1.5rem;
+        }
+        
+        .profile-img-wrapper img {
+            transition: transform 0.7s ease;
+        }
+        
+        .profile-img-wrapper:hover img {
+            transform: scale(1.05);
+        }
+        
+        .creative-card {
+            background: white;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        
+        .dark .creative-card {
+            background: #1E293B;
+            border-color: rgba(245, 210, 127, 0.1);
+        }
+        
+        .creative-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .expertise-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .expertise-card:hover .expertise-icon {
+            transform: scale(1.1) rotate(5deg);
+            background-color: #B8860B !important;
+        }
+        
+        .dark .expertise-card:hover .expertise-icon {
+            background-color: #E6C878 !important;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-right: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #D4AF37;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #D4AF37;
+        }
+        
+        .dark .timeline-item::before {
+            border-color: #1E293B;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            right: 5px;
+            top: 1.5rem;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: linear-gradient(to bottom, #D4AF37, transparent);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .stat-card {
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #D4AF37, #F5D27F);
+            transition: width 0.4s ease;
+        }
+        
+        .stat-card:hover::before {
+            width: 100%;
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .btn-outline-gold {
+            border: 2px solid #D4AF37;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-gold:hover {
+            background: #D4AF37;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .dark .btn-outline-gold:hover {
+            background: #F5D27F;
+            color: #1E293B;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-item {
+                padding-right: 1.5rem;
+            }
+        }
+        
+        .typing-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            border-left: 3px solid #D4AF37;
+            padding-left: 5px;
+            animation: blink 0.75s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: #D4AF37; }
+        }
+        
+        .dark .typing-wrapper {
+            border-left-color: #F5D27F;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        .footer-card {
+            background: transparent;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+
+        .footer-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .footer-card:hover {
+            border-color: rgba(245, 210, 127, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-lightBg text-secondary-light dark:bg-darkBg dark:text-secondary-dark">
+    <nav class="fixed top-0 w-full bg-white/95 dark:bg-darkBg/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-reverse space-x-2">
+                <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 object-contain" loading="lazy">
+                <div>
+                    <h1 class="text-base md:text-lg font-bold text-gray-900 dark:text-white">مؤسسة الخبراء العرب</h1>
+                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark">للإستشارات القانونية وأعمال المحاماة</p>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-reverse space-x-8">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium">الرئيسية</a>
+                <a href="about.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium">هيئة الدفاع</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium">التواصل</a>
+            </div>
+            <div class="flex items-center space-x-reverse space-x-2">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300">
+                    <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
+                </button>
+                <button class="md:hidden p-2" id="mobile-menu-btn">
+                    <svg class="w-6 h-6 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden pb-4" id="mobile-menu">
+            <div class="flex flex-col space-y-3 px-6">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium py-2">الرئيسية</a>
+                <a href="about.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium py-2">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium py-2">هيئة الدفاع</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 font-medium py-2">التواصل</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="pt-28 pb-16 hero-pattern relative overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-8 md:gap-10">
+                <div class="lg:w-2/5 fade-in">
+                    <div class="profile-img-wrapper shadow-2xl floating">
+                        <img src="Untitled.png" alt="المستشار يسري رشاد عراقي" class="w-full h-auto object-cover" loading="lazy">
+                    </div>
+                </div>
+                <div class="lg:w-3/5 text-center lg:text-right fade-in delay-200">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4">
+                        <span class="gold-gradient-text">المستشار</span>
+                        <span class="text-secondary-light dark:text-white block mt-1 md:mt-2">يسري رشاد عراقي</span>
+                    </h1>
+                    <div class="w-20 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto lg:mr-0 my-4 md:my-6"></div>
+                    <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-4 md:mb-6">
+                        <span class="typing-wrapper inline-block">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</span>
+                    </p>
+                    <p class="text-primary-light dark:text-primary-dark font-bold text-xl md:text-2xl mb-4 md:mb-6">+20 عاماً من الخبرة القانونية</p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium">عضو نقابة المحامين المصرية</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium">خبير في التحكيم الدولي</span>
+                        <span class="bg-gray-100 dark:bg-gray-800 px-3 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium">عضو إتحاد المحامين العرب</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 md:py-12 bg-gray-50 dark:bg-gray-800/50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+                <div class="stat-card bg-white dark:bg-gray-800 p-4 md:p-5 rounded-xl text-center hover-lift scroll-animate delay-1">
+                    <div class="text-2xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter" id="yearsCounter">0</div>
+                    <div class="text-xs md:text-sm text-gray-600 dark:text-gray-400">سنة خبرة</div>
+                </div>
+                <div class="stat-card bg-white dark:bg-gray-800 p-4 md:p-5 rounded-xl text-center hover-lift scroll-animate delay-2">
+                    <div class="text-2xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter" id="casesCounter">0</div>
+                    <div class="text-xs md:text-sm text-gray-600 dark:text-gray-400">قضية منجزة</div>
+                </div>
+                <div class="stat-card bg-white dark:bg-gray-800 p-4 md:p-5 rounded-xl text-center hover-lift scroll-animate delay-3">
+                    <div class="text-2xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter" id="successCounter">0<span class="text-base md:text-xl">%</span></div>
+                    <div class="text-xs md:text-sm text-gray-600 dark:text-gray-400">نسبة النجاح</div>
+                </div>
+                <div class="stat-card bg-white dark:bg-gray-800 p-4 md:p-5 rounded-xl text-center hover-lift scroll-animate delay-4">
+                    <div class="text-2xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter" id="clientsCounter">0</div>
+                    <div class="text-xs md:text-sm text-gray-600 dark:text-gray-400">عميل وشركة</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-8 md:mb-12 scroll-animate">
+                <h2 class="text-2xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">
+                    <span class="gold-gradient-text">سيرتي الذاتية</span>
+                </h2>
+                <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
+            </div>
+            <div class="creative-card p-5 md:p-8 scroll-animate hover-3d">
+                <div class="space-y-4 md:space-y-5 text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
+                    <p class="text-sm md:text-lg">
+                        المستشار <span class="text-primary-light dark:text-primary-dark font-bold">يسري رشاد عراقي</span>، محامٍ بالإستناف العالي ومجلس الدولة والمستشار القانوني، يتمتع بخبرة تزيد عن <span class="font-bold">20 عاماً</span> في مجال المحاماة والإستشارات القانونية.
+                    </p>
+                    <p class="text-sm md:text-lg">
+                        حاصل على <span class="font-bold">ليسانس الحقوق من جامعة عين شمس عام 2003</span> و<span class="font-bold">درجة الماجستير في التحكيم في العقود التجارية الدولية عام 2011 من جامعة الإسكندرية</span> بتقدير إمتياز.
+                    </p>
+                    <p class="text-sm md:text-lg">
+                        عضو في <span class="font-bold">المركز الدولي للتحكيم</span>، وعضو في <span class="font-bold">الإتحاد العربي لحماية حقوق الملكية الفكرية</span>، وعضو في <span class="font-bold">إتحاد المحامين العرب</span>، وعضو بنقابة المحامين المصرية برقم قيد <span class="font-bold">327051</span>.
+                    </p>
+                    <p class="text-sm md:text-lg">
+                        يتمتع بسجل حافل من القضايا الناجحة في مختلف التخصصات القانونية، وله العديد من الأحكام البارزة أمام المحاكم المصرية.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-8 md:mb-12 scroll-animate">
+                <h2 class="text-2xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">
+                    <span class="gold-gradient-text">العضويات والشهادات</span>
+                </h2>
+                <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                <div class="creative-card p-4 md:p-5 flex items-center gap-3 md:gap-4 scroll-animate delay-1 hover-3d">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-light/20 dark:bg-primary-dark/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-graduation-cap text-primary-light dark:text-primary-dark text-base md:text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-secondary-light dark:text-white text-sm md:text-base">ليسانس الحقوق</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">جامعة عين شمس - 2003</p>
+                    </div>
+                </div>
+                <div class="creative-card p-4 md:p-5 flex items-center gap-3 md:gap-4 scroll-animate delay-2 hover-3d">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-light/20 dark:bg-primary-dark/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-award text-primary-light dark:text-primary-dark text-base md:text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-secondary-light dark:text-white text-sm md:text-base">ماجستير التحكيم الدولي</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">جامعة الإسكندرية - 2011 | تقدير إمتياز</p>
+                    </div>
+                </div>
+                <div class="creative-card p-4 md:p-5 flex items-center gap-3 md:gap-4 scroll-animate delay-3 hover-3d">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-light/20 dark:bg-primary-dark/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-users text-primary-light dark:text-primary-dark text-base md:text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-secondary-light dark:text-white text-sm md:text-base">نقابة المحامين المصرية</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">رقم القيد: 327051</p>
+                    </div>
+                </div>
+                <div class="creative-card p-4 md:p-5 flex items-center gap-3 md:gap-4 scroll-animate delay-4 hover-3d">
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-primary-light/20 dark:bg-primary-dark/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-globe text-primary-light dark:text-primary-dark text-base md:text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-secondary-light dark:text-white text-sm md:text-base">إتحاد المحامين العرب</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm">والمركز الدولي للتحكيم</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-8 md:mb-12 scroll-animate">
+                <h2 class="text-2xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">
+                    <span class="gold-gradient-text">مجالات التخصص</span>
+                </h2>
+                <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-400 mt-3 md:mt-4 max-w-2xl mx-auto">نقدم خدمات قانونية متكاملة في مختلف التخصصات</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div class="expertise-card creative-card p-5 md:p-6 scroll-animate delay-1 hover-3d">
+                    <div class="expertise-icon w-12 h-12 md:w-14 md:h-14 bg-primary-light text-white rounded-xl flex items-center justify-center mb-3 md:mb-5">
+                        <i class="fas fa-balance-scale text-base md:text-xl"></i>
+                    </div>
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">المنازعات المدنية</h3>
+                    <ul class="text-gray-600 dark:text-gray-400 space-y-1.5 md:space-y-2 text-xs md:text-sm">
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> منازعات عقود البيع والإيجار</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> دعاوى التعويض والمسئولية</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> منازعات الملكية والعقارات</li>
+                    </ul>
+                </div>
+                <div class="expertise-card creative-card p-5 md:p-6 scroll-animate delay-2 hover-3d">
+                    <div class="expertise-icon w-12 h-12 md:w-14 md:h-14 bg-primary-light text-white rounded-xl flex items-center justify-center mb-3 md:mb-5">
+                        <i class="fas fa-building text-base md:text-xl"></i>
+                    </div>
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">المنازعات التجارية والشركات</h3>
+                    <ul class="text-gray-600 dark:text-gray-400 space-y-1.5 md:space-y-2 text-xs md:text-sm">
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> العقود التجارية والوكالات</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> تأسيس وتعديل الشركات</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> منازعات الشركاء والمساهمين</li>
+                    </ul>
+                </div>
+                <div class="expertise-card creative-card p-5 md:p-6 scroll-animate delay-3 hover-3d">
+                    <div class="expertise-icon w-12 h-12 md:w-14 md:h-14 bg-primary-light text-white rounded-xl flex items-center justify-center mb-3 md:mb-5">
+                        <i class="fas fa-home text-base md:text-xl"></i>
+                    </div>
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">قانون الأسرة</h3>
+                    <ul class="text-gray-600 dark:text-gray-400 space-y-1.5 md:space-y-2 text-xs md:text-sm">
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> قضايا الزواج والطلاق</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> قضايا الميراث والوصايا</li>
+                        <li class="flex items-start"><i class="fas fa-check text-primary-light mt-1 ml-2 text-[10px] md:text-xs"></i> قضايا النفقات والأجور بأنواعها</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-8 md:mb-12 scroll-animate">
+                <h2 class="text-2xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3">
+                    <span class="gold-gradient-text">المسيرة المهنية</span>
+                </h2>
+                <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
+            </div>
+            <div class="max-w-2xl mx-auto">
+                <div class="timeline-item scroll-animate delay-1">
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white">بداية الممارسة المهنية</h3>
+                    <span class="inline-block text-primary-light dark:text-primary-dark text-xs md:text-sm mb-1 md:mb-2">2003 - 2008</span>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">العمل في مكاتب قانونية مرموقة، وإكتساب الخبرة في مختلف فروع القانون والترافع أمام المحاكم.</p>
+                </div>
+                <div class="timeline-item scroll-animate delay-3">
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white">تأسيس مكتب المحاماة</h3>
+                    <span class="inline-block text-primary-light dark:text-primary-dark text-xs md:text-sm mb-1 md:mb-2">2010 - حتى الآن</span>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">تأسيس مكتب المحاماة الخاص في القاهرة، وتقديم الإستشارات القانونية للشركات الكبرى والترافع أمام المحاكم.</p>
+                </div>
+                <div class="timeline-item scroll-animate delay-4">
+                    <h3 class="text-base md:text-xl font-bold text-secondary-light dark:text-white">ماجستير التحكيم الدولي</h3>
+                    <span class="inline-block text-primary-light dark:text-primary-dark text-xs md:text-sm mb-1 md:mb-2">2011</span>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">الحصول على درجة الماجستير في التحكيم في العقود التجارية الدولية من جامعة الإسكندرية بتقدير إمتياز.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="creative-card p-6 md:p-8 max-w-3xl mx-auto text-center scroll-animate hover-3d">
+                <i class="fas fa-quote-right text-primary-light dark:text-primary-dark text-3xl md:text-4xl mb-3 md:mb-4 opacity-50"></i>
+                <p class="text-base md:text-2xl leading-relaxed text-gray-700 dark:text-gray-300">
+                    "أؤمن بأن القانون ليس مجرد نصوص مكتوبة، بل هو أداة لتحقيق العدالة وحماية الحقوق. واجبي لا يقتصر على الترافع، بل يمتد لمساعدة الموكلين على فهم حقوقهم القانونية."
+                </p>
+                <div class="mt-4 md:mt-6">
+                    <div class="w-12 md:w-16 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto mb-2 md:mb-3"></div>
+                    <p class="text-primary-light dark:text-primary-dark font-bold text-xs md:text-sm tracking-wider mb-0.5 md:mb-1">مـــــــــــــــــــــــــــع</p>
+                    <p class="text-primary-light dark:text-primary-dark font-bold text-base md:text-lg">المستشار يسري رشاد عراقي</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-xs md:text-sm mt-1 md:mt-2">حــــــقــــــــــــــك مضمون</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-16" style="background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);">
+        <div class="container mx-auto px-4 md:px-6 text-center scroll-animate">
+            <h2 class="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">هل تحتاج إلى إستشارة قانونية؟</h2>
+            <p class="text-sm md:text-lg text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto">تواصل معي الآن للحصول على إستشارة قانونية متخصصة</p>
+            <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
+                <a href="contact.html" class="bg-white text-primary-light px-6 md:px-8 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base shadow-lg hover:shadow-gold dark:hover:shadow-dark-gold transform hover:-translate-y-1 transition-all duration-300 hover-3d scroll-animate delay-1 btn-mobile">
+                    إحجز إستشارة <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+                <a href="tel:+201004426279" class="border-2 border-white text-white px-6 md:px-8 py-3 md:py-3.5 rounded-xl font-bold text-sm md:text-base hover:bg-white hover:text-primary-light transition-all duration-300 hover:-translate-y-1 scroll-animate delay-2 btn-mobile">
+                    إتصل بنا الآن <i class="fas fa-phone mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-secondary-light dark:bg-gray-900 text-white pt-12 md:pt-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 perspective-container">
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-1 text-center md:text-right">
+                    <div class="flex items-center justify-center md:justify-start mb-4 md:mb-6">
+                        <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 ml-3 md:ml-4" width="48" height="48" loading="lazy">
+                        <div>
+                            <h3 class="text-lg md:text-xl font-bold">يسري رشاد</h3>
+                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed">
+                        مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.
+                    </p>
+                </div>
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-2 text-center">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">روابط سريعة</h4>
+                    <ul class="space-y-2 md:space-y-3">
+                        <li><a href="index.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">الرئيسية</a></li>
+                        <li><a href="about.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors">نبذة عني</a></li>
+                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">خدماتنا</a></li>
+                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">هيئة الدفاع</a></li>
+                        <li><a href="contact.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">التواصل</a></li>
+                    </ul>
+                </div>
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-3 text-center">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">خدماتنا</h4>
+                    <ul class="space-y-2 md:space-y-3">
+                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء المدني والتجاري</a></li>
+                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء الجنائي</a></li>
+                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الأسرة</a></li>
+                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الشركات</a></li>
+                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">التحكيم التجاري</a></li>
+                        <li><a href="services.html#consultation" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">إستشارات قانونية متخصصة</a></li>
+                    </ul>
+                </div>
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-4 text-center md:text-right">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">تواصل معنا</h4>
+                    <div class="space-y-3 md:space-y-4">
+                        <div class="flex items-center justify-center md:justify-start">
+                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
+                            <div>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">ميدان المطريه أبراج العز 2</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">برج أ إداري مكتب 1002، القاهرة</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-start">
+                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">+20 100 442 6279</p>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-start">
+                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">mohamy_yousry@yahoo.com</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center md:justify-start space-x-reverse space-x-3 mt-4 md:mt-6">
+                        <a href="https://www.facebook.com/donkamello.alexander" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="صفحة فيسبوك">
+                            <i class="fab fa-facebook-f text-sm md:text-base"></i>
+                        </a>
+                        <a href="https://www.instagram.com/cons.ultantyousryiraqi/" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب انستغرام">
+                            <i class="fa-brands fa-instagram text-sm md:text-base"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب لينكد إن">
+                            <i class="fab fa-linkedin-in text-sm md:text-base"></i>
+                        </a>
+                        <a href="https://wa.me/201004426279" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="واتساب">
+                            <i class="fab fa-whatsapp text-sm md:text-base"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 md:mt-12 pt-6 md:pt-8 border-t-2 border-primary-light/30 dark:border-primary-dark/30 scroll-animate delay-5">
+                <div class="flex items-center justify-center gap-3 md:gap-4 mb-3 md:mb-4">
+                    <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
+                    <div class="text-primary-light dark:text-primary-dark text-xs md:text-sm flex items-center gap-2">
+                        <i class="fas fa-gavel"></i>
+                        <span class="elegant-text text-base md:text-lg font-bold">✦</span>
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+                    <p class="text-gray-400 dark:text-gray-500 text-xs md:text-sm text-center md:text-right leading-relaxed">
+                        <span class="text-primary-light dark:text-primary-dark font-bold">© 2026</span> 
+                        <span class="text-gray-300 dark:text-gray-400">جميع الحقوق محفوظة لـ</span>
+                        <span class="text-white dark:text-white font-bold">مكتب يسري رشاد للمحاماة</span>
+                        <span class="text-gray-500 dark:text-gray-600 mx-1 md:mx-2">|</span>
+                        <span class="text-gray-400 dark:text-gray-500">مصر - القاهرة</span>
+                    </p>
+                    <div class="flex items-center space-x-reverse space-x-4 md:space-x-6">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                            <i class="fas fa-shield-alt text-[10px] md:text-xs"></i>
+                            سياسة الخصوصية
+                        </a>
+                        <span class="text-gray-600 dark:text-gray-700">|</span>
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                            <i class="fas fa-file-contract text-[10px] md:text-xs"></i>
+                            شروط الإستخدام
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center mt-2 md:mt-3">
+                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light">
+                        تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span>
+                        <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span>
+                        <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i>
+                        <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">بكل</span>
+                        <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/201004426279" target="_blank" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
+        <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+    </a>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle?.querySelector('i');
+        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                if (themeIcon) {
+                    themeIcon.classList.toggle('fa-moon');
+                    themeIcon.classList.toggle('fa-sun');
+                }
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
+        }
+
+        function startCounters() {
+            const counters = [
+                { id: 'yearsCounter', target: 20, suffix: '+' },
+                { id: 'casesCounter', target: 750, suffix: '+' },
+                { id: 'successCounter', target: 95, suffix: '%' },
+                { id: 'clientsCounter', target: 50, suffix: '+' }
+            ];
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                if (!element) return;
+                let current = 0;
+                const duration = 2000;
+                const stepTime = 20;
+                const steps = duration / stepTime;
+                const increment = counter.target / steps;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= counter.target) {
+                        element.textContent = counter.target + counter.suffix;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current) + counter.suffix;
+                    }
+                }, stepTime);
+            });
+        }
+
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        const elementInView = (el, offset = 100) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight - offset));
+        };
+        const displayScrollElement = (element) => {
+            element.classList.add('show');
+        };
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 120)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+
+        let countersStarted = false;
+        function checkCounters() {
+            if (countersStarted) return;
+            const statsSection = document.querySelector('.stat-card');
+            if (statsSection) {
+                const rect = statsSection.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    countersStarted = true;
+                    startCounters();
+                }
+            }
+        }
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+            checkCounters();
+        });
+        window.addEventListener('load', () => {
+            handleScrollAnimation();
+            checkCounters();
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
