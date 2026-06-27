@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هيئة الدفاع - يسري رشاد | محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</title>
     <meta name="description" content="هيئة الدفاع بمكتب المستشار يسري رشاد عراقي - نخبة من المحامين والمستشارين القانونيين المتخصصين.">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -47,22 +48,22 @@
             transition: background-color 0.3s ease, color 0.3s ease;
             overflow-x: hidden;
         }
-        
+
         .elegant-text {
             font-family: 'Cormorant Garamond', serif;
         }
-        
+
         .gold-gradient-text {
             background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .nav-link {
             position: relative;
         }
-        
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -73,31 +74,37 @@
             background-color: #D4AF37;
             transition: width 0.3s ease;
         }
-        
+
         .nav-link:hover::after,
         .nav-link.active::after {
             width: 100%;
         }
-        
+
         .dark .nav-link::after {
             background-color: #F5D27F;
         }
-        
+
         .hero-pattern {
             background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-                              radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
         }
-        
+
         .floating {
             animation: floating 6s ease-in-out infinite;
         }
-        
+
         @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
-        
+
         .scroll-animate {
             opacity: 0;
             transform: translateY(50px);
@@ -109,22 +116,34 @@
             transform: translateY(0);
         }
 
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
-        .delay-5 { transition-delay: 0.5s; }
-        .delay-6 { transition-delay: 0.6s; }
-        
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+        .delay-4 {
+            transition-delay: 0.4s;
+        }
+        .delay-5 {
+            transition-delay: 0.5s;
+        }
+        .delay-6 {
+            transition-delay: 0.6s;
+        }
+
         .hover-lift {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .hover-lift:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        
+
         .dark .hover-lift:hover {
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
@@ -134,9 +153,15 @@
         }
 
         @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
         }
 
         .glow {
@@ -144,8 +169,12 @@
         }
 
         @keyframes glow {
-            from { box-shadow: 0 0 5px rgba(212, 175, 55, 0.3); }
-            to { box-shadow: 0 0 15px rgba(212, 175, 55, 0.5); }
+            from {
+                box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            }
         }
 
         .perspective-container {
@@ -160,7 +189,7 @@
 
         .hover-3d:hover {
             transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
-            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(212, 175, 55, 0.3);
         }
 
         .card-3d {
@@ -171,25 +200,25 @@
         .card-3d:hover {
             transform: rotateY(6deg) rotateX(3deg);
         }
-        
+
         .creative-card {
             background: white;
             border-radius: 1.5rem;
             transition: all 0.4s ease;
             border: 1px solid rgba(212, 175, 55, 0.1);
         }
-        
+
         .dark .creative-card {
             background: #1E293B;
             border-color: rgba(245, 210, 127, 0.1);
         }
-        
+
         .creative-card:hover {
             transform: translateY(-5px);
             border-color: rgba(212, 175, 55, 0.3);
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .lawyer-card {
             background: white;
             border-radius: 1.5rem;
@@ -198,18 +227,18 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .dark .lawyer-card {
             background: #1E293B;
             border-color: rgba(245, 210, 127, 0.1);
         }
-        
+
         .lawyer-card:hover {
             transform: translateY(-8px);
             border-color: rgba(212, 175, 55, 0.3);
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .lawyer-card-main {
             background: white;
             border-radius: 1.5rem;
@@ -218,17 +247,17 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .dark .lawyer-card-main {
             background: #1E293B;
             border-color: #F5D27F;
         }
-        
+
         .lawyer-card-main:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px -12px rgba(212, 175, 55, 0.3);
         }
-        
+
         .badge-gold {
             background: linear-gradient(135deg, #D4AF37, #B8860B);
             color: white;
@@ -238,7 +267,7 @@
             font-weight: bold;
             display: inline-block;
         }
-        
+
         .badge-silver {
             background: linear-gradient(135deg, #9CA3AF, #6B7280);
             color: white;
@@ -248,13 +277,13 @@
             font-weight: bold;
             display: inline-block;
         }
-        
+
         .stat-card {
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
-        
+
         .stat-card::before {
             content: '';
             position: absolute;
@@ -265,26 +294,26 @@
             background: linear-gradient(90deg, #D4AF37, #F5D27F);
             transition: width 0.4s ease;
         }
-        
+
         .stat-card:hover::before {
             width: 100%;
         }
-        
+
         .counter {
             font-variant-numeric: tabular-nums;
         }
-        
+
         .btn-outline-gold {
             border: 2px solid #D4AF37;
             transition: all 0.3s ease;
         }
-        
+
         .btn-outline-gold:hover {
             background: #D4AF37;
             color: white;
             transform: translateY(-3px);
         }
-        
+
         .dark .btn-outline-gold:hover {
             background: #F5D27F;
             color: #1E293B;
@@ -294,25 +323,43 @@
             opacity: 0;
             animation: fadeIn 1s ease-in forwards;
         }
-        
+
         @keyframes fadeIn {
-            to { opacity: 1; }
+            to {
+                opacity: 1;
+            }
         }
-        
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
-        
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
         .crown-icon {
             animation: crownPulse 2s ease-in-out infinite;
         }
-        
+
         @keyframes crownPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         .lawyer-card-full {
@@ -350,6 +397,190 @@
         .dark .footer-card:hover {
             border-color: rgba(245, 210, 127, 0.3);
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ====== تنسيق محامون بالنقض - كبير ومميز ====== */
+        .cassation-section {
+            position: relative;
+        }
+
+        .cassation-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #D4AF37, #F5D27F, #D4AF37, transparent);
+            opacity: 0.3;
+        }
+
+        .cassation-card {
+            background: white;
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            border: 2px solid rgba(212, 175, 55, 0.15);
+            overflow: hidden;
+            position: relative;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .cassation-card {
+            background: #1E293B;
+            border-color: rgba(245, 210, 127, 0.12);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cassation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #D4AF37, #F5D27F, #D4AF37);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .cassation-card:hover::before {
+            opacity: 1;
+        }
+
+        .cassation-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 20px 50px -12px rgba(212, 175, 55, 0.2), 0 0 0 1px rgba(212, 175, 55, 0.1);
+        }
+
+        .dark .cassation-card:hover {
+            box-shadow: 0 20px 50px -12px rgba(245, 210, 127, 0.15), 0 0 0 1px rgba(245, 210, 127, 0.08);
+        }
+
+        .cassation-card .icon-wrapper {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .cassation-card:hover .icon-wrapper {
+            transform: scale(1.05) rotate(-4deg);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .cassation-card .cassation-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 0.35rem;
+            transition: color 0.3s ease;
+        }
+
+        .dark .cassation-card .cassation-name {
+            color: #F1F5F9;
+        }
+
+        .cassation-card:hover .cassation-name {
+            color: #D4AF37;
+        }
+
+        .dark .cassation-card:hover .cassation-name {
+            color: #F5D27F;
+        }
+
+        .cassation-card .badge-gold-lg {
+            background: linear-gradient(135deg, #D4AF37, #B8860B);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .cassation-card:hover .badge-gold-lg {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+        }
+
+        .cassation-card .gold-line {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, #D4AF37, #F5D27F);
+            margin: 0.6rem auto 0.8rem;
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .cassation-card:hover .gold-line {
+            width: 80px;
+        }
+
+        /* شبكة محامون بالنقض - عرض كبير */
+        .grid-cassation {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            justify-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+            .grid-cassation {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 750px;
+                gap: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-cassation {
+                max-width: 800px;
+                gap: 2.5rem;
+            }
+        }
+
+        /* تزيين إضافي */
+        .cassation-decoration {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            opacity: 0.5;
+        }
+
+        .cassation-decoration .line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #D4AF37);
+        }
+
+        .cassation-decoration .line:last-child {
+            background: linear-gradient(90deg, #D4AF37, transparent);
+        }
+
+        .cassation-decoration .diamond {
+            width: 8px;
+            height: 8px;
+            background: #D4AF37;
+            transform: rotate(45deg);
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -403,14 +634,14 @@
                 <div class="inline-block px-6 py-2 bg-primary-light/10 dark:bg-primary-dark/10 rounded-full mb-6 fade-in">
                     <span class="text-primary-light dark:text-primary-dark font-semibold">✦ هيئة الدفاع ✦</span>
                 </div>
-                
+
                 <h1 class="text-4xl md:text-6xl font-bold mb-6 fade-in delay-100">
                     <span class="text-secondary-light dark:text-white block">فريقنا القانوني</span>
                     <span class="gold-gradient-text text-5xl md:text-7xl">نخبة المحامين</span>
                 </h1>
-                
+
                 <div class="w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-6"></div>
-                
+
                 <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed fade-in delay-200">
                     فريق متكامل من المستشارين والمحامين المتخصصين، بخبرات متنوعة في جميع فروع القانون
                 </p>
@@ -459,26 +690,26 @@
                             <img src="Untitled.png" alt="المستشار يسري رشاد عراقي" class="w-full h-auto object-cover">
                         </div>
                     </div>
-                    
+
                     <div class="md:w-2/3 text-center md:text-right">
                         <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
                             <i class="fas fa-crown text-primary-light text-2xl crown-icon"></i>
                             <span class="badge-gold">مؤسس ورئيس المكتب</span>
                         </div>
-                        
+
                         <h3 class="text-3xl font-bold text-secondary-light dark:text-white mb-1">المستشار / يسري رشاد عراقي</h3>
                         <p class="text-primary-light dark:text-primary-dark font-semibold text-lg mb-4">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
-                        
+
                         <div class="flex flex-wrap justify-center md:justify-start gap-3 mb-6">
                             <span class="bg-primary-light/20 dark:bg-primary-dark/20 text-primary-light dark:text-primary-dark px-4 py-1 rounded-full text-sm font-medium">خبرة 20+ عام</span>
                             <span class="bg-primary-light/20 dark:bg-primary-dark/20 text-primary-light dark:text-primary-dark px-4 py-1 rounded-full text-sm font-medium">خبير تحكيم دولي</span>
                             <span class="bg-primary-light/20 dark:bg-primary-dark/20 text-primary-light dark:text-primary-dark px-4 py-1 rounded-full text-sm font-medium">عضو إتحاد المحامين العرب</span>
                         </div>
-                        
+
                         <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                             يُعد المستشار يسري رشاد عراقي أحد أبرز المحامين في مصر، يتمتع بخبرة قانونية واسعة تمتد لأكثر من 20 عاماً في مجالات القضاء المدني والتجاري والجنائي والإداري والدستوري، بالإضافة إلى التحكيم الدولي.
                         </p>
-                        
+
                         <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-4">
                             <a href="about.html" class="text-primary-light hover:text-[#B8860B] transition-colors font-semibold">
                                 السيرة الذاتية <i class="fas fa-arrow-left mr-1"></i>
@@ -620,49 +851,48 @@
         </div>
     </section>
 
-    <!-- محامون بالنقض -->
-    <section class="py-16 bg-white dark:bg-gray-900">
+    <!-- محامون بالنقض - تصميم موسع ومميز -->
+    <section class="py-16 bg-white dark:bg-gray-900 cassation-section relative">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12 scroll-animate">
+                <span class="inline-block text-xs font-bold text-primary-light dark:text-primary-dark tracking-wider uppercase mb-2">✦ تميز قانوني ✦</span>
                 <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-3">
                     <span class="gold-gradient-text">محامون بالنقض</span>
                 </h2>
                 <div class="w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
-                <p class="text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">نخبة من المحامين المعتمدين للترافع أمام محكمة النقض</p>
+                <p class="text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
+                    نخبة من المحامين المعتمدين للترافع أمام <span class="text-primary-light dark:text-primary-dark font-semibold">محكمة النقض</span>
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 perspective-container">
-                <div class="lawyer-card p-6 text-center scroll-animate delay-1 hover-3d">
-                    <div class="w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-white" style="background: linear-gradient(135deg, #D4AF37, #B8860B);">
-                        <i class="fas fa-user"></i>
+            <!-- شبكة محامون بالنقض - بعرض كبير -->
+            <div class="grid-cassation perspective-container">
+                <div class="cassation-card text-center scroll-animate delay-1">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-gavel"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-secondary-light dark:text-white">أ. محمد فوزي فاوي</h4>
-                    <span class="badge-gold text-xs">محامي بالنقض</span>
+                    <h4 class="cassation-name">أ. محمد فوزي فاوي</h4>
+                    <div class="gold-line"></div>
+                    <span class="badge-gold-lg">⚖️ محامي بالنقض</span>
                 </div>
 
-                <div class="lawyer-card p-6 text-center scroll-animate delay-2 hover-3d">
-                    <div class="w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-white" style="background: linear-gradient(135deg, #D4AF37, #B8860B);">
-                        <i class="fas fa-user"></i>
+                <div class="cassation-card text-center scroll-animate delay-2">
+                    <div class="icon-wrapper">
+                        <i class="fas fa-scale-balanced"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-secondary-light dark:text-white">أ. خالد حسين سيد</h4>
-                    <span class="badge-gold text-xs">محامي بالنقض</span>
+                    <h4 class="cassation-name">أ. خالد حسين سيد</h4>
+                    <div class="gold-line"></div>
+                    <span class="badge-gold-lg">⚖️ محامي بالنقض</span>
                 </div>
+            </div>
 
-                <div class="lawyer-card p-6 text-center scroll-animate delay-3 hover-3d">
-                    <div class="w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-white" style="background: linear-gradient(135deg, #D4AF37, #B8860B);">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h4 class="text-lg font-bold text-secondary-light dark:text-white">أ. سامح خيري خيري</h4>
-                    <span class="badge-gold text-xs">محامي بالنقض</span>
-                </div>
-
-                <div class="lawyer-card p-6 text-center scroll-animate delay-4 hover-3d">
-                    <div class="w-16 h-16 rounded-full mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-white" style="background: linear-gradient(135deg, #D4AF37, #B8860B);">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <h4 class="text-lg font-bold text-secondary-light dark:text-white">أ. محمد حلمي محمد</h4>
-                    <span class="badge-gold text-xs">محامي بالنقض</span>
-                </div>
+            <!-- تزيين سفلي -->
+            <div class="cassation-decoration scroll-animate delay-3">
+                <span class="line"></span>
+                <span class="diamond"></span>
+                <span class="text-primary-light/40 text-sm font-medium">محكمة النقض المصرية</span>
+                <span class="diamond"></span>
+                <span class="line"></span>
             </div>
         </div>
     </section>
@@ -768,10 +998,10 @@
                     </div>
                     <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
                 </div>
-                
+
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <p class="text-gray-400 dark:text-gray-500 text-sm text-center md:text-right leading-relaxed">
-                        <span class="text-primary-light dark:text-primary-dark font-bold">© 2026</span> 
+                        <span class="text-primary-light dark:text-primary-dark font-bold">© 2026</span>
                         <span class="text-gray-300 dark:text-gray-400">جميع الحقوق محفوظة لـ</span>
                         <span class="text-white dark:text-white font-bold">مكتب يسري رشاد للمحاماة</span>
                         <span class="text-gray-500 dark:text-gray-600 mx-2">|</span>
@@ -789,7 +1019,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="text-center mt-3">
                     <p class="text-gray-500 dark:text-gray-600 text-xs font-light">
                         تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span>
@@ -821,8 +1051,9 @@
         // Dark Mode
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle?.querySelector('i');
-        
-        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             if (themeIcon) {
                 themeIcon.classList.remove('fa-moon');
@@ -835,7 +1066,7 @@
                 themeIcon.classList.add('fa-moon');
             }
         }
-        
+
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
                 if (themeIcon) {
@@ -876,7 +1107,7 @@
 
         window.addEventListener('scroll', handleScrollAnimation);
         window.addEventListener('load', handleScrollAnimation);
-        
+
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
