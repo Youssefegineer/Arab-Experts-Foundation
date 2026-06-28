@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>يسري رشاد عراقي - محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</title>
-    <meta name="description" content="المستشار يسري رشاد عراقي، محامي بالإستئناف العالي ومجلس الدولة والإدارية والدستورية العليا. أكثر من 20 عاماً من الخبرة في الإستشارات القانونية والدفع أمام المحاكم المصرية.">
+    <meta name="description" content="المستشار يسري رشاد عراقي، محامي بالإستئناف العالي ومجلس الدولة والإدارية والدستورية العليا. أكثر من 20 عاماً من الخبرة في الإستشارات القانونية والدفاع أمام المحاكم المصرية.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -59,6 +59,11 @@
         
         .nav-link {
             position: relative;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            color: #94A3B8 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
         
         .nav-link::after {
@@ -74,6 +79,19 @@
         
         .dark .nav-link::after {
             background-color: #F5D27F;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: #D4AF37 !important;
+        }
+        
+        .nav-link.active {
+            color: #D4AF37 !important;
         }
         
         .hero-pattern {
@@ -304,6 +322,18 @@
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
         }
 
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-contact-item i {
+            margin-top: 0.2rem;
+            min-width: 1.2rem;
+        }
+
         @media (max-width: 640px) {
             .hero-title-mobile {
                 font-size: 2.8rem !important;
@@ -324,6 +354,9 @@
             .section-desc-mobile {
                 font-size: 1rem !important;
             }
+            .footer-contact-item {
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -332,44 +365,58 @@
     <div class="floating-shape shape-2"></div>
     <div class="floating-shape shape-3"></div>
 
-    <nav class="fixed top-0 w-full bg-white/95 dark:bg-darkBg/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-reverse space-x-2">
-                <img src="image-removebg-preview.png" alt="شعار يسري رشاد عراقي" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
-                <div class="text-right">
-                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">مؤسسة الخبراء العرب</h1>
-                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark">للإستشارات القانونية وأعمال المحاماة</p>
-                </div>
-            </div>
-            <div class="hidden md:flex space-x-reverse space-x-8">
-                <a href="index.html" class="nav-link text-primary-light dark:text-primary-dark font-medium" aria-current="page">الرئيسية</a>
-                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">نبذة عني</a>
-                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">خدماتنا</a>
-                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">هيئة الدفاع</a>
-                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">التواصل</a>
-            </div>
-            <div class="flex items-center space-x-reverse space-x-2">
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 shake" aria-label="تفعيل الوضع الليلي">
-                    <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
-                </button>
-                <button class="md:hidden p-2" id="mobile-menu-btn" aria-label="القائمة الرئيسية" aria-expanded="false">
-                    <svg class="w-6 h-6 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+<!-- ====== NAVIGATION ====== -->
+<nav class="fixed top-0 w-full bg-white/95 dark:bg-darkBg/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-reverse space-x-2">
+            <img src="image-removebg-preview.png" alt="شعار يسري رشاد عراقي" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
+            <div class="text-right">
+                <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">
+                    <span data-translate="brand_name">مؤسسة الخبراء العرب</span>
+                </h1>
+                <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;">
+                    <span data-translate="brand_sub">للإستشارات القانونية وأعمال المحاماة</span>
+                </p>
             </div>
         </div>
-        <div class="md:hidden hidden mشt-2 pb-4" id="mobile-menu">
-            <div class="flex flex-col space-y-3 px-6">
-                <a href="index.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right">الرئيسية</a>
-                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">نبذة عني</a>
-                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">خدماتنا</a>
-                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">هيئة الدفاع</a>
-                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">التواصل</a>
-            </div>
+        
+        <!-- ====== الروابط الرئيسية - تم التعديل هنا ====== -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <a href="index.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" aria-current="page" data-translate="nav_home">الرئيسية</a>
+            <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_about">نبذة عني</a>
+            <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_services">خدماتنا</a>
+            <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_cases">هيئة الدفاع</a>
+            <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_certificates">الشهادات</a>
+            <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_contact">التواصل</a>
         </div>
-    </nav>
+        
+        <div class="flex items-center space-x-reverse space-x-2">
+                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 shake" aria-label="تغيير اللغة">
+                    <span class="text-sm md:text-base font-bold text-gray-900 dark:text-white" id="lang-text">EN</span>
+                </button>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 shake" aria-label="تفعيل الوضع الليلي">
+                <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
+            </button>
+            <button class="md:hidden p-2" id="mobile-menu-btn" aria-label="القائمة الرئيسية" aria-expanded="false">
+                <svg class="w-6 h-6 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="md:hidden hidden mt-2 pb-4" id="mobile-menu">
+        <div class="flex flex-col space-y-3 px-6">
+            <a href="index.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active" data-translate="nav_home">الرئيسية</a>
+            <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
+            <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
+            <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
+            <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
+            <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_contact">التواصل</a>
+        </div>
+    </div>
+</nav>
 
+    <!-- ====== HERO SECTION ====== -->
     <section id="home" class="min-h-screen flex items-center justify-center hero-pattern overflow-hidden pt-20 md:pt-24 relative">
         <div class="floating-shape shape-1" style="top: 20%; left: 10%;"></div>
         <div class="floating-shape shape-2" style="bottom: 20%; right: 10%;"></div>
@@ -381,35 +428,29 @@
                     </div>
                     <div class="hero-content">
                         <div class="inline-block px-4 py-1.5 md:px-6 md:py-2 bg-primary-light/10 dark:bg-primary-dark/10 rounded-full mb-4 md:mb-6 fade-in">
-                            <span class="text-primary-light dark:text-primary-dark font-semibold text-sm md:text-base">✦ خبرة 20+ عام ✦</span>
+                            <span class="text-primary-light dark:text-primary-dark font-semibold text-sm md:text-base" data-translate="hero_badge">✦ خبرة 20+ عام ✦</span>
                         </div>
                         <h1 class="text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 md:mb-6 leading-tight tracking-wider fade-in delay-100 hero-title-mobile">
-                            <span class="text-secondary-light dark:text-white block">مؤسسة</span>
-                            <span class="gold-gradient-text">الخبراء العرب</span>
+                            <span class="text-secondary-light dark:text-white block" data-translate="hero_title1">مؤسسة</span>
+                            <span class="gold-gradient-text" data-translate="hero_title2">الخبراء العرب</span>
                         </h1>
-                        <p class="text-xl sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto fade-in delay-200 hero-subtitle-mobile">
-                            للإستشارات القانونية وأعمال المحاماة
-                        </p>
+                        <p class="text-xl sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto fade-in delay-200 hero-subtitle-mobile" data-translate="hero_subtitle">للإستشارات القانونية وأعمال المحاماة</p>
                         <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center fade-in delay-300">
-                            <a href="contact.html" class="bg-gradient-to-r from-primary-light to-[#B8860B] text-white px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg shadow-lg hover:shadow-gold dark:hover:shadow-dark-gold transform hover:-translate-y-1 transition-all duration-300 pulse-gold glow hover-3d btn-mobile">
-                                إحجز إستشارة <i class="fas fa-arrow-left mr-2"></i>
-                            </a>
-                            <a href="about.html" class="border-2 border-primary-light text-primary-light dark:border-primary-dark dark:text-primary-dark px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-gray-900 transition-all duration-300 hover-3d btn-mobile">
-                                تعرف علينا <i class="fas fa-user-tie mr-2"></i>
-                            </a>
+                            <a href="contact.html" class="bg-gradient-to-r from-primary-light to-[#B8860B] text-white px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg shadow-lg hover:shadow-gold dark:hover:shadow-dark-gold transform hover:-translate-y-1 transition-all duration-300 pulse-gold glow hover-3d btn-mobile" data-translate="btn_consult">إحجز إستشارة <i class="fas fa-arrow-left mr-2"></i></a>
+                            <a href="about.html" class="border-2 border-primary-light text-primary-light dark:border-primary-dark dark:text-primary-dark px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-gray-900 transition-all duration-300 hover-3d btn-mobile" data-translate="btn_about">تعرف علينا <i class="fas fa-user-tie mr-2"></i></a>
                         </div>
                         <div class="mt-8 md:mt-12 flex justify-center space-x-reverse space-x-4 md:space-x-6 fade-in delay-400">
                             <div class="text-center hover-3d p-2 md:p-3 rounded-lg scroll-animate delay-1">
                                 <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter stat-number-mobile" id="casesCounter">0</div>
-                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400">قضية ناجحة</div>
+                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400" data-translate="stat_cases">قضية ناجحة</div>
                             </div>
                             <div class="text-center hover-3d p-2 md:p-3 rounded-lg scroll-animate delay-2">
                                 <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter stat-number-mobile" id="successCounter">0<span class="text-lg md:text-xl">%</span></div>
-                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400">معدل النجاح</div>
+                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400" data-translate="stat_success">معدل النجاح</div>
                             </div>
                             <div class="text-center hover-3d p-2 md:p-3 rounded-lg scroll-animate delay-3">
                                 <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-0.5 md:mb-1 counter stat-number-mobile" id="experienceCounter">0</div>
-                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400">سنة خبرة</div>
+                                <div class="text-sm md:text-sm text-gray-600 dark:text-gray-400" data-translate="stat_experience">سنة خبرة</div>
                             </div>
                         </div>
                     </div>
@@ -423,141 +464,124 @@
         </div>
     </section>
 
+    <!-- ====== أبرز عملائنا ====== -->
     <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800 relative">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-8 md:mb-12 scroll-animate">
                 <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-3 section-title-mobile">
-                    <span class="gold-gradient-text">أبرز عملائنا</span>
+                    <span class="gold-gradient-text" data-translate="clients_title">أبرز عملائنا</span>
                 </h2>
                 <div class="w-16 md:w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto"></div>
-                <p class="text-base md:text-base text-gray-600 dark:text-gray-400 mt-3 md:mt-4 max-w-2xl mx-auto section-desc-mobile">شركات ومؤسسات كبرى وثقت بنا على مدار السنوات</p>
+                <p class="text-base md:text-base text-gray-600 dark:text-gray-400 mt-3 md:mt-4 max-w-2xl mx-auto section-desc-mobile" data-translate="clients_desc">شركات ومؤسسات كبرى وثقت بنا على مدار السنوات</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-center perspective-container">
                 <div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 md:p-6 shadow-md hover:shadow-xl transition-all duration-500 hover-3d border border-gray-100 dark:border-gray-700 scroll-animate delay-1">
                     <div class="flex flex-col items-center">
                         <img src="ياقوطه.png" alt="شعار شركة ياقوطه" class="h-12 md:h-16 w-auto object-contain mb-2 md:mb-3 filter grayscale group-hover:grayscale-0 transition-all duration-300" width="auto" height="64" loading="lazy">
-                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center">شركة ياقوطه</h3>
-                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center">مقاولات عامة</p>
+                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center" data-translate="client1_name">شركة ياقوطه</h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center" data-translate="client1_label">مقاولات عامة</p>
                     </div>
                 </div>
                 <div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 md:p-6 shadow-md hover:shadow-xl transition-all duration-500 hover-3d border border-gray-100 dark:border-gray-700 scroll-animate delay-2">
                     <div class="flex flex-col items-center">
                         <img src="الشركة المتحدة للمقاولات.jpeg" alt="شعار الشركة المتحدة للمقاولات" class="h-12 md:h-16 w-auto object-contain mb-2 md:mb-3 filter grayscale group-hover:grayscale-0 transition-all duration-300" width="auto" height="64" loading="lazy">
-                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center">الشركة المتحدة</h3>
-                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center">مقاولات واستثمارات</p>
+                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center" data-translate="client2_name">الشركة المتحدة</h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center" data-translate="client2_label">مقاولات واستثمارات</p>
                     </div>
                 </div>
                 <div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 md:p-6 shadow-md hover:shadow-xl transition-all duration-500 hover-3d border border-gray-100 dark:border-gray-700 scroll-animate delay-3">
                     <div class="flex flex-col items-center">
                         <img src="Octagon Textile Industries Company.png" alt="شعار Octagon Textile" class="h-12 md:h-16 w-auto object-contain mb-2 md:mb-3 filter grayscale group-hover:grayscale-0 transition-all duration-300" width="auto" height="64" loading="lazy">
-                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center">أوكتاجون تكستايل</h3>
-                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center">صناعات نسيجية</p>
+                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center" data-translate="client3_name">أوكتاجون تكستايل</h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center" data-translate="client3_label">صناعات نسيجية</p>
                     </div>
                 </div>
                 <div class="group bg-white dark:bg-gray-800 rounded-2xl p-4 md:p-6 shadow-md hover:shadow-xl transition-all duration-500 hover-3d border border-gray-100 dark:border-gray-700 scroll-animate delay-4">
                     <div class="flex flex-col items-center">
                         <img src="arex.png" alt="شعار Arex" class="h-12 md:h-16 w-auto object-contain mb-2 md:mb-3 filter grayscale group-hover:grayscale-0 transition-all duration-300" width="auto" height="64" loading="lazy">
-                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center">أريكس</h3>
-                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center">حلول صناعية</p>
+                        <h3 class="text-xs md:text-sm font-bold text-gray-800 dark:text-gray-200 text-center" data-translate="client4_name">أريكس</h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 dark:text-gray-400 text-center" data-translate="client4_label">حلول صناعية</p>
                     </div>
                 </div>
             </div>
             <div class="text-center mt-8 md:mt-12 scroll-animate delay-5">
-                <p class="text-base md:text-base text-gray-500 dark:text-gray-400">+50 شركة ومؤسسة وثقت بنا منذ 2005</p>
+                <p class="text-base md:text-base text-gray-500 dark:text-gray-400" data-translate="clients_footer">+50 شركة ومؤسسة وثقت بنا منذ 2005</p>
             </div>
         </div>
     </section>
 
+    <!-- ====== إحصائياتنا المميزة ====== -->
     <section class="py-12 md:py-16 bg-gradient-to-r from-primary-light/10 to-primary-dark/10 dark:from-primary-dark/5 dark:to-primary-light/5 relative">
         <div class="container mx-auto px-4 md:px-6 flex flex-col items-center">
             <div class="text-center mb-10 md:mb-16 scroll-animate">
-                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile">إحصائياتنا المميزة</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile" data-translate="stats_title">إحصائياتنا المميزة</h2>
                 <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-4 md:mb-6"></div>
-                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile">
-                    أرقام حقيقية تعكس إحترافيتنا في تقديم كافة أنواع الإستشارات القانونية وأعمال المحاماة لصالح موكلينا
-                </p>
+                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile" data-translate="stats_desc">أرقام حقيقية تعكس إحترافيتنا في تقديم كافة أنواع الإستشارات القانونية وأعمال المحاماة لصالح موكلينا</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 justify-center items-center text-center perspective-container w-full max-w-4xl">
                 <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover-3d card-3d scroll-animate delay-1 w-full">
                     <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-1 md:mb-2 counter" id="stat1">0</div>
-                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400">قضية منجزة</div>
+                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400" data-translate="stat1_label">قضية منجزة</div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover-3d card-3d scroll-animate delay-2 w-full">
                     <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-1 md:mb-2 counter" id="stat2">0<span class="text-xl md:text-2xl">%</span></div>
-                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400">عميل راضٍ</div>
+                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400" data-translate="stat2_label">عميل راضٍ</div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover-3d card-3d scroll-animate delay-3 w-full col-span-2 md:col-span-1">
                     <div class="text-3xl md:text-4xl font-bold text-primary-light dark:text-primary-dark mb-1 md:mb-2 counter" id="stat4">0</div>
-                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400">محكمة مختلفة</div>
+                    <div class="text-sm md:text-base text-gray-600 dark:text-gray-400" data-translate="stat4_label">محكمة مختلفة</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ====== خدماتنا القانونية ====== -->
     <section class="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-10 md:mb-16 scroll-animate">
-                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile">خدماتنا القانونية المتميزة</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile" data-translate="services_title">خدماتنا القانونية المتميزة</h2>
                 <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-4 md:mb-6"></div>
-                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile">
-                    نقدم مجموعة شاملة من الخدمات القانونية المصممة خصيصاً لتلبية إحتياجاتك القانونية
-                </p>
+                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile" data-translate="services_desc">نقدم مجموعة شاملة من الخدمات القانونية المصممة خصيصاً لتلبية إحتياجاتك القانونية</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 perspective-container">
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-200 dark:border-gray-700 hover:border-primary-light dark:hover:border-primary-dark hover-3d group card-3d scroll-animate delay-1">
                     <div class="w-14 h-14 md:w-16 md:h-16 bg-primary-light dark:bg-primary-dark text-white rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500 transform-3d">
                         <i class="fas fa-balance-scale text-xl md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4">القانون المدني والتجاري</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4">
-                        تمثيل قانوني متكامل في جميع المنازعات المدنية والتجارية أمام المحاكم المختصة.
-                    </p>
-                    <a href="services.html#civil" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base">
-                        المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i>
-                    </a>
+                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4" data-translate="service1_title">القانون المدني والتجاري</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4" data-translate="service1_desc">تمثيل قانوني متكامل في جميع المنازعات المدنية والتجارية أمام المحاكم المختصة.</p>
+                    <a href="services.html#civil" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base" data-translate="service1_link">المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i></a>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-200 dark:border-gray-700 hover:border-primary-light dark:hover:border-primary-dark hover-3d group card-3d scroll-animate delay-2">
                     <div class="w-14 h-14 md:w-16 md:h-16 bg-primary-light dark:bg-primary-dark text-white rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500">
                         <i class="fas fa-gavel text-xl md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4">القانون الجنائي</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4">
-                        الدفاع عن المتهمين في كافة القضايا الجنائية بإحترافية عالية وخبرة واسعة.
-                    </p>
-                    <a href="services.html#criminal" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base">
-                        المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i>
-                    </a>
+                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4" data-translate="service2_title">القانون الجنائي</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4" data-translate="service2_desc">الدفاع عن المتهمين في كافة القضايا الجنائية بإحترافية عالية وخبرة واسعة.</p>
+                    <a href="services.html#criminal" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base" data-translate="service2_link">المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i></a>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-200 dark:border-gray-700 hover:border-primary-light dark:hover:border-primary-dark hover-3d group card-3d scroll-animate delay-3">
                     <div class="w-14 h-14 md:w-16 md:h-16 bg-primary-light dark:bg-primary-dark text-white rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500">
                         <i class="fas fa-home text-xl md:text-2xl"></i>
                     </div>
-                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4">قانون الأسرة</h3>
-                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4">
-                        حلول قانونية متكاملة في قضايا الأحوال الشخصية والميراث.
-                    </p>
-                    <a href="services.html#family" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base">
-                        المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i>
-                    </a>
+                    <h3 class="text-xl md:text-2xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4" data-translate="service3_title">قانون الأسرة</h3>
+                    <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4" data-translate="service3_desc">حلول قانونية متكاملة في قضايا الأحوال الشخصية والميراث.</p>
+                    <a href="services.html#family" class="text-primary-light dark:text-primary-dark font-semibold hover:underline flex items-center group-hover:translate-x-2 transition-transform duration-300 text-sm md:text-base" data-translate="service3_link">المزيد من التفاصيل <i class="fas fa-arrow-left mr-2"></i></a>
                 </div>
             </div>
             <div class="text-center mt-8 md:mt-12 scroll-animate delay-4">
-                <!-- تم تعديل الرابط هنا -->
-                <a href="services.html#services" class="inline-flex items-center px-6 md:px-8 py-3 md:py-4 border-2 border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark font-bold rounded-xl hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-gray-900 transition-all duration-300 hover-3d text-sm md:text-base">
-                    عرض جميع الخدمات <i class="fas fa-arrow-left mr-2"></i>
-                </a>
+                <a href="services.html#services" class="inline-flex items-center px-6 md:px-8 py-3 md:py-4 border-2 border-primary-light dark:border-primary-dark text-primary-light dark:text-primary-dark font-bold rounded-xl hover:bg-primary-light hover:text-white dark:hover:bg-primary-dark dark:hover:text-gray-900 transition-all duration-300 hover-3d text-sm md:text-base" data-translate="services_all">عرض جميع الخدمات <i class="fas fa-arrow-left mr-2"></i></a>
             </div>
         </div>
     </section>
 
+    <!-- ====== آراء عملائنا ====== -->
     <section class="py-12 md:py-20 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-10 md:mb-16 scroll-animate">
-                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile">آراء عملائنا</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary-light dark:text-white mb-2 md:mb-4 section-title-mobile" data-translate="testimonials_title">آراء عملائنا</h2>
                 <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-4 md:mb-6"></div>
-                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile">
-                    شهادات حقيقية من عملاء سعداء بخدماتنا القانونية
-                </p>
+                <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed section-desc-mobile" data-translate="testimonials_desc">شهادات حقيقية من عملاء سعداء بخدماتنا القانونية</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 perspective-container">
                 <div class="testimonial-card h-64 md:h-80 scroll-animate delay-1">
@@ -568,13 +592,11 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base">أحمد محمد</h4>
-                                    <p class="text-xs md:text-sm text-gray-500">رجل أعمال</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-translate="testimonial1_name">أحمد محمد</h4>
+                                    <p class="text-xs md:text-sm text-gray-500" data-translate="testimonial1_title">رجل أعمال</p>
                                 </div>
                             </div>
-                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed">
-                                "المستشار/ يسري رشاد أنقذ شركتي من خسائر فادحة. إحترافيته وخبرته كانت السبب في مكسبنا للقضية."
-                            </p>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed" data-translate="testimonial1_text">"المستشار/ يسري رشاد أنقذ شركتي من خسائر فادحة. إحترافيته وخبرته كانت السبب في مكسبنا للقضية."</p>
                             <div class="text-primary-light dark:text-primary-dark text-sm md:text-base">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -585,8 +607,8 @@
                         </div>
                         <div class="testimonial-back bg-primary-light dark:bg-primary-dark p-4 md:p-6 rounded-2xl shadow-lg flex flex-col justify-center items-center text-white text-center">
                             <i class="fas fa-quote-right text-3xl md:text-4xl mb-3 md:mb-4 opacity-50"></i>
-                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2">قضية تجارية</p>
-                            <p class="text-xs md:text-sm">تم الفوز بالقضية وإسترداد 2 مليون جنيه</p>
+                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2" data-translate="testimonial1_back_title">قضية تجارية</p>
+                            <p class="text-xs md:text-sm" data-translate="testimonial1_back_text">تم الفوز بالقضية وإسترداد 2 مليون جنيه</p>
                         </div>
                     </div>
                 </div>
@@ -598,13 +620,11 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base">سارة عبدالله</h4>
-                                    <p class="text-xs md:text-sm text-gray-500">ربة منزل</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-translate="testimonial2_name">سارة عبدالله</h4>
+                                    <p class="text-xs md:text-sm text-gray-500" data-translate="testimonial2_title">ربة منزل</p>
                                 </div>
                             </div>
-                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed">
-                                "شكراً للأستاذ يسري رشاد المحامي على مساعدتي في قضية الميراث. تعامل بمهنية عالية ووفر لي الكثير من الوقت والجهد."
-                            </p>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed" data-translate="testimonial2_text">"شكراً للأستاذ يسري رشاد المحامي على مساعدتي في قضية الميراث. تعامل بمهنية عالية ووفر لي الكثير من الوقت والجهد."</p>
                             <div class="text-primary-light dark:text-primary-dark text-sm md:text-base">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -615,8 +635,8 @@
                         </div>
                         <div class="testimonial-back bg-primary-light dark:bg-primary-dark p-4 md:p-6 rounded-2xl shadow-lg flex flex-col justify-center items-center text-white text-center">
                             <i class="fas fa-quote-right text-3xl md:text-4xl mb-3 md:mb-4 opacity-50"></i>
-                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2">قضية ميراث</p>
-                            <p class="text-xs md:text-sm">تم الحصول على الحقوق كاملة في 3 أشهر فقط</p>
+                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2" data-translate="testimonial2_back_title">قضية ميراث</p>
+                            <p class="text-xs md:text-sm" data-translate="testimonial2_back_text">تم الحصول على الحقوق كاملة في 3 أشهر فقط</p>
                         </div>
                     </div>
                 </div>
@@ -628,13 +648,11 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base">محمد خالد</h4>
-                                    <p class="text-xs md:text-sm text-gray-500">مدير شركة</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-white text-sm md:text-base" data-translate="testimonial3_name">محمد خالد</h4>
+                                    <p class="text-xs md:text-sm text-gray-500" data-translate="testimonial3_title">مدير شركة</p>
                                 </div>
                             </div>
-                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed">
-                                "تعاملت مع العديد من الأساتذة المحامين، لكن المستشار/ يسري رشاد يتميز بدقته وسرعة بديهته في تحليل القضايا المعقدة."
-                            </p>
+                            <p class="text-sm md:text-base text-gray-600 dark:text-gray-300 mb-3 md:mb-4 leading-relaxed" data-translate="testimonial3_text">"تعاملت مع العديد من الأساتذة المحامين، لكن المستشار/ يسري رشاد يتميز بدقته وسرعة بديهته في تحليل القضايا المعقدة."</p>
                             <div class="text-primary-light dark:text-primary-dark text-sm md:text-base">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -645,8 +663,8 @@
                         </div>
                         <div class="testimonial-back bg-primary-light dark:bg-primary-dark p-4 md:p-6 rounded-2xl shadow-lg flex flex-col justify-center items-center text-white text-center">
                             <i class="fas fa-quote-right text-3xl md:text-4xl mb-3 md:mb-4 opacity-50"></i>
-                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2">قضية عقارية</p>
-                            <p class="text-xs md:text-sm">تم الفوز بالقضية المعقدة في 6 جلسات فقط</p>
+                            <p class="text-base md:text-lg font-bold mb-1 md:mb-2" data-translate="testimonial3_back_title">قضية عقارية</p>
+                            <p class="text-xs md:text-sm" data-translate="testimonial3_back_text">تم الفوز بالقضية المعقدة في 6 جلسات فقط</p>
                         </div>
                     </div>
                 </div>
@@ -654,23 +672,19 @@
         </div>
     </section>
 
+    <!-- ====== CTA ====== -->
     <section class="py-12 md:py-20 bg-gradient-to-r from-primary-light to-[#B8860B] text-white">
         <div class="container mx-auto px-4 md:px-6 text-center scroll-animate">
-            <h2 class="text-3xl md:text-4xl font-bold mb-3 md:mb-6 section-title-mobile">هل تحتاج إلى إستشارة قانونية؟</h2>
-            <p class="text-base md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto opacity-90 section-desc-mobile">
-                لا تتردد في التواصل معنا الآن للحصول على إستشارة قانونية متخصصة تحمي بها حقوقك
-            </p>
+            <h2 class="text-3xl md:text-4xl font-bold mb-3 md:mb-6 section-title-mobile" data-translate="cta_title">هل تحتاج إلى إستشارة قانونية؟</h2>
+            <p class="text-base md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto opacity-90 section-desc-mobile" data-translate="cta_desc">لا تتردد في التواصل معنا الآن للحصول على إستشارة قانونية متخصصة تحمي بها حقوقك</p>
             <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center perspective-container">
-                <a href="contact.html" class="bg-white text-primary-light px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg shadow-lg hover:shadow-gold dark:hover:shadow-dark-gold transform hover:-translate-y-1 transition-all duration-300 pulse-gold glow hover-3d scroll-animate delay-1 btn-mobile">
-                    إحجز إستشارة <i class="fas fa-arrow-left mr-2"></i>
-                </a>
-                <a href="tel:+201004426279" class="bg-transparent border-2 border-white text-white px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg hover:bg-white hover:text-primary-light transition-all duration-300 hover-3d scroll-animate delay-2 btn-mobile">
-                    إتصل بنا الآن <i class="fas fa-phone mr-2"></i>
-                </a>
+                <a href="contact.html" class="bg-white text-primary-light px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg shadow-lg hover:shadow-gold dark:hover:shadow-dark-gold transform hover:-translate-y-1 transition-all duration-300 pulse-gold glow hover-3d scroll-animate delay-1 btn-mobile" data-translate="cta_btn1">إحجز إستشارة <i class="fas fa-arrow-left mr-2"></i></a>
+                <a href="tel:+201004426279" class="bg-transparent border-2 border-white text-white px-8 md:px-8 py-4 md:py-4 rounded-xl font-bold text-lg md:text-lg hover:bg-white hover:text-primary-light transition-all duration-300 hover-3d scroll-animate delay-2 btn-mobile" data-translate="cta_btn2">إتصل بنا الآن <i class="fas fa-phone mr-2"></i></a>
             </div>
         </div>
     </section>
 
+    <!-- ====== FOOTER ====== -->
     <footer class="bg-secondary-light dark:bg-gray-900 text-white pt-12 md:pt-20">
         <div class="container mx-auto px-4 md:px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 perspective-container">
@@ -678,55 +692,56 @@
                     <div class="flex items-center justify-center md:justify-start mb-4 md:mb-6">
                         <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 ml-3 md:ml-4" width="48" height="48" loading="lazy">
                         <div>
-                            <h3 class="text-lg md:text-xl font-bold">يسري رشاد</h3>
-                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
+                            <h3 class="text-lg md:text-xl font-bold" data-translate="footer_name">يسري رشاد</h3>
+                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm" data-translate="footer_title">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed">
-                        مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.
-                    </p>
+                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-translate="footer_desc">مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.</p>
                 </div>
+
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-2 text-center">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">روابط سريعة</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_links">روابط سريعة</h4>
                     <ul class="space-y-2 md:space-y-3">
-                        <li><a href="index.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors">الرئيسية</a></li>
-                        <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">نبذة عني</a></li>
-                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">خدماتنا</a></li>
-                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">هيئة الدفاع</a></li>
-                        <li><a href="contact.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">التواصل</a></li>
+                        <li><a href="index.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" data-translate="footer_home">الرئيسية</a></li>
+                        <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_about">نبذة عني</a></li>
+                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_services">خدماتنا</a></li>
+                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_cases">هيئة الدفاع</a></li>
+                        <li><a href="certificates.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_certificates">الشهادات</a></li>
+                        <li><a href="contact.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_contact">التواصل</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-3 text-center">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">خدماتنا</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_services_title">خدماتنا</h4>
                     <ul class="space-y-2 md:space-y-3">
-                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء المدني والتجاري</a></li>
-                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء الجنائي</a></li>
-                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الأسرة</a></li>
-                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الشركات</a></li>
-                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">التحكيم التجاري</a></li>
-                        <li><a href="services.html#consultation" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">إستشارات قانونية متخصصة</a></li>
+                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service1">القضاء المدني والتجاري</a></li>
+                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service2">القضاء الجنائي</a></li>
+                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service3">قانون الأسرة</a></li>
+                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service4">قانون الشركات</a></li>
+                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service5">التحكيم التجاري</a></li>
                     </ul>
                 </div>
+
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-4 text-center md:text-right">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">تواصل معنا</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_contact_title">تواصل معنا</h4>
                     <div class="space-y-3 md:space-y-4">
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
                             <div>
-                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">ميدان المطريه أبراج العز 2</p>
-                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">برج أ إداري مكتب 1002، القاهرة</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address1">ميدان المطريه أبراج العز 2</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address2">برج أ إداري مكتب 1002، القاهرة</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
-                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">+20 100 442 6279</p>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_phone">+20 100 442 6279</p>
                         </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base"></i>
-                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">mohamy_yousry@yahoo.com</p>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_email">mohamy_yousry@yahoo.com</p>
                         </div>
                     </div>
-                    <div class="flex justify-center md:justify-start space-x-reverse space-x-3 mt-4 md:mt-6">
+                    <div class="flex justify-center md:justify-start gap-3 mt-4 md:mt-6">
                         <a href="https://www.facebook.com/donkamello.alexander" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="صفحة فيسبوك">
                             <i class="fab fa-facebook-f text-sm md:text-base"></i>
                         </a>
@@ -742,6 +757,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="mt-10 md:mt-12 pt-6 md:pt-8 border-t-2 border-primary-light/30 dark:border-primary-dark/30 scroll-animate delay-5">
                 <div class="flex items-center justify-center gap-3 md:gap-4 mb-3 md:mb-4">
                     <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
@@ -752,28 +768,30 @@
                     </div>
                     <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
                 </div>
+
                 <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
                     <p class="text-gray-400 dark:text-gray-500 text-xs md:text-sm text-center md:text-right leading-relaxed">
-                        <span class="text-primary-light dark:text-primary-dark font-bold">© 2026</span> 
-                        <span class="text-gray-300 dark:text-gray-400">جميع الحقوق محفوظة لـ</span>
-                        <span class="text-white dark:text-white font-bold">مكتب يسري رشاد للمحاماة</span>
+                        <span class="text-primary-light dark:text-primary-dark font-bold" data-translate="footer_copyright">© 2026</span>
+                        <span class="text-gray-300 dark:text-gray-400" data-translate="footer_rights">جميع الحقوق محفوظة لـ</span>
+                        <span class="text-white dark:text-white font-bold" data-translate="footer_firm_name">مكتب يسري رشاد للمحاماة</span>
                         <span class="text-gray-500 dark:text-gray-600 mx-1 md:mx-2">|</span>
-                        <span class="text-gray-400 dark:text-gray-500">مصر - القاهرة</span>
+                        <span class="text-gray-400 dark:text-gray-500" data-translate="footer_location">مصر - القاهرة</span>
                     </p>
                     <div class="flex items-center space-x-reverse space-x-4 md:space-x-6">
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_privacy">
                             <i class="fas fa-shield-alt text-[10px] md:text-xs"></i>
-                            سياسة الخصوصية
+                            <span>سياسة الخصوصية</span>
                         </a>
                         <span class="text-gray-600 dark:text-gray-700">|</span>
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_terms">
                             <i class="fas fa-file-contract text-[10px] md:text-xs"></i>
-                            شروط الإستخدام
+                            <span>شروط الإستخدام</span>
                         </a>
                     </div>
                 </div>
+
                 <div class="text-center mt-2 md:mt-3">
-                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light">
+                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light" data-translate="footer_credit">
                         تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span>
                         <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span>
                         <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i>
@@ -785,11 +803,14 @@
         </div>
     </footer>
 
+    <!-- ====== WHATSAPP FLOAT ====== -->
     <a href="https://wa.me/201004426279" target="_blank" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
         <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
     </a>
 
+    <!-- ====== JAVASCRIPT ====== -->
     <script>
+        // Mobile Menu
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         mobileMenuBtn.addEventListener('click', () => {
@@ -797,6 +818,7 @@
             mobileMenuBtn.setAttribute('aria-expanded', !expanded);
         });
 
+        // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle.querySelector('i');
         if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -820,6 +842,244 @@
             }
         });
 
+        // ====== ترجمة المحتوى ======
+        const translations = {
+            ar: {
+                'brand_name': 'مؤسسة الخبراء العرب',
+                'brand_sub': 'للإستشارات القانونية وأعمال المحاماة',
+                'nav_home': 'الرئيسية',
+                'nav_about': 'نبذة عني',
+                'nav_services': 'خدماتنا',
+                'nav_cases': 'هيئة الدفاع',
+                'nav_certificates': 'الشهادات',
+                'nav_contact': 'التواصل',
+                'hero_badge': '✦ خبرة 20+ عام ✦',
+                'hero_title1': 'مؤسسة',
+                'hero_title2': 'الخبراء العرب',
+                'hero_subtitle': 'للإستشارات القانونية وأعمال المحاماة',
+                'btn_consult': 'إحجز إستشارة',
+                'btn_about': 'تعرف علينا',
+                'stat_cases': 'قضية ناجحة',
+                'stat_success': 'معدل النجاح',
+                'stat_experience': 'سنة خبرة',
+                'clients_title': 'أبرز عملائنا',
+                'clients_desc': 'شركات ومؤسسات كبرى وثقت بنا على مدار السنوات',
+                'client1_name': 'شركة ياقوطه',
+                'client1_label': 'مقاولات عامة',
+                'client2_name': 'الشركة المتحدة',
+                'client2_label': 'مقاولات واستثمارات',
+                'client3_name': 'أوكتاجون تكستايل',
+                'client3_label': 'صناعات نسيجية',
+                'client4_name': 'أريكس',
+                'client4_label': 'حلول صناعية',
+                'clients_footer': '+50 شركة ومؤسسة وثقت بنا منذ 2005',
+                'stats_title': 'إحصائياتنا المميزة',
+                'stats_desc': 'أرقام حقيقية تعكس إحترافيتنا في تقديم كافة أنواع الإستشارات القانونية وأعمال المحاماة لصالح موكلينا',
+                'stat1_label': 'قضية منجزة',
+                'stat2_label': 'عميل راضٍ',
+                'stat4_label': 'محكمة مختلفة',
+                'services_title': 'خدماتنا القانونية المتميزة',
+                'services_desc': 'نقدم مجموعة شاملة من الخدمات القانونية المصممة خصيصاً لتلبية إحتياجاتك القانونية',
+                'service1_title': 'القانون المدني والتجاري',
+                'service1_desc': 'تمثيل قانوني متكامل في جميع المنازعات المدنية والتجارية أمام المحاكم المختصة.',
+                'service1_link': 'المزيد من التفاصيل',
+                'service2_title': 'القانون الجنائي',
+                'service2_desc': 'الدفاع عن المتهمين في كافة القضايا الجنائية بإحترافية عالية وخبرة واسعة.',
+                'service2_link': 'المزيد من التفاصيل',
+                'service3_title': 'قانون الأسرة',
+                'service3_desc': 'حلول قانونية متكاملة في قضايا الأحوال الشخصية والميراث.',
+                'service3_link': 'المزيد من التفاصيل',
+                'services_all': 'عرض جميع الخدمات',
+                'testimonials_title': 'آراء عملائنا',
+                'testimonials_desc': 'شهادات حقيقية من عملاء سعداء بخدماتنا القانونية',
+                'testimonial1_name': 'أحمد محمد',
+                'testimonial1_title': 'رجل أعمال',
+                'testimonial1_text': '"المستشار/ يسري رشاد أنقذ شركتي من خسائر فادحة. إحترافيته وخبرته كانت السبب في مكسبنا للقضية."',
+                'testimonial1_back_title': 'قضية تجارية',
+                'testimonial1_back_text': 'تم الفوز بالقضية وإسترداد 2 مليون جنيه',
+                'testimonial2_name': 'سارة عبدالله',
+                'testimonial2_title': 'ربة منزل',
+                'testimonial2_text': '"شكراً للأستاذ يسري رشاد المحامي على مساعدتي في قضية الميراث. تعامل بمهنية عالية ووفر لي الكثير من الوقت والجهد."',
+                'testimonial2_back_title': 'قضية ميراث',
+                'testimonial2_back_text': 'تم الحصول على الحقوق كاملة في 3 أشهر فقط',
+                'testimonial3_name': 'محمد خالد',
+                'testimonial3_title': 'مدير شركة',
+                'testimonial3_text': '"تعاملت مع العديد من الأساتذة المحامين، لكن المستشار/ يسري رشاد يتميز بدقته وسرعة بديهته في تحليل القضايا المعقدة."',
+                'testimonial3_back_title': 'قضية عقارية',
+                'testimonial3_back_text': 'تم الفوز بالقضية المعقدة في 6 جلسات فقط',
+                'cta_title': 'هل تحتاج إلى إستشارة قانونية؟',
+                'cta_desc': 'لا تتردد في التواصل معنا الآن للحصول على إستشارة قانونية متخصصة تحمي بها حقوقك',
+                'cta_btn1': 'إحجز إستشارة',
+                'cta_btn2': 'إتصل بنا الآن',
+                'footer_name': 'يسري رشاد',
+                'footer_title': 'محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني',
+                'footer_desc': 'مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.',
+                'footer_links': 'روابط سريعة',
+                'footer_home': 'الرئيسية',
+                'footer_about': 'نبذة عني',
+                'footer_services': 'خدماتنا',
+                'footer_cases': 'هيئة الدفاع',
+                'footer_certificates': 'الشهادات',
+                'footer_contact': 'التواصل',
+                'footer_services_title': 'خدماتنا',
+                'footer_service1': 'القضاء المدني والتجاري',
+                'footer_service2': 'القضاء الجنائي',
+                'footer_service3': 'قانون الأسرة',
+                'footer_service4': 'قانون الشركات',
+                'footer_service5': 'التحكيم التجاري',
+                'footer_contact_title': 'تواصل معنا',
+                'footer_address1': 'ميدان المطريه أبراج العز 2',
+                'footer_address2': 'برج أ إداري مكتب 1002، القاهرة',
+                'footer_phone': '+20 100 442 6279',
+                'footer_email': 'mohamy_yousry@yahoo.com',
+                'footer_copyright': '© 2026',
+                'footer_rights': 'جميع الحقوق محفوظة لـ',
+                'footer_firm_name': 'مكتب يسري رشاد للمحاماة',
+                'footer_location': 'مصر - القاهرة',
+                'footer_privacy': 'سياسة الخصوصية',
+                'footer_terms': 'شروط الإستخدام',
+                'footer_credit': 'تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span> <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span> <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i> <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">بكل</span> <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>'
+            },
+            en: {
+                'brand_name': 'Al-Khobaraa Al-Arab',
+                'brand_sub': 'For Legal Consultations and Advocacy',
+                'nav_home': 'Home',
+                'nav_about': 'About',
+                'nav_services': 'Services',
+                'nav_cases': 'Defense Team',
+                'nav_certificates': 'Certificates',
+                'nav_contact': 'Contact',
+                'hero_badge': '✦ 20+ Years Experience ✦',
+                'hero_title1': 'Al-Khobaraa',
+                'hero_title2': 'Al-Arab',
+                'hero_subtitle': 'For Legal Consultations and Advocacy',
+                'btn_consult': 'Book Consultation',
+                'btn_about': 'About Us',
+                'stat_cases': 'Successful Cases',
+                'stat_success': 'Success Rate',
+                'stat_experience': 'Years Experience',
+                'clients_title': 'Our Clients',
+                'clients_desc': 'Major companies and institutions that trusted us over the years',
+                'client1_name': 'Yaqouta Company',
+                'client1_label': 'General Contracting',
+                'client2_name': 'United Company',
+                'client2_label': 'Contracting & Investments',
+                'client3_name': 'Octagon Textile',
+                'client3_label': 'Textile Industries',
+                'client4_name': 'Arex',
+                'client4_label': 'Industrial Solutions',
+                'clients_footer': '+50 companies and institutions trusted us since 2005',
+                'stats_title': 'Our Statistics',
+                'stats_desc': 'Real numbers reflecting our professionalism in providing all types of legal consultations and advocacy for our clients',
+                'stat1_label': 'Cases Completed',
+                'stat2_label': 'Satisfied Clients',
+                'stat4_label': 'Different Courts',
+                'services_title': 'Our Legal Services',
+                'services_desc': 'We provide a comprehensive range of legal services designed specifically to meet your legal needs',
+                'service1_title': 'Civil & Commercial Law',
+                'service1_desc': 'Integrated legal representation in all civil and commercial disputes before competent courts.',
+                'service1_link': 'More Details',
+                'service2_title': 'Criminal Law',
+                'service2_desc': 'Defending defendants in all criminal cases with high professionalism and extensive experience.',
+                'service2_link': 'More Details',
+                'service3_title': 'Family Law',
+                'service3_desc': 'Integrated legal solutions in personal status and inheritance cases.',
+                'service3_link': 'More Details',
+                'services_all': 'View All Services',
+                'testimonials_title': 'Client Testimonials',
+                'testimonials_desc': 'Real testimonials from clients satisfied with our legal services',
+                'testimonial1_name': 'Ahmed Mohamed',
+                'testimonial1_title': 'Businessman',
+                'testimonial1_text': '"Counselor Yousry Rashad saved my company from huge losses. His professionalism and experience were the reason for winning the case."',
+                'testimonial1_back_title': 'Commercial Case',
+                'testimonial1_back_text': 'Case won and 2 million EGP recovered',
+                'testimonial2_name': 'Sara Abdullah',
+                'testimonial2_title': 'Housewife',
+                'testimonial2_text': '"Thank you to Mr. Yousry Rashad for helping me with the inheritance case. He handled it with great professionalism and saved me a lot of time and effort."',
+                'testimonial2_back_title': 'Inheritance Case',
+                'testimonial2_back_text': 'Full rights obtained in only 3 months',
+                'testimonial3_name': 'Mohamed Khalid',
+                'testimonial3_title': 'Company Director',
+                'testimonial3_text': '"I have dealt with many lawyers, but Counselor Yousry Rashad stands out for his accuracy and quick wit in analyzing complex cases."',
+                'testimonial3_back_title': 'Real Estate Case',
+                'testimonial3_back_text': 'Complex case won in only 6 sessions',
+                'cta_title': 'Need Legal Consultation?',
+                'cta_desc': 'Do not hesitate to contact us now for a specialized legal consultation to protect your rights',
+                'cta_btn1': 'Book Consultation',
+                'cta_btn2': 'Call Us Now',
+                'footer_name': 'Yousry Rashad',
+                'footer_title': 'Lawyer at the Court of Cassation and State Council & Legal Consultant',
+                'footer_desc': 'A specialized law firm providing distinguished legal solutions for over 20 years.',
+                'footer_links': 'Quick Links',
+                'footer_home': 'Home',
+                'footer_about': 'About',
+                'footer_services': 'Services',
+                'footer_cases': 'Defense Team',
+                'footer_certificates': 'Certificates',
+                'footer_contact': 'Contact',
+                'footer_services_title': 'Our Services',
+                'footer_service1': 'Civil & Commercial Law',
+                'footer_service2': 'Criminal Law',
+                'footer_service3': 'Family Law',
+                'footer_service4': 'Corporate Law',
+                'footer_service5': 'Commercial Arbitration',
+                'footer_contact_title': 'Contact Us',
+                'footer_address1': 'Matareya Square, Al-Ezz Towers 2',
+                'footer_address2': 'Tower A, Administrative Office 1002, Cairo',
+                'footer_phone': '+20 100 442 6279',
+                'footer_email': 'mohamy_yousry@yahoo.com',
+                'footer_copyright': '© 2026',
+                'footer_rights': 'All rights reserved to',
+                'footer_firm_name': 'Yousry Rashad Law Firm',
+                'footer_location': 'Egypt - Cairo',
+                'footer_privacy': 'Privacy Policy',
+                'footer_terms': 'Terms of Use',
+                'footer_credit': 'Designed & Developed by <span class="text-primary-light dark:text-primary-dark">Digital Marketing Team</span> <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span> <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i> <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">with</span> <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>'
+            }
+        };
+
+        // Language Toggle
+        const langToggle = document.getElementById('lang-toggle');
+        const langText = document.getElementById('lang-text');
+        
+        let currentLang = localStorage.getItem('site-lang') || 'ar';
+        
+        function updateLangButton() {
+            if (currentLang === 'ar') {
+                langText.textContent = 'EN';
+                document.documentElement.lang = 'ar';
+                document.documentElement.dir = 'rtl';
+            } else {
+                langText.textContent = 'AR';
+                document.documentElement.lang = 'en';
+                document.documentElement.dir = 'ltr';
+            }
+            localStorage.setItem('site-lang', currentLang);
+        }
+        
+        function translatePage() {
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[currentLang] && translations[currentLang][key]) {
+                    if (!el.hasAttribute('data-original')) {
+                        el.setAttribute('data-original', el.innerHTML);
+                    }
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+        }
+        
+        updateLangButton();
+        translatePage();
+        
+        langToggle.addEventListener('click', () => {
+            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+            updateLangButton();
+            translatePage();
+            console.log('تم تغيير اللغة إلى:', currentLang);
+        });
+
+        // Counters
         function animateCounter(element, target, duration = 2000) {
             let start = 0;
             const increment = target / (duration / 16);
@@ -874,6 +1134,7 @@
         }, { threshold: 0.5 });
         observer.observe(document.getElementById('casesCounter').parentElement.parentElement);
 
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -888,6 +1149,7 @@
             });
         });
 
+        // Navbar Shadow
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('nav');
             if (window.scrollY > 50) {
@@ -899,6 +1161,7 @@
             }
         });
 
+        // Fade In
         const fadeElements = document.querySelectorAll('.fade-in');
         function checkFade() {
             fadeElements.forEach(el => {
@@ -912,6 +1175,7 @@
         window.addEventListener('load', checkFade);
         checkFade();
 
+        // 3D Cards
         document.querySelectorAll('.card-3d').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -930,6 +1194,7 @@
             });
         });
 
+        // Scroll Animations
         const scrollElements = document.querySelectorAll('.scroll-animate, .scroll-left, .scroll-right, .scroll-scale');
         const elementInView = (el, offset = 100) => {
             const elementTop = el.getBoundingClientRect().top;

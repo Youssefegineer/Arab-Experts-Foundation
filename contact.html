@@ -342,6 +342,18 @@
             border-color: rgba(245, 210, 127, 0.3);
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
         }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-contact-item i {
+            margin-top: 0.2rem;
+            min-width: 1.2rem;
+        }
         
         @media (max-width: 768px) {
             .form-grid { grid-template-columns: 1fr !important; }
@@ -376,18 +388,22 @@
             <div class="flex items-center space-x-reverse space-x-2">
                 <img src="image-removebg-preview.png" alt="شعار يسري رشاد عراقي" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
                 <div class="text-right">
-                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">مؤسسة الخبراء العرب</h1>
-                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;">للإستشارات القانونية وأعمال المحاماة</p>
+                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider" data-translate="brand_name">مؤسسة الخبراء العرب</h1>
+                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;" data-translate="brand_sub">للإستشارات القانونية وأعمال المحاماة</p>
                 </div>
             </div>
-            <div class="hidden md:flex space-x-reverse space-x-8">
-                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">الرئيسية</a>
-                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">نبذة عني</a>
-                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">خدماتنا</a>
-                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium">هيئة الدفاع</a>
-                <a href="contact.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" aria-current="page">التواصل</a>
+            <div class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium" data-translate="nav_certificates">الشهادات</a>
+                <a href="contact.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" aria-current="page" data-translate="nav_contact">التواصل</a>
             </div>
             <div class="flex items-center space-x-reverse space-x-2">
+                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 shake" aria-label="تغيير اللغة">
+                    <span class="text-sm md:text-base font-bold text-gray-900 dark:text-white" id="lang-text">EN</span>
+                </button>
                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 shake" aria-label="تفعيل الوضع الليلي">
                     <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
                 </button>
@@ -400,11 +416,12 @@
         </div>
         <div class="md:hidden hidden mt-2 pb-4" id="mobile-menu">
             <div class="flex flex-col space-y-3 px-6">
-                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">الرئيسية</a>
-                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">نبذة عني</a>
-                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">خدماتنا</a>
-                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right">هيئة الدفاع</a>
-                <a href="contact.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active">التواصل</a>
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
+                <a href="contact.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active" data-translate="nav_contact">التواصل</a>
             </div>
         </div>
     </nav>
@@ -420,28 +437,28 @@
                 </div>
                 <div class="scroll-animate show">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight hero-title">
-                        <span class="text-secondary-light dark:text-white block">اتصل بنا</span>
-                        <span class="gold-gradient-text hero-subtitle" style="font-size:2.8rem;">نحن هنا لمساعدتك</span>
+                        <span class="text-secondary-light dark:text-white block" data-translate="hero_title1">اتصل بنا</span>
+                        <span class="gold-gradient-text hero-subtitle" style="font-size:2.8rem;" data-translate="hero_title2">نحن هنا لمساعدتك</span>
                     </h1>
                 </div>
                 <div class="w-20 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] mx-auto my-4 scroll-animate show"></div>
-                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed scroll-animate show hero-subtitle-mobile">
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed scroll-animate show hero-subtitle-mobile" data-translate="hero_desc">
                     فريقنا القانوني المتخصص جاهز للإجابة على جميع استفساراتك وتقديم الدعم القانوني اللازم
                 </p>
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4 mt-6 scroll-animate show">
                     <div class="hero-stat">
                         <i class="fas fa-check-circle text-primary-light" style="color:#D4AF37;"></i>
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">دعم مستمر</span>
+                        <span class="stat-number" data-translate="stat1_value">24/7</span>
+                        <span class="stat-label" data-translate="stat1_label">دعم مستمر</span>
                     </div>
                     <div class="hero-stat">
                         <i class="fas fa-clock text-primary-light" style="color:#D4AF37;"></i>
-                        <span class="stat-label">رد فوري</span>
+                        <span class="stat-label" data-translate="stat2_label">رد فوري</span>
                     </div>
                     <div class="hero-stat">
                         <i class="fas fa-users text-primary-light" style="color:#D4AF37;"></i>
-                        <span class="stat-number">+1000</span>
-                        <span class="stat-label">عميل سعيد</span>
+                        <span class="stat-number" data-translate="stat3_value">+1000</span>
+                        <span class="stat-label" data-translate="stat3_label">عميل سعيد</span>
                     </div>
                 </div>
             </div>
@@ -458,28 +475,28 @@
                     <div class="form-card bg-white dark:bg-gray-900 shadow-lg hover:shadow-xl transition-all duration-500">
                         <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.75rem; color:#0F172A dark:text-white;">
                             <span style="background:linear-gradient(135deg, #D4AF37, #B8860B); width:4px; height:2rem; border-radius:2px; display:inline-block;"></span>
-                            <span class="text-secondary-light dark:text-white">أرسل رسالة</span>
+                            <span class="text-secondary-light dark:text-white" data-translate="form_title">أرسل رسالة</span>
                         </h2>
                         <form id="contactForm" onsubmit="return false;">
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;" class="form-grid">
                                 <div>
-                                    <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="name">الإسم الكامل <span style="color:#ef4444;">*</span></label>
-                                    <input type="text" id="name" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أدخل الإسم الكامل">
-                                    <div class="error-text" id="nameError">يرجى إدخال الإسم الكامل</div>
+                                    <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="name" data-translate="form_name_label">الإسم الكامل <span style="color:#ef4444;">*</span></label>
+                                    <input type="text" id="name" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أدخل الإسم الكامل" data-translate-placeholder="form_name_placeholder">
+                                    <div class="error-text" id="nameError" data-translate="form_name_error">يرجى إدخال الإسم الكامل</div>
                                 </div>
                                 <div>
-                                    <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="phone">رقم الهاتف <span style="color:#ef4444;">*</span></label>
-                                    <input type="tel" id="phone" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أدخل رقم الهاتف">
-                                    <div class="error-text" id="phoneError">يرجى إدخال رقم الهاتف</div>
+                                    <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="phone" data-translate="form_phone_label">رقم الهاتف <span style="color:#ef4444;">*</span></label>
+                                    <input type="tel" id="phone" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أدخل رقم الهاتف" data-translate-placeholder="form_phone_placeholder">
+                                    <div class="error-text" id="phoneError" data-translate="form_phone_error">يرجى إدخال رقم الهاتف</div>
                                 </div>
                             </div>
                             <div style="margin-top:1.2rem;">
-                                <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="email">البريد الإلكتروني <span style="color:#ef4444;">*</span></label>
-                                <input type="email" id="email" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="مثال: name@domain.com">
-                                <div class="error-text" id="emailError">يرجى إدخال بريد إلكتروني صحيح</div>
+                                <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="email" data-translate="form_email_label">البريد الإلكتروني <span style="color:#ef4444;">*</span></label>
+                                <input type="email" id="email" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="مثال: name@domain.com" data-translate-placeholder="form_email_placeholder">
+                                <div class="error-text" id="emailError" data-translate="form_email_error">يرجى إدخال بريد إلكتروني صحيح</div>
                             </div>
                             <div style="margin-top:1.2rem;">
-                                <label style="display:block; margin-bottom:0.6rem; font-weight:600; font-size:0.9rem; color:#94A3B8;">نوع الخدمة المطلوبة <span style="color:#ef4444;">*</span></label>
+                                <label style="display:block; margin-bottom:0.6rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" data-translate="form_service_label">نوع الخدمة المطلوبة <span style="color:#ef4444;">*</span></label>
                                 <div style="display:flex; flex-direction:column; gap:0.6rem;">
                                     <!-- إستشارات قانونية -->
                                     <div class="service-parent">
@@ -488,7 +505,7 @@
                                             <div class="radio-circle" style="width:1.5rem; height:1.5rem; border:2px solid #475569; border-radius:50%; margin-left:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                 <div class="radio-dot" style="width:0.7rem; height:0.7rem; background:#D4AF37; border-radius:50%; transform:scale(0); transition:transform 0.2s ease;"></div>
                                             </div>
-                                            <span class="text-gray-900 dark:text-white">إستشارات قانونية</span>
+                                            <span class="text-gray-900 dark:text-white" data-translate="form_service_consultation">إستشارات قانونية</span>
                                         </label>
                                         <div class="service-options" style="margin-right:2.5rem; margin-top:0.5rem;">
                                             <div style="display:flex; flex-direction:column; gap:0.4rem;">
@@ -498,7 +515,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">القضاء المدني والتجاري</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_civil">القضاء المدني والتجاري</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -507,7 +524,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">القضاء الجنائي</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_criminal">القضاء الجنائي</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -516,7 +533,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">قانون الأسرة</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_family">قانون الأسرة</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -525,7 +542,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">قانون الشركات</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_commercial">قانون الشركات</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -534,7 +551,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">التحكيم التجاري</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_arbitration">التحكيم التجاري</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -547,7 +564,7 @@
                                             <div class="radio-circle" style="width:1.5rem; height:1.5rem; border:2px solid #475569; border-radius:50%; margin-left:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                 <div class="radio-dot" style="width:0.7rem; height:0.7rem; background:#D4AF37; border-radius:50%; transform:scale(0); transition:transform 0.2s ease;"></div>
                                             </div>
-                                            <span class="text-gray-900 dark:text-white">إجراء قانوني</span>
+                                            <span class="text-gray-900 dark:text-white" data-translate="form_service_legal_action">إجراء قانوني</span>
                                         </label>
                                         <div class="service-options" style="margin-right:2.5rem; margin-top:0.5rem;">
                                             <div style="display:flex; flex-direction:column; gap:0.4rem;">
@@ -557,7 +574,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">القضاء المدني والتجاري</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_civil">القضاء المدني والتجاري</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -566,7 +583,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">القضاء الجنائي</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_criminal">القضاء الجنائي</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -575,7 +592,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">قانون الأسرة</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_family">قانون الأسرة</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -584,7 +601,7 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">قانون الشركات</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_commercial">قانون الشركات</span>
                                                     </label>
                                                 </div>
                                                 <div>
@@ -593,20 +610,20 @@
                                                         <div class="check-box" style="width:1.25rem; height:1.25rem; border:2px solid #475569; border-radius:0.25rem; margin-left:0.6rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                             <i class="fas fa-check check-icon" style="color:white; font-size:0.6rem; transform:scale(0); transition:transform 0.2s ease;"></i>
                                                         </div>
-                                                        <span class="text-gray-600 dark:text-gray-400">التحكيم التجاري</span>
+                                                        <span class="text-gray-600 dark:text-gray-400" data-translate="form_service_arbitration">التحكيم التجاري</span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="error-text" id="serviceError">يرجى إختيار نوع الخدمة والخدمات المطلوبة</div>
+                                <div class="error-text" id="serviceError" data-translate="form_service_error">يرجى إختيار نوع الخدمة والخدمات المطلوبة</div>
                             </div>
                             <div style="margin-top:1.2rem;">
-                                <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="message">الرسالة</label>
-                                <textarea id="message" rows="5" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أكتب رسالتك هنا..." style="resize:none; min-height:120px;"></textarea>
+                                <label style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#94A3B8;" for="message" data-translate="form_message_label">الرسالة</label>
+                                <textarea id="message" rows="5" class="form-input bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white" placeholder="أكتب رسالتك هنا..." style="resize:none; min-height:120px;" data-translate-placeholder="form_message_placeholder"></textarea>
                             </div>
-                            <button type="button" id="submitBtn" class="btn-submit hover-3d pulse-gold">
+                            <button type="button" id="submitBtn" class="btn-submit hover-3d pulse-gold" data-translate="form_submit_btn">
                                 إرسال الرسالة
                                 <i class="fas fa-paper-plane" style="margin-right:0.6rem;"></i>
                             </button>
@@ -619,64 +636,64 @@
                     <div class="form-card bg-white dark:bg-gray-900 shadow-lg hover:shadow-xl transition-all duration-500">
                         <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.75rem; color:#0F172A dark:text-white;">
                             <span style="background:linear-gradient(135deg, #D4AF37, #B8860B); width:4px; height:1.8rem; border-radius:2px; display:inline-block;"></span>
-                            <span class="text-secondary-light dark:text-white">معلومات التواصل</span>
+                            <span class="text-secondary-light dark:text-white" data-translate="info_title">معلومات التواصل</span>
                         </h2>
                         <div style="display:flex; flex-direction:column; gap:0.6rem;">
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">العنوان</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400">ميدان المطريه أبراج العز 2، برج أ إداري مكتب 1002، القاهرة</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_address_label">العنوان</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" data-translate="info_address_value">ميدان المطريه أبراج العز 2، برج أ إداري مكتب 1002، القاهرة</div>
                                 </div>
                             </div>
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">الهاتف</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr">+20 100 442 6279</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_phone_label">الهاتف</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr" data-translate="info_phone_value">+20 100 442 6279</div>
                                 </div>
                             </div>
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-money-bill-wave"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">إنستا باي</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr">01004426279</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_instapay_label">إنستا باي</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr" data-translate="info_instapay_value">01004426279</div>
                                 </div>
                             </div>
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-mobile-screen-button"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">فودافون كاش</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr">01004426279</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_vodafone_label">فودافون كاش</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr" data-translate="info_vodafone_value">01004426279</div>
                                 </div>
                             </div>
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">البريد الإلكتروني</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr">mohamy_yousry@yahoo.com</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_email_label">البريد الإلكتروني</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" dir="ltr" data-translate="info_email_value">mohamy_yousry@yahoo.com</div>
                                 </div>
                             </div>
                             <div class="contact-item bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                                 <div class="contact-icon"><i class="fas fa-clock"></i></div>
                                 <div>
-                                    <div class="contact-label text-gray-900 dark:text-white">ساعات العمل</div>
-                                    <div class="contact-value text-gray-600 dark:text-gray-400">السبت - الأربعاء : 4:00 م - 10:00 م</div>
+                                    <div class="contact-label text-gray-900 dark:text-white" data-translate="info_hours_label">ساعات العمل</div>
+                                    <div class="contact-value text-gray-600 dark:text-gray-400" data-translate="info_hours_value">السبت - الأربعاء : 4:00 م - 10:00 م</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="gold-gradient-bg" style="padding:2rem; border-radius:1.5rem; color:white; text-align:center; box-shadow:0 10px 30px -5px rgba(212,175,55,0.3);">
-                        <h3 style="font-size:1.6rem; font-weight:800; margin-bottom:0.8rem;">إتصل بنا مباشرة</h3>
-                        <p style="margin-bottom:1.5rem; opacity:0.95; font-size:1rem; line-height:1.6;">للحصول على إستشارة فورية، يمكنك التواصل معنا عبر:</p>
+                        <h3 style="font-size:1.6rem; font-weight:800; margin-bottom:0.8rem;" data-translate="direct_title">إتصل بنا مباشرة</h3>
+                        <p style="margin-bottom:1.5rem; opacity:0.95; font-size:1rem; line-height:1.6;" data-translate="direct_desc">للحصول على إستشارة فورية، يمكنك التواصل معنا عبر:</p>
                         <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
-                            <a href="https://wa.me/201004426279" target="_blank" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d">
+                            <a href="https://wa.me/201004426279" target="_blank" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d" aria-label="واتساب">
                                 <i class="fab fa-whatsapp" style="font-size:1.8rem;"></i>
                             </a>
-                            <a href="tel:+201004426279" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d">
+                            <a href="tel:+201004426279" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d" aria-label="هاتف">
                                 <i class="fas fa-phone" style="font-size:1.5rem;"></i>
                             </a>
-                            <a href="mailto:mohamy_yousry@yahoo.com" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d">
+                            <a href="mailto:mohamy_yousry@yahoo.com" style="width:3.8rem; height:3.8rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(5px); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,0.2); text-decoration:none; transition:transform 0.3s ease;" class="hover-3d" aria-label="بريد إلكتروني">
                                 <i class="fas fa-envelope" style="font-size:1.5rem;"></i>
                             </a>
                         </div>
@@ -695,55 +712,56 @@
                     <div class="flex items-center justify-center md:justify-start mb-4 md:mb-6">
                         <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 ml-3 md:ml-4" width="48" height="48" loading="lazy">
                         <div>
-                            <h3 class="text-lg md:text-xl font-bold">يسري رشاد</h3>
-                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm" style="color:#D4AF37;">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
+                            <h3 class="text-lg md:text-xl font-bold" data-translate="footer_name">يسري رشاد</h3>
+                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm" style="color:#D4AF37;" data-translate="footer_title">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
                         </div>
                     </div>
-                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed">
+                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-translate="footer_desc">
                         مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.
                     </p>
                 </div>
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-2 text-center">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">روابط سريعة</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_links">روابط سريعة</h4>
                     <ul class="space-y-2 md:space-y-3">
-                        <li><a href="index.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">الرئيسية</a></li>
-                        <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">نبذة عني</a></li>
-                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">خدماتنا</a></li>
-                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">هيئة الدفاع</a></li>
-                        <li><a href="contact.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" style="color:#D4AF37;">التواصل</a></li>
+                        <li><a href="index.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_home">الرئيسية</a></li>
+                        <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_about">نبذة عني</a></li>
+                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_services">خدماتنا</a></li>
+                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_cases">هيئة الدفاع</a></li>
+                        <li><a href="certificates.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_certificates">الشهادات</a></li>
+                        <li><a href="contact.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" style="color:#D4AF37;" data-translate="footer_contact">التواصل</a></li>
                     </ul>
                 </div>
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-3 text-center">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">خدماتنا</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_services_title">خدماتنا</h4>
                     <ul class="space-y-2 md:space-y-3">
-                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء المدني والتجاري</a></li>
-                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">القضاء الجنائي</a></li>
-                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الأسرة</a></li>
-                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">قانون الشركات</a></li>
-                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">التحكيم التجاري</a></li>
-                        <li><a href="services.html#consultation" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base">إستشارات قانونية متخصصة</a></li>
+                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service1">القضاء المدني والتجاري</a></li>
+                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service2">القضاء الجنائي</a></li>
+                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service3">قانون الأسرة</a></li>
+                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service4">قانون الشركات</a></li>
+                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service5">التحكيم التجاري</a></li>
+                        <li><a href="services.html#consultation" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service6">إستشارات قانونية متخصصة</a></li>
                     </ul>
                 </div>
                 <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-4 text-center md:text-right">
-                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6">تواصل معنا</h4>
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_contact_title">تواصل معنا</h4>
                     <div class="space-y-3 md:space-y-4">
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base" style="color:#D4AF37;"></i>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark text-sm md:text-base" style="color:#D4AF37;"></i>
                             <div>
-                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">ميدان المطريه أبراج العز 2</p>
-                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base">برج أ إداري مكتب 1002، القاهرة</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address1">ميدان المطريه أبراج العز 2</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address2">برج أ إداري مكتب 1002، القاهرة</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base" style="color:#D4AF37;"></i>
-                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">+20 100 442 6279</p>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark text-sm md:text-base" style="color:#D4AF37;"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_phone">+20 100 442 6279</p>
                         </div>
-                        <div class="flex items-center justify-center md:justify-start">
-                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark ml-2 md:ml-3 text-sm md:text-base" style="color:#D4AF37;"></i>
-                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr">mohamy_yousry@yahoo.com</p>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark text-sm md:text-base" style="color:#D4AF37;"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_email">mohamy_yousry@yahoo.com</p>
                         </div>
                     </div>
-                    <div class="flex justify-center md:justify-start space-x-reverse space-x-3 mt-4 md:mt-6">
+                    <div class="flex justify-center md:justify-start gap-3 mt-4 md:mt-6">
                         <a href="https://www.facebook.com/donkamello.alexander" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="صفحة فيسبوك">
                             <i class="fab fa-facebook-f text-sm md:text-base"></i>
                         </a>
@@ -771,26 +789,26 @@
                 </div>
                 <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
                     <p class="text-gray-400 dark:text-gray-500 text-xs md:text-sm text-center md:text-right leading-relaxed">
-                        <span class="text-primary-light dark:text-primary-dark font-bold" style="color:#D4AF37;">© 2026</span> 
-                        <span class="text-gray-300 dark:text-gray-400">جميع الحقوق محفوظة لـ</span>
-                        <span class="text-white dark:text-white font-bold">مكتب يسري رشاد للمحاماة</span>
+                        <span class="text-primary-light dark:text-primary-dark font-bold" style="color:#D4AF37;" data-translate="footer_copyright">© 2026</span> 
+                        <span class="text-gray-300 dark:text-gray-400" data-translate="footer_rights">جميع الحقوق محفوظة لـ</span>
+                        <span class="text-white dark:text-white font-bold" data-translate="footer_firm_name">مكتب يسري رشاد للمحاماة</span>
                         <span class="text-gray-500 dark:text-gray-600 mx-1 md:mx-2">|</span>
-                        <span class="text-gray-400 dark:text-gray-500">مصر - القاهرة</span>
+                        <span class="text-gray-400 dark:text-gray-500" data-translate="footer_location">مصر - القاهرة</span>
                     </p>
                     <div class="flex items-center space-x-reverse space-x-4 md:space-x-6">
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_privacy">
                             <i class="fas fa-shield-alt text-[10px] md:text-xs"></i>
-                            سياسة الخصوصية
+                            <span>سياسة الخصوصية</span>
                         </a>
                         <span class="text-gray-600 dark:text-gray-700">|</span>
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_terms">
                             <i class="fas fa-file-contract text-[10px] md:text-xs"></i>
-                            شروط الإستخدام
+                            <span>شروط الإستخدام</span>
                         </a>
                     </div>
                 </div>
                 <div class="text-center mt-2 md:mt-3">
-                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light">
+                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light" data-translate="footer_credit">
                         تصميم وتطوير <span class="text-primary-light dark:text-primary-dark" style="color:#D4AF37;">فريق التسويق الإلكتروني</span>
                         <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span>
                         <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i>
@@ -813,34 +831,230 @@
         <div style="width:4.5rem; height:4.5rem; background:linear-gradient(135deg, #22c55e, #16a34a); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
             <i class="fas fa-check" style="font-size:2rem;"></i>
         </div>
-        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;">تم الإرسال بنجاح!</h3>
-        <p style="color:#94A3B8; margin-bottom:1.5rem;">سيتم التواصل معك في أقرب وقت ممكن</p>
-        <button onclick="closeSuccessAlert()" style="background:linear-gradient(135deg, #D4AF37, #B8860B); color:white; padding:0.7rem 2.5rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;">موافق</button>
+        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;" data-translate="success_title">تم الإرسال بنجاح!</h3>
+        <p style="color:#94A3B8; margin-bottom:1.5rem;" data-translate="success_desc">سيتم التواصل معك في أقرب وقت ممكن</p>
+        <button onclick="closeSuccessAlert()" style="background:linear-gradient(135deg, #D4AF37, #B8860B); color:white; padding:0.7rem 2.5rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;" data-translate="success_btn">موافق</button>
     </div>
     <div class="error-alert" id="errorAlert">
         <div style="width:4.5rem; height:4.5rem; background:linear-gradient(135deg, #ef4444, #dc2626); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
             <i class="fas fa-exclamation" style="font-size:2rem;"></i>
         </div>
-        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;">حدث خطأ!</h3>
-        <p style="color:#94A3B8; margin-bottom:1.5rem;" id="errorMessage">تعذر إرسال الرسالة. يرجى المحاولة مرة أخرى.</p>
-        <button onclick="closeErrorAlert()" style="background:linear-gradient(135deg, #ef4444, #dc2626); color:white; padding:0.7rem 2.5rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;">موافق</button>
+        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;" data-translate="error_title">حدث خطأ!</h3>
+        <p style="color:#94A3B8; margin-bottom:1.5rem;" id="errorMessage" data-translate="error_desc">تعذر إرسال الرسالة. يرجى المحاولة مرة أخرى.</p>
+        <button onclick="closeErrorAlert()" style="background:linear-gradient(135deg, #ef4444, #dc2626); color:white; padding:0.7rem 2.5rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;" data-translate="error_btn">موافق</button>
     </div>
     <div class="whatsapp-instruction" id="whatsappInstruction">
         <div style="width:4.5rem; height:4.5rem; background:linear-gradient(135deg, #22c55e, #16a34a); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
             <i class="fab fa-whatsapp" style="font-size:2.2rem;"></i>
         </div>
-        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;">فتح الواتساب</h3>
-        <p style="color:#94A3B8; margin-bottom:0.3rem;">تم تحضير رسالتك بنجاح</p>
-        <p style="color:#94A3B8; margin-bottom:1rem;">سيتم فتح تطبيق الواتساب تلقائياً</p>
-        <p style="font-size:0.9rem; color:#64748B; margin-bottom:1.2rem;">اضغط على "إرسال" في الواتساب لإكمال العملية</p>
+        <h3 style="font-size:1.6rem; font-weight:800; color:#F1F5F9; margin-bottom:0.5rem;" data-translate="whatsapp_title">فتح الواتساب</h3>
+        <p style="color:#94A3B8; margin-bottom:0.3rem;" data-translate="whatsapp_desc1">تم تحضير رسالتك بنجاح</p>
+        <p style="color:#94A3B8; margin-bottom:1rem;" data-translate="whatsapp_desc2">سيتم فتح تطبيق الواتساب تلقائياً</p>
+        <p style="font-size:0.9rem; color:#64748B; margin-bottom:1.2rem;" data-translate="whatsapp_desc3">اضغط على "إرسال" في الواتساب لإكمال العملية</p>
         <div style="display:flex; gap:0.6rem;">
-            <button onclick="openWhatsApp()" style="flex:1; background:linear-gradient(135deg, #22c55e, #16a34a); color:white; padding:0.7rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;">فتح الواتساب</button>
-            <button onclick="closeWhatsAppInstruction()" style="flex:1; background:#475569; color:white; padding:0.7rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;">إلغاء</button>
+            <button onclick="openWhatsApp()" style="flex:1; background:linear-gradient(135deg, #22c55e, #16a34a); color:white; padding:0.7rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;" data-translate="whatsapp_open">فتح الواتساب</button>
+            <button onclick="closeWhatsAppInstruction()" style="flex:1; background:#475569; color:white; padding:0.7rem; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600;" data-translate="whatsapp_cancel">إلغاء</button>
         </div>
     </div>
 
     <!-- ====== JAVASCRIPT ====== -->
     <script>
+        // ====== الترجمة ======
+        const translations = {
+            ar: {
+                'brand_name': 'مؤسسة الخبراء العرب',
+                'brand_sub': 'للإستشارات القانونية وأعمال المحاماة',
+                'nav_home': 'الرئيسية',
+                'nav_about': 'نبذة عني',
+                'nav_services': 'خدماتنا',
+                'nav_cases': 'هيئة الدفاع',
+                'nav_certificates': 'الشهادات',
+                'nav_contact': 'التواصل',
+                'hero_title1': 'اتصل بنا',
+                'hero_title2': 'نحن هنا لمساعدتك',
+                'hero_desc': 'فريقنا القانوني المتخصص جاهز للإجابة على جميع استفساراتك وتقديم الدعم القانوني اللازم',
+                'stat1_value': '24/7',
+                'stat1_label': 'دعم مستمر',
+                'stat2_label': 'رد فوري',
+                'stat3_value': '+1000',
+                'stat3_label': 'عميل سعيد',
+                'form_title': 'أرسل رسالة',
+                'form_name_label': 'الإسم الكامل',
+                'form_name_placeholder': 'أدخل الإسم الكامل',
+                'form_name_error': 'يرجى إدخال الإسم الكامل',
+                'form_phone_label': 'رقم الهاتف',
+                'form_phone_placeholder': 'أدخل رقم الهاتف',
+                'form_phone_error': 'يرجى إدخال رقم الهاتف',
+                'form_email_label': 'البريد الإلكتروني',
+                'form_email_placeholder': 'مثال: name@domain.com',
+                'form_email_error': 'يرجى إدخال بريد إلكتروني صحيح',
+                'form_service_label': 'نوع الخدمة المطلوبة',
+                'form_service_consultation': 'إستشارات قانونية',
+                'form_service_legal_action': 'إجراء قانوني',
+                'form_service_civil': 'القضاء المدني والتجاري',
+                'form_service_criminal': 'القضاء الجنائي',
+                'form_service_family': 'قانون الأسرة',
+                'form_service_commercial': 'قانون الشركات',
+                'form_service_arbitration': 'التحكيم التجاري',
+                'form_service_error': 'يرجى إختيار نوع الخدمة والخدمات المطلوبة',
+                'form_message_label': 'الرسالة',
+                'form_message_placeholder': 'أكتب رسالتك هنا...',
+                'form_submit_btn': 'إرسال الرسالة',
+                'info_title': 'معلومات التواصل',
+                'info_address_label': 'العنوان',
+                'info_address_value': 'ميدان المطريه أبراج العز 2، برج أ إداري مكتب 1002، القاهرة',
+                'info_phone_label': 'الهاتف',
+                'info_phone_value': '+20 100 442 6279',
+                'info_instapay_label': 'إنستا باي',
+                'info_instapay_value': '01004426279',
+                'info_vodafone_label': 'فودافون كاش',
+                'info_vodafone_value': '01004426279',
+                'info_email_label': 'البريد الإلكتروني',
+                'info_email_value': 'mohamy_yousry@yahoo.com',
+                'info_hours_label': 'ساعات العمل',
+                'info_hours_value': 'السبت - الأربعاء : 4:00 م - 10:00 م',
+                'direct_title': 'إتصل بنا مباشرة',
+                'direct_desc': 'للحصول على إستشارة فورية، يمكنك التواصل معنا عبر:',
+                'success_title': 'تم الإرسال بنجاح!',
+                'success_desc': 'سيتم التواصل معك في أقرب وقت ممكن',
+                'success_btn': 'موافق',
+                'error_title': 'حدث خطأ!',
+                'error_desc': 'تعذر إرسال الرسالة. يرجى المحاولة مرة أخرى.',
+                'error_btn': 'موافق',
+                'whatsapp_title': 'فتح الواتساب',
+                'whatsapp_desc1': 'تم تحضير رسالتك بنجاح',
+                'whatsapp_desc2': 'سيتم فتح تطبيق الواتساب تلقائياً',
+                'whatsapp_desc3': 'اضغط على "إرسال" في الواتساب لإكمال العملية',
+                'whatsapp_open': 'فتح الواتساب',
+                'whatsapp_cancel': 'إلغاء',
+                'footer_name': 'يسري رشاد',
+                'footer_title': 'محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني',
+                'footer_desc': 'مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.',
+                'footer_links': 'روابط سريعة',
+                'footer_home': 'الرئيسية',
+                'footer_about': 'نبذة عني',
+                'footer_services': 'خدماتنا',
+                'footer_cases': 'هيئة الدفاع',
+                'footer_certificates': 'الشهادات',
+                'footer_contact': 'التواصل',
+                'footer_services_title': 'خدماتنا',
+                'footer_service1': 'القضاء المدني والتجاري',
+                'footer_service2': 'القضاء الجنائي',
+                'footer_service3': 'قانون الأسرة',
+                'footer_service4': 'قانون الشركات',
+                'footer_service5': 'التحكيم التجاري',
+                'footer_service6': 'إستشارات قانونية متخصصة',
+                'footer_contact_title': 'تواصل معنا',
+                'footer_address1': 'ميدان المطريه أبراج العز 2',
+                'footer_address2': 'برج أ إداري مكتب 1002، القاهرة',
+                'footer_phone': '+20 100 442 6279',
+                'footer_email': 'mohamy_yousry@yahoo.com',
+                'footer_copyright': '© 2026',
+                'footer_rights': 'جميع الحقوق محفوظة لـ',
+                'footer_firm_name': 'مكتب يسري رشاد للمحاماة',
+                'footer_location': 'مصر - القاهرة',
+                'footer_privacy': 'سياسة الخصوصية',
+                'footer_terms': 'شروط الإستخدام',
+                'footer_credit': 'تصميم وتطوير <span class="text-primary-light dark:text-primary-dark" style="color:#D4AF37;">فريق التسويق الإلكتروني</span> <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span> <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i> <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">بكل</span> <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>'
+            },
+            en: {
+                'brand_name': 'Al-Khobaraa Al-Arab',
+                'brand_sub': 'For Legal Consultations and Advocacy',
+                'nav_home': 'Home',
+                'nav_about': 'About',
+                'nav_services': 'Services',
+                'nav_cases': 'Defense Team',
+                'nav_certificates': 'Certificates',
+                'nav_contact': 'Contact',
+                'hero_title1': 'Contact Us',
+                'hero_title2': 'We Are Here to Help',
+                'hero_desc': 'Our specialized legal team is ready to answer all your inquiries and provide the necessary legal support',
+                'stat1_value': '24/7',
+                'stat1_label': 'Continuous Support',
+                'stat2_label': 'Instant Reply',
+                'stat3_value': '+1000',
+                'stat3_label': 'Happy Clients',
+                'form_title': 'Send a Message',
+                'form_name_label': 'Full Name',
+                'form_name_placeholder': 'Enter your full name',
+                'form_name_error': 'Please enter your full name',
+                'form_phone_label': 'Phone Number',
+                'form_phone_placeholder': 'Enter your phone number',
+                'form_phone_error': 'Please enter your phone number',
+                'form_email_label': 'Email Address',
+                'form_email_placeholder': 'Example: name@domain.com',
+                'form_email_error': 'Please enter a valid email address',
+                'form_service_label': 'Service Type',
+                'form_service_consultation': 'Legal Consultations',
+                'form_service_legal_action': 'Legal Action',
+                'form_service_civil': 'Civil & Commercial Law',
+                'form_service_criminal': 'Criminal Law',
+                'form_service_family': 'Family Law',
+                'form_service_commercial': 'Corporate Law',
+                'form_service_arbitration': 'Commercial Arbitration',
+                'form_service_error': 'Please select a service type and required services',
+                'form_message_label': 'Message',
+                'form_message_placeholder': 'Write your message here...',
+                'form_submit_btn': 'Send Message',
+                'info_title': 'Contact Information',
+                'info_address_label': 'Address',
+                'info_address_value': 'Matareya Square, Al-Ezz Towers 2, Tower A, Administrative Office 1002, Cairo',
+                'info_phone_label': 'Phone',
+                'info_phone_value': '+20 100 442 6279',
+                'info_instapay_label': 'InstaPay',
+                'info_instapay_value': '01004426279',
+                'info_vodafone_label': 'Vodafone Cash',
+                'info_vodafone_value': '01004426279',
+                'info_email_label': 'Email',
+                'info_email_value': 'mohamy_yousry@yahoo.com',
+                'info_hours_label': 'Working Hours',
+                'info_hours_value': 'Saturday - Wednesday: 4:00 PM - 10:00 PM',
+                'direct_title': 'Contact Us Directly',
+                'direct_desc': 'For an immediate consultation, you can contact us via:',
+                'success_title': 'Sent Successfully!',
+                'success_desc': 'We will get back to you as soon as possible',
+                'success_btn': 'OK',
+                'error_title': 'An Error Occurred!',
+                'error_desc': 'Failed to send message. Please try again.',
+                'error_btn': 'OK',
+                'whatsapp_title': 'Open WhatsApp',
+                'whatsapp_desc1': 'Your message has been prepared successfully',
+                'whatsapp_desc2': 'WhatsApp will open automatically',
+                'whatsapp_desc3': 'Press "Send" in WhatsApp to complete the process',
+                'whatsapp_open': 'Open WhatsApp',
+                'whatsapp_cancel': 'Cancel',
+                'footer_name': 'Yousry Rashad',
+                'footer_title': 'Lawyer at the Court of Cassation and State Council & Legal Consultant',
+                'footer_desc': 'A specialized law firm providing distinguished legal solutions for over 20 years.',
+                'footer_links': 'Quick Links',
+                'footer_home': 'Home',
+                'footer_about': 'About',
+                'footer_services': 'Services',
+                'footer_cases': 'Defense Team',
+                'footer_certificates': 'Certificates',
+                'footer_contact': 'Contact',
+                'footer_services_title': 'Our Services',
+                'footer_service1': 'Civil & Commercial Law',
+                'footer_service2': 'Criminal Law',
+                'footer_service3': 'Family Law',
+                'footer_service4': 'Corporate Law',
+                'footer_service5': 'Commercial Arbitration',
+                'footer_service6': 'Specialized Legal Consultations',
+                'footer_contact_title': 'Contact Us',
+                'footer_address1': 'Matareya Square, Al-Ezz Towers 2',
+                'footer_address2': 'Tower A, Administrative Office 1002, Cairo',
+                'footer_phone': '+20 100 442 6279',
+                'footer_email': 'mohamy_yousry@yahoo.com',
+                'footer_copyright': '© 2026',
+                'footer_rights': 'All rights reserved to',
+                'footer_firm_name': 'Yousry Rashad Law Firm',
+                'footer_location': 'Egypt - Cairo',
+                'footer_privacy': 'Privacy Policy',
+                'footer_terms': 'Terms of Use',
+                'footer_credit': 'Designed & Developed by <span class="text-primary-light dark:text-primary-dark" style="color:#D4AF37;">Digital Marketing Team</span> <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span> <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i> <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">with</span> <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>'
+            }
+        };
+
         function closeSuccessAlert() {
             document.getElementById('successAlert').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
@@ -903,33 +1117,33 @@
             }
             if (!emailVal) {
                 email.classList.add('field-error');
-                document.getElementById('emailError').textContent = 'يرجى إدخال البريد الإلكتروني';
+                document.getElementById('emailError').textContent = translations[currentLang]?.form_email_error || 'يرجى إدخال البريد الإلكتروني';
                 document.getElementById('emailError').classList.add('show');
                 hasError = true;
             } else if (!isValidEmail(emailVal)) {
                 email.classList.add('field-error');
-                document.getElementById('emailError').textContent = 'البريد الإلكتروني غير صحيح';
+                document.getElementById('emailError').textContent = translations[currentLang]?.form_email_error || 'البريد الإلكتروني غير صحيح';
                 document.getElementById('emailError').classList.add('show');
                 hasError = true;
             }
 
             const serviceType = document.querySelector('input[name="serviceType"]:checked');
             if (!serviceType) {
-                document.getElementById('serviceError').textContent = 'يرجى إختيار نوع الخدمة';
+                document.getElementById('serviceError').textContent = translations[currentLang]?.form_service_error || 'يرجى إختيار نوع الخدمة';
                 document.getElementById('serviceError').classList.add('show');
                 hasError = true;
             } else {
                 const serviceName = serviceType.value === 'consultation' ? 'consultation_services' : 'legal_action_services';
                 const checkedServices = document.querySelectorAll(`input[name="${serviceName}"]:checked`);
                 if (checkedServices.length === 0) {
-                    document.getElementById('serviceError').textContent = 'يرجى إختيار خدمة واحدة على الأقل';
+                    document.getElementById('serviceError').textContent = translations[currentLang]?.form_service_error || 'يرجى إختيار خدمة واحدة على الأقل';
                     document.getElementById('serviceError').classList.add('show');
                     hasError = true;
                 }
             }
 
             if (hasError) {
-                document.getElementById('errorMessage').textContent = 'يرجى تصحيح الأخطاء في النموذج';
+                document.getElementById('errorMessage').textContent = translations[currentLang]?.error_desc || 'يرجى تصحيح الأخطاء في النموذج';
                 document.getElementById('errorAlert').classList.add('show');
                 document.getElementById('overlay').classList.add('show');
                 document.body.style.overflow = 'hidden';
@@ -991,6 +1205,56 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // ====== Language Toggle ======
+            const langToggle = document.getElementById('lang-toggle');
+            const langText = document.getElementById('lang-text');
+            
+            let currentLang = localStorage.getItem('site-lang') || 'ar';
+            
+            function updateLangButton() {
+                if (currentLang === 'ar') {
+                    langText.textContent = 'EN';
+                    document.documentElement.lang = 'ar';
+                    document.documentElement.dir = 'rtl';
+                } else {
+                    langText.textContent = 'AR';
+                    document.documentElement.lang = 'en';
+                    document.documentElement.dir = 'ltr';
+                }
+                localStorage.setItem('site-lang', currentLang);
+            }
+            
+            function translatePage() {
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    if (translations[currentLang] && translations[currentLang][key]) {
+                        if (!el.hasAttribute('data-original')) {
+                            el.setAttribute('data-original', el.innerHTML);
+                        }
+                        el.innerHTML = translations[currentLang][key];
+                    }
+                });
+                // تحديث placeholders
+                document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-translate-placeholder');
+                    if (translations[currentLang] && translations[currentLang][key]) {
+                        el.placeholder = translations[currentLang][key];
+                    }
+                });
+            }
+            
+            updateLangButton();
+            translatePage();
+            
+            if (langToggle) {
+                langToggle.addEventListener('click', () => {
+                    currentLang = (currentLang === 'ar') ? 'en' : 'ar';
+                    updateLangButton();
+                    translatePage();
+                });
+            }
+
+            // Submit Button
             const submitBtn = document.getElementById('submitBtn');
             if (submitBtn) {
                 submitBtn.addEventListener('click', function(e) {
@@ -999,6 +1263,7 @@
                 });
             }
 
+            // Mobile Menu
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileBtn && mobileMenu) {
@@ -1008,6 +1273,7 @@
                 });
             }
 
+            // Theme Toggle
             const themeToggle = document.getElementById('theme-toggle');
             const themeIcon = themeToggle.querySelector('i');
             if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -1031,6 +1297,7 @@
                 }
             });
 
+            // Radio Labels
             document.querySelectorAll('.radio-label').forEach(function(label) {
                 label.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1063,6 +1330,7 @@
                 });
             });
 
+            // Checkbox Labels
             document.querySelectorAll('.checkbox-label').forEach(function(label) {
                 label.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1097,6 +1365,7 @@
                 });
             });
 
+            // Form Inputs
             document.querySelectorAll('input, textarea').forEach(function(el) {
                 el.addEventListener('input', function() {
                     this.classList.remove('field-error');
@@ -1108,12 +1377,14 @@
                 });
             });
 
+            // Overlay
             document.getElementById('overlay').addEventListener('click', function() {
                 closeSuccessAlert();
                 closeErrorAlert();
                 closeWhatsAppInstruction();
             });
 
+            // Scroll Animations
             const scrollElements = document.querySelectorAll('.scroll-animate');
             const elementInView = (el, offset = 100) => {
                 const elementTop = el.getBoundingClientRect().top;
@@ -1132,6 +1403,18 @@
             window.addEventListener('scroll', handleScrollAnimation);
             window.addEventListener('load', handleScrollAnimation);
             handleScrollAnimation();
+
+            // Navbar Shadow
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-md');
+                    navbar.classList.remove('shadow-sm');
+                } else {
+                    navbar.classList.add('shadow-sm');
+                    navbar.classList.remove('shadow-md');
+                }
+            });
         });
     </script>
 
