@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قراءة المنشور - مؤسسة الخبراء العرب</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#D4AF37',
+                            dark: '#F5D27F'
+                        },
+                        secondary: {
+                            light: '#1E293B',
+                            dark: '#F1F5F9'
+                        },
+                        darkBg: '#0F172A',
+                        lightBg: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        arabic: ['Tajawal', 'Arial', 'sans-serif'],
+                        elegant: ['Cormorant Garamond', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            color: #94A3B8 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            right: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        .dark .nav-link::after {
+            background-color: #F5D27F;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link:hover {
+            color: #D4AF37 !important;
+        }
+        .nav-link.active {
+            color: #D4AF37 !important;
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
+        }
+
+        .hover-3d {
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .hover-3d:hover {
+            transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3);
+        }
+
+        .shake {
+            transition: transform 0.3s ease;
+        }
+        .shake:hover {
+            transform: translateX(-3px) translateX(3px);
+        }
+
+        .pulse-gold {
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .footer-card {
+            background: transparent;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+
+        .footer-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .footer-card:hover {
+            border-color: rgba(245, 210, 127, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-contact-item i {
+            margin-top: 0.2rem;
+            min-width: 1.2rem;
+        }
+
+        .back-btn {
+            transition: transform 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .article-content h1, .article-content h2, .article-content h3 {
+            color: #1E293B;
+            margin-bottom: 1rem;
+        }
+        .dark .article-content h1, .dark .article-content h2, .dark .article-content h3 {
+            color: #F1F5F9;
+        }
+        .article-content p {
+            color: #4B5563;
+            line-height: 1.9;
+            margin-bottom: 1.2rem;
+        }
+        .dark .article-content p {
+            color: #D1D5DB;
+        }
+    </style>
+</head>
+<body class="bg-lightBg text-secondary-light dark:bg-darkBg dark:text-secondary-dark">
+
+    <!-- ====== NAVIGATION ====== -->
+    <nav class="fixed top-0 w-full bg-white/95 dark:bg-darkBg/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-reverse space-x-2">
+                <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
+                <div class="text-right">
+                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">
+                        <span data-translate="brand_name">مؤسسة الخبراء العرب</span>
+                    </h1>
+                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;">
+                        <span data-translate="brand_sub">للإستشارات القانونية وأعمال المحاماة</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_certificates">الشهادات</a>
+                <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_posts">المنشورات</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_contact">التواصل</a>
+            </div>
+            
+            <div class="flex items-center space-x-reverse space-x-2">
+                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 shake" aria-label="تغيير اللغة">
+                    <span class="text-sm md:text-base font-bold text-gray-900 dark:text-white" id="lang-text">EN</span>
+                </button>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 shake" aria-label="تفعيل الوضع الليلي">
+                    <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
+                </button>
+                <button class="md:hidden p-2" id="mobile-menu-btn" aria-label="القائمة الرئيسية" aria-expanded="false">
+                    <svg class="w-6 h-6 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden mt-2 pb-4" id="mobile-menu">
+            <div class="flex flex-col space-y-3 px-6">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
+                <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_posts">المنشورات</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_contact">التواصل</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== محتوى المنشور ====== -->
+    <section class="pt-28 pb-16 bg-gray-50 dark:bg-gray-800 min-h-screen">
+        <div class="container mx-auto px-4 md:px-6 max-w-4xl">
+            
+            <!-- زر العودة -->
+            <div class="mb-6">
+                <button onclick="goBack()" class="back-btn inline-flex items-center gap-2 text-primary-light hover:text-[#B8860B] font-bold text-sm md:text-base transition-colors">
+                    <i class="fas fa-arrow-right"></i>
+                    <span data-translate="back_btn">عودة إلى المنشورات</span>
+                </button>
+            </div>
+
+            <!-- كارت القراءة الاحترافي -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-10 lg:p-12 border border-gray-100 dark:border-gray-700 hover-3d">
+                
+                <div id="post-header" class="text-center mb-8 md:mb-12 border-b pb-8 border-gray-100 dark:border-gray-700">
+                    <span id="post-category" class="inline-block text-xs bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark px-4 py-1.5 rounded-full font-bold mb-4">التصنيف</span>
+                    <h1 id="post-title" class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">عنوان المنشور</h1>
+                    <div class="flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400 text-sm">
+                        <i class="far fa-calendar-alt text-primary-light"></i>
+                        <span id="post-date">تاريخ النشر</span>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <img id="post-image" src="" alt="صورة المنشور" class="w-full rounded-xl shadow-md hidden">
+                </div>
+
+                <div id="post-content" class="article-content text-base md:text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+                    محتوى المنشور سيظهر هنا...
+                </div>
+
+                <!-- قسم التفاعل (لايك ومشاركة) -->
+                <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <!-- زر الإعجاب -->
+                        <button id="like-btn" onclick="toggleLike()" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                            <i id="like-icon" class="fas fa-heart text-xl"></i>
+                            <span id="like-count">0</span>
+                        </button>
+                        
+                        <!-- مشاركة -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">شارك:</span>
+                            <button onclick="sharePost('facebook')" class="w-8 h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors text-sm">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button onclick="sharePost('whatsapp')" class="w-8 h-8 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors text-sm">
+                                <i class="fab fa-whatsapp"></i>
+                            </button>
+                            <button onclick="sharePost('twitter')" class="w-8 h-8 flex items-center justify-center bg-black hover:bg-gray-800 text-white rounded-full transition-colors text-sm">
+                                <i class="fab fa-x-twitter"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم التعليقات -->
+            <div class="mt-8 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 md:p-8 border border-gray-100 dark:border-gray-700">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                    <i class="fas fa-comments text-primary-light"></i>
+                    التعليقات
+                </h3>
+                
+                <!-- نموذج إضافة تعليق -->
+                <div class="flex gap-3 mb-6">
+                    <input type="text" id="comment-input" placeholder="اكتب تعليقك هنا..." class="flex-1 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:border-primary-light">
+                    <button onclick="addComment()" class="px-6 py-3 bg-primary-light hover:bg-[#B8860B] text-white font-bold rounded-xl transition-colors shadow-md hover:shadow-lg">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <!-- قائمة التعليقات -->
+                <div id="comments-list" class="space-y-4">
+                    <!-- سيتم تحميل التعليقات هنا -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="bg-secondary-light dark:bg-gray-900 text-white pt-12 md:pt-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <!-- نفس الفوتر كما هو... (تم حذفه للاختصار، انسخه من الكود السابق) -->
+            <div class="text-center mt-2 md:mt-3">
+                <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light" data-translate="footer_credit">تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== WHATSAPP FLOAT ====== -->
+    <a href="https://wa.me/201004426279" target="_blank" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
+        <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+    </a>
+
+    <!-- ====== JAVASCRIPT ====== -->
+    <script>
+        // ====== Theme Toggle (Dark Mode Standard) ======
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle?.querySelector('i');
+        if (localStorage.getItem('color-theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+        } else {
+            document.documentElement.classList.add('dark');
+            if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+        }
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                if (themeIcon) { themeIcon.classList.toggle('fa-moon'); themeIcon.classList.toggle('fa-sun'); }
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
+        }
+
+        // ====== العودة للصفحة السابقة ======
+        function goBack() {
+            if (document.referrer && document.referrer.includes('posts.html')) {
+                window.history.back();
+            } else {
+                window.location.href = 'posts.html';
+            }
+        }
+
+        // ====== مشاركة المنشور ======
+        function sharePost(platform) {
+            const url = window.location.href;
+            const text = document.getElementById('post-title').innerText;
+            let shareUrl = '';
+            if (platform === 'facebook') {
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+            } else if (platform === 'whatsapp') {
+                shareUrl = `https://wa.me/?text=${encodeURIComponent(text)}%20${encodeURIComponent(url)}`;
+            } else if (platform === 'twitter') {
+                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            }
+            if (shareUrl) { window.open(shareUrl, '_blank'); }
+        }
+
+        // ====== تحميل بيانات المنشور ======
+        let currentPostId = null;
+        let currentPost = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            if (postId === null) {
+                window.location.href = 'posts.html';
+                return;
+            }
+
+            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+            currentPostId = parseInt(postId);
+            currentPost = posts[currentPostId];
+
+            if (!currentPost) {
+                window.location.href = 'posts.html';
+                return;
+            }
+
+            document.getElementById('post-title').innerText = currentPost.title;
+            document.getElementById('post-date').innerText = currentPost.date;
+            document.getElementById('post-category').innerText = currentPost.category;
+            document.getElementById('post-content').innerHTML = currentPost.content.replace(/\n/g, '<br>');
+
+            const imgElement = document.getElementById('post-image');
+            if (currentPost.image && currentPost.image.trim() !== '') {
+                imgElement.src = currentPost.image;
+                imgElement.classList.remove('hidden');
+            } else {
+                imgElement.classList.add('hidden');
+            }
+            document.title = currentPost.title + ' - مؤسسة الخبراء العرب';
+
+            // تحميل اللايكات والتعليقات
+            loadLikes();
+            loadComments();
+        });
+
+        // ====== نظام الإعجاب (Likes) ======
+        function loadLikes() {
+            const likesData = JSON.parse(localStorage.getItem('postLikes')) || {};
+            const count = likesData[currentPostId] || 0;
+            document.getElementById('like-count').innerText = count;
+            
+            // التحقق مما إذا كان المستخدم قد أعجب بهذا المنشور من قبل
+            const userLikes = JSON.parse(localStorage.getItem('userLikes')) || [];
+            if (userLikes.includes(currentPostId)) {
+                document.getElementById('like-icon').classList.add('text-red-500');
+                document.getElementById('like-icon').classList.remove('text-gray-600', 'dark:text-gray-400');
+            }
+        }
+
+        function toggleLike() {
+            const userLikes = JSON.parse(localStorage.getItem('userLikes')) || [];
+            const likesData = JSON.parse(localStorage.getItem('postLikes')) || {};
+            
+            if (userLikes.includes(currentPostId)) {
+                // إزالة الإعجاب
+                likesData[currentPostId] = (likesData[currentPostId] || 1) - 1;
+                const index = userLikes.indexOf(currentPostId);
+                userLikes.splice(index, 1);
+                document.getElementById('like-icon').classList.remove('text-red-500');
+                document.getElementById('like-icon').classList.add('text-gray-600', 'dark:text-gray-400');
+            } else {
+                // إضافة إعجاب
+                likesData[currentPostId] = (likesData[currentPostId] || 0) + 1;
+                userLikes.push(currentPostId);
+                document.getElementById('like-icon').classList.add('text-red-500');
+                document.getElementById('like-icon').classList.remove('text-gray-600', 'dark:text-gray-400');
+            }
+            
+            localStorage.setItem('postLikes', JSON.stringify(likesData));
+            localStorage.setItem('userLikes', JSON.stringify(userLikes));
+            document.getElementById('like-count').innerText = likesData[currentPostId] || 0;
+        }
+
+        // ====== نظام التعليقات (Comments) ======
+        function loadComments() {
+            const commentsData = JSON.parse(localStorage.getItem('postComments')) || {};
+            const comments = commentsData[currentPostId] || [];
+            const container = document.getElementById('comments-list');
+            container.innerHTML = '';
+
+            if (comments.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 text-sm py-4">لا توجد تعليقات بعد. كن أول من يعلق!</p>';
+                return;
+            }
+
+            // عرض التعليقات من الأحدث للأقدم
+            comments.reverse().forEach(comment => {
+                const div = document.createElement('div');
+                div.className = "bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700";
+                div.innerHTML = `
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-6 h-6 rounded-full bg-primary-light/20 flex items-center justify-center text-primary-light text-xs">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-700 dark:text-gray-300">${comment.name || 'زائر'}</span>
+                        <span class="text-xs text-gray-400">•</span>
+                        <span class="text-xs text-gray-400">${comment.date}</span>
+                    </div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">${comment.text}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function addComment() {
+            const input = document.getElementById('comment-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const commentsData = JSON.parse(localStorage.getItem('postComments')) || {};
+            if (!commentsData[currentPostId]) commentsData[currentPostId] = [];
+
+            const now = new Date();
+            const dateString = now.toLocaleDateString('ar-EG') + ' ' + now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+
+            commentsData[currentPostId].push({
+                name: 'زائر', // يمكنك تعديل هذا لاحقاً ليطلب الاسم
+                text: text,
+                date: dateString
+            });
+
+            localStorage.setItem('postComments', JSON.stringify(commentsData));
+            input.value = '';
+            loadComments();
+        }
+    </script>
+</body>
+</html>

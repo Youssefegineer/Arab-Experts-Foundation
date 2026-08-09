@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنشورات والمقالات - مؤسسة الخبراء العرب</title>
+    <meta name="description" content="آخر المنشورات والمقالات القانونية للمستشار يسري رشاد عراقي.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#D4AF37',
+                            dark: '#F5D27F'
+                        },
+                        secondary: {
+                            light: '#1E293B',
+                            dark: '#F1F5F9'
+                        },
+                        darkBg: '#0F172A',
+                        lightBg: '#FFFFFF'
+                    },
+                    fontFamily: {
+                        arabic: ['Tajawal', 'Arial', 'sans-serif'],
+                        elegant: ['Cormorant Garamond', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ====== الأنماط الأساسية الخاصة بموقعك ====== */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        .elegant-text {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            color: #94A3B8 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            right: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        
+        .dark .nav-link::after {
+            background-color: #F5D27F;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: #D4AF37 !important;
+        }
+        
+        .nav-link.active {
+            color: #D4AF37 !important;
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        }
+
+        .scroll-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        .hover-3d {
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .hover-3d:hover {
+            transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
+            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3);
+        }
+
+        .shake {
+            transition: transform 0.3s ease;
+        }
+        .shake:hover {
+            transform: translateX(-3px) translateX(3px);
+        }
+
+        .footer-card {
+            background: transparent;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+
+        .footer-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .footer-card:hover {
+            border-color: rgba(245, 210, 127, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-contact-item i {
+            margin-top: 0.2rem;
+            min-width: 1.2rem;
+        }
+        
+        /* ====== تنسيق الكروت ====== */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .post-card {
+            background: white;
+            border-radius: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            cursor: pointer;
+        }
+        .dark .post-card {
+            background: #1E293B;
+            border-color: rgba(245, 210, 127, 0.1);
+        }
+        .post-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-lightBg text-secondary-light dark:bg-darkBg dark:text-secondary-dark">
+
+    <!-- ====== NAVIGATION (مطابقة 100% لباقي الموقع) ====== -->
+    <nav class="fixed top-0 w-full bg-white/95 dark:bg-darkBg/95 backdrop-blur-md shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-reverse space-x-2">
+                <img src="image-removebg-preview.png" alt="شعار مؤسسة الخبراء العرب" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
+                <div class="text-right">
+                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">
+                        <span data-translate="brand_name">مؤسسة الخبراء العرب</span>
+                    </h1>
+                    <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;">
+                        <span data-translate="brand_sub">للإستشارات القانونية وأعمال المحاماة</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-6 lg:gap-8">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_certificates">الشهادات</a>
+                <a href="posts.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" data-translate="nav_posts">المنشورات</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_contact">التواصل</a>
+            </div>
+            
+            <div class="flex items-center space-x-reverse space-x-2">
+                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 shake" aria-label="تغيير اللغة">
+                    <span class="text-sm md:text-base font-bold text-gray-900 dark:text-white" id="lang-text">EN</span>
+                </button>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300 shake" aria-label="تفعيل الوضع الليلي">
+                    <i class="fas fa-moon text-gray-700 dark:text-yellow-300 text-base md:text-lg"></i>
+                </button>
+                <button class="md:hidden p-2" id="mobile-menu-btn" aria-label="القائمة الرئيسية" aria-expanded="false">
+                    <svg class="w-6 h-6 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden mt-2 pb-4" id="mobile-menu">
+            <div class="flex flex-col space-y-3 px-6">
+                <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_home">الرئيسية</a>
+                <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
+                <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
+                <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
+                <a href="posts.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active" data-translate="nav_posts">المنشورات</a>
+                <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_contact">التواصل</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== HERO SECTION (مطابقة لباقي الموقع) ====== -->
+    <section class="pt-28 pb-12 hero-pattern relative overflow-hidden">
+        <div class="container mx-auto px-4 md:px-6 text-center max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 md:px-6 md:py-2 bg-primary-light/10 dark:bg-primary-dark/10 rounded-full mb-4 md:mb-6 scroll-animate show">
+                <span class="text-primary-light dark:text-primary-dark font-semibold text-sm md:text-base" data-translate="hero_badge">✦ المنشورات القانونية ✦</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 fade-in delay-100 scroll-animate show">
+                <span class="text-secondary-light dark:text-white block" data-translate="hero_title1">آخر المنشورات</span>
+                <span class="gold-gradient-text text-4xl md:text-6xl lg:text-7xl" data-translate="hero_title2">والمقالات</span>
+            </h1>
+            <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-4 md:mb-6"></div>
+            <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed fade-in delay-200 scroll-animate show" data-translate="hero_desc">
+                أحدث المقالات القانونية والنصائح والإرشادات من مكتب المستشار يسري رشاد عراقي
+            </p>
+        </div>
+    </section>
+
+    <!-- ====== POSTS GRID ====== -->
+    <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800">
+        <div class="container mx-auto px-4 md:px-6">
+            
+            <div id="posts-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 perspective-container">
+                <!-- الكود سيقوم بإنشاء الكروت هنا تلقائياً -->
+                <div class="col-span-full text-center py-10 text-gray-500 dark:text-gray-400">
+                    <i class="fas fa-spinner fa-spin text-4xl text-primary-light mb-4"></i>
+                    <p>جاري تحميل المنشورات...</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ====== FOOTER (مطابق لباقي الصفحات) ====== -->
+    <footer class="bg-secondary-light dark:bg-gray-900 text-white pt-12 md:pt-20">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 perspective-container">
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-1 text-center md:text-right">
+                    <div class="flex items-center justify-center md:justify-start mb-4 md:mb-6">
+                        <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 ml-3 md:ml-4" width="48" height="48" loading="lazy">
+                        <div>
+                            <h3 class="text-lg md:text-xl font-bold" data-translate="footer_name">يسري رشاد</h3>
+                            <p class="text-primary-light dark:text-primary-dark text-xs md:text-sm" data-translate="footer_title">محامي بالإستئناف العالي ومجلس الدولة والمستشار القانوني</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-translate="footer_desc">مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.</p>
+                </div>
+
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-2 text-center">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_links">روابط سريعة</h4>
+                    <ul class="space-y-2 md:space-y-3">
+                        <li><a href="index.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_home">الرئيسية</a></li>
+                        <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_about">نبذة عني</a></li>
+                        <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_services">خدماتنا</a></li>
+                        <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_cases">هيئة الدفاع</a></li>
+                        <li><a href="certificates.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_certificates">الشهادات</a></li>
+                        <li><a href="posts.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" data-translate="footer_posts">المنشورات</a></li>
+                        <li><a href="contact.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_contact">التواصل</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-3 text-center">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_services_title">خدماتنا</h4>
+                    <ul class="space-y-2 md:space-y-3">
+                        <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service1">القضاء المدني والتجاري</a></li>
+                        <li><a href="services.html#criminal" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service2">القضاء الجنائي</a></li>
+                        <li><a href="services.html#family" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service3">قانون الأسرة</a></li>
+                        <li><a href="services.html#commercial" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service4">قانون الشركات</a></li>
+                        <li><a href="services.html#arbitration" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service5">التحكيم التجاري</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-4 text-center md:text-right">
+                    <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_contact_title">تواصل معنا</h4>
+                    <div class="space-y-3 md:space-y-4">
+                        <div class="footer-contact-item">
+                            <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
+                            <div>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address1">ميدان المطريه أبراج العز 2</p>
+                                <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" data-translate="footer_address2">برج أ إداري مكتب 1002، القاهرة</p>
+                            </div>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-phone-alt text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_phone">+20 100 442 6279</p>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope text-primary-light dark:text-primary-dark text-sm md:text-base"></i>
+                            <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base" dir="ltr" data-translate="footer_email">mohamy_yousry@yahoo.com</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-center md:justify-start gap-3 mt-4 md:mt-6">
+                        <a href="https://www.facebook.com/Yousry.Iraqi" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="صفحة فيسبوك">
+                            <i class="fab fa-facebook-f text-sm md:text-base"></i>
+                        </a>
+                        <a href="https://2u.pw/n9vE1k" target="_blank" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب انستغرام">
+                            <i class="fa-brands fa-instagram text-sm md:text-base"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب لينكد إن">
+                            <i class="fab fa-linkedin-in text-sm md:text-base"></i>
+                        </a>
+                        <a href="https://wa.me/201004426279" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="واتساب">
+                            <i class="fab fa-whatsapp text-sm md:text-base"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-10 md:mt-12 pt-6 md:pt-8 border-t-2 border-primary-light/30 dark:border-primary-dark/30 scroll-animate delay-5">
+                <div class="flex items-center justify-center gap-3 md:gap-4 mb-3 md:mb-4">
+                    <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
+                    <div class="text-primary-light dark:text-primary-dark text-xs md:text-sm flex items-center gap-2">
+                        <i class="fas fa-gavel"></i>
+                        <span class="elegant-text text-base md:text-lg font-bold">✦</span>
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+                    <p class="text-gray-400 dark:text-gray-500 text-xs md:text-sm text-center md:text-right leading-relaxed">
+                        <span class="text-primary-light dark:text-primary-dark font-bold" data-translate="footer_copyright">© 2026</span>
+                        <span class="text-gray-300 dark:text-gray-400" data-translate="footer_rights">جميع الحقوق محفوظة لـ</span>
+                        <span class="text-white dark:text-white font-bold" data-translate="footer_firm_name">مؤسسة الخبراء العرب للمحاماة</span>
+                        <span class="text-gray-500 dark:text-gray-600 mx-1 md:mx-2">|</span>
+                        <span class="text-gray-400 dark:text-gray-500" data-translate="footer_location">مصر - القاهرة</span>
+                    </p>
+                    <div class="flex items-center space-x-reverse space-x-4 md:space-x-6">
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_privacy">
+                            <i class="fas fa-shield-alt text-[10px] md:text-xs"></i>
+                            <span>سياسة الخصوصية</span>
+                        </a>
+                        <span class="text-gray-600 dark:text-gray-700">|</span>
+                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_terms">
+                            <i class="fas fa-file-contract text-[10px] md:text-xs"></i>
+                            <span>شروط الإستخدام</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-2 md:mt-3">
+                    <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light" data-translate="footer_credit">
+                        تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span>
+                        <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span>
+                        <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i>
+                        <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">بكل</span>
+                        <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== WHATSAPP FLOAT ====== -->
+    <a href="https://wa.me/201004426279" target="_blank" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
+        <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+    </a>
+
+    <!-- ====== JAVASCRIPT (تم تحديثه ليعمل مع صفحة التفاصيل) ====== -->
+    <script>
+        // ====== Mobile Menu ======
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const expanded = mobileMenu.classList.toggle('hidden') === false;
+                mobileMenuBtn.setAttribute('aria-expanded', !expanded);
+            });
+        }
+
+        // ====== Theme Toggle ======
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle?.querySelector('i');
+        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+        }
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                if (themeIcon) { themeIcon.classList.toggle('fa-moon'); themeIcon.classList.toggle('fa-sun'); }
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
+        }
+
+        // ====== تحميل وعرض المنشورات مع إمكانية النقر ======
+        async function loadPosts() {
+            const container = document.getElementById('posts-container');
+            try {
+                // جلب البيانات من المتصفح (LocalStorage)
+                const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+                
+                container.innerHTML = ''; // تنظيف المكان من رسالة التحميل
+
+                if (posts.length === 0) {
+                    container.innerHTML = `<p class="col-span-full text-center text-gray-500 dark:text-gray-400 py-10">لا توجد منشورات حالياً.</p>`;
+                    return;
+                }
+
+                // عرض المنشورات من الأحدث للأقدم
+                posts.slice().reverse().forEach((post, index) => {
+                    // حساب الرقم الحقيقي للمنشور في المصفوفة الأساسية
+                    const realIndex = posts.length - 1 - index;
+                    
+                    const postDiv = document.createElement('div');
+                    // جعل الكارت كاملًا قابلًا للنقر
+                    postDiv.className = "post-card scroll-animate delay-1 hover-3d p-6 md:p-8 cursor-pointer transition-all duration-300";
+                    // إضافة تأثير التمرير
+                    setTimeout(() => postDiv.classList.add('show'), 100);
+
+                    // نضع محتوى الكارت
+                    postDiv.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                    <i class="far fa-calendar-alt text-primary-light text-xs"></i> ${post.date}
+                                </span>
+                                <span class="text-xs bg-primary-light/10 dark:bg-primary-dark/10 text-primary-light dark:text-primary-dark px-3 py-1 rounded-full font-bold">
+                                    ${post.category}
+                                </span>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3 leading-relaxed">${post.title}</h3>
+                            <div class="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed mb-4 line-clamp-3">${post.content}</div>
+                            ${post.image ? `<img src="${post.image}" class="w-full h-48 md:h-56 object-cover rounded-xl mb-4 border border-gray-100 dark:border-gray-700" alt="صورة المنشور" loading="lazy">` : ''}
+                        </div>
+                    `;
+
+                    // عند الضغط على الكارت، يتم فتح صفحة التفاصيل مع رقم ID الخاص به
+                    postDiv.addEventListener('click', function() {
+                        window.location.href = `post-detail.html?id=${realIndex}`;
+                    });
+
+                    container.appendChild(postDiv);
+                });
+            } catch (error) {
+                container.innerHTML = `<p class="col-span-full text-center text-red-500 dark:text-red-400 py-10">حدث خطأ في تحميل المنشورات.</p>`;
+            }
+        }
+        
+        // تشغيل التحميل عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', loadPosts);
+    </script>
+</body>
+</html> 

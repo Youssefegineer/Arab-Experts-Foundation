@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - المنشورات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+            color: white; font-weight: bold; border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-6">
+
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+        <h2 class="text-2xl font-bold mb-6 text-center gold-gradient-text">لوحة التحكم (أنت فقط)</h2>
+        
+        <!-- نموذج إضافة/تعديل -->
+        <form id="postForm" class="space-y-4 mb-8 border-b pb-8">
+            <input type="hidden" id="editIndex" value="-1">
+            <div>
+                <label class="block font-semibold mb-1">عنوان المنشور</label>
+                <input type="text" id="postTitle" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required>
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">التصنيف (مثلاً: قضايا، نصائح قانونية)</label>
+                <input type="text" id="postCategory" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required>
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">رابط صورة (اختياري)</label>
+                <input type="text" id="postImage" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" placeholder="https://...">
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">نص المنشور</label>
+                <textarea id="postContent" rows="5" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required></textarea>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="btn-submit px-6 py-2">نشر المنشور</button>
+                <button type="button" onclick="resetForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+            </div>
+        </form>
+
+        <!-- عرض المنشورات الحالية مع أزرار التعديل والحذف -->
+        <h3 class="text-xl font-bold mb-4">المنشورات الحالية</h3>
+        <div id="admin-posts-list" class="space-y-4"></div>
+    </div>
+
+    <script>
+        // دالة لعرض المنشورات في لوحة التحكم
+        function renderAdminPosts() {
+            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+            const container = document.getElementById('admin-posts-list');
+            container.innerHTML = '';
+            
+            // عرض من الأحدث للأقدم
+            posts.slice().reverse().forEach((post, index) => {
+                const realIndex = posts.length - 1 - index; 
+                const div = document.createElement('div');
+                div.className = "border-b pb-3 flex justify-between items-start";
+                div.innerHTML = `
+                    <div>
+                        <h4 class="font-bold">${post.title}</h4>
+                        <p class="text-sm text-gray-500 truncate max-xs">${post.content.substring(0, 50)}...</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editPost(${realIndex})" class="text-blue-500 hover:text-blue-700"><i class="fas fa-edit"></i></button>
+                        <button onclick="deletePost(${realIndex})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // إضافة أو تعديل منشور
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const image = document.getElementById('postImage').value;
+            const content = document.getElementById('postContent').value;
+            const editIndex = document.getElementById('editIndex').value;
+
+            let posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+            const today = new Date().toLocaleDateString('ar-EG');
+            
+            if (editIndex === '-1') {
+                // إضافة جديد
+                posts.push({ date: today, title, category, image, content });
+            } else {
+                // تعديل موجود
+                posts[editIndex] = { ...posts[editIndex], date: today, title, category, image, content };
+            }
+
+            // حفظ البيانات في المتصفح
+            localStorage.setItem('legalBlogPosts', JSON.stringify(posts));
+            
+            resetForm();
+            renderAdminPosts();
+            alert('تم حفظ المنشور بنجاح!');
+        });
+
+        // حذف منشور
+        function deletePost(index) {
+            if(!confirm('هل أنت متأكد من حذف هذا المنشور؟')) return;
+            let posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+            posts.splice(index, 1);
+            localStorage.setItem('legalBlogPosts', JSON.stringify(posts));
+            renderAdminPosts();
+            alert('تم الحذف!');
+        }
+
+        // جلب بيانات التعديل للنموذج
+        function editPost(index) {
+            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
+            const post = posts[index];
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postCategory').value = post.category;
+            document.getElementById('postImage').value = post.image;
+            document.getElementById('postContent').value = post.content;
+            document.getElementById('editIndex').value = index;
+        }
+
+        function resetForm() {
+            document.getElementById('postForm').reset();
+            document.getElementById('editIndex').value = '-1';
+        }
+
+        // التحميل الأولي
+        renderAdminPosts();
+    </script>
+</body>
+</html>
