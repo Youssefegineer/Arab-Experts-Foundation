@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - المنشورات</title>
+    <title>لوحة التحكم - مؤسسة الخبراء العرب</title>
+    <meta name="robots" content="noindex, nofollow">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,126 +20,365 @@
             transition: all 0.3s ease;
         }
         .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .admin-tab { padding: 0.6rem 1.1rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.875rem; white-space: nowrap; transition: all .2s; }
+        .admin-tab[aria-selected="true"] { background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); color: #fff; }
+        .admin-tab[aria-selected="false"] { background: #f3f4f6; color: #374151; }
+        .dark .admin-tab[aria-selected="false"] { background: #374151; color: #e5e7eb; }
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+        .field-label { display: block; font-weight: 600; margin-bottom: .25rem; font-size: .875rem; }
+        .field-input { width: 100%; padding: .5rem .75rem; border-radius: .5rem; border: 1px solid #d1d5db; background: #f9fafb; }
+        .dark .field-input { background: #374151; border-color: #4b5563; color: #e5e7eb; }
+        .entity-row { border-bottom: 1px solid #e5e7eb; padding: .75rem 0; }
+        .dark .entity-row { border-color: #374151; }
+        .badge { display: inline-block; padding: .15rem .5rem; border-radius: 9999px; font-size: .7rem; font-weight: 700; }
+        .badge-published { background: #d1fae5; color: #065f46; }
+        .badge-draft { background: #fef3c7; color: #92400e; }
+        .badge-archived { background: #fee2e2; color: #991b1b; }
+        .dark .badge-published { background: #065f46; color: #d1fae5; }
+        .dark .badge-draft { background: #92400e; color: #fef3c7; }
+        .dark .badge-archived { background: #991b1b; color: #fee2e2; }
+        fieldset.confidential-fieldset { border: 1px solid #d1d5db; border-radius: .75rem; padding: 1rem; }
+        .dark fieldset.confidential-fieldset { border-color: #4b5563; }
+        .public-fieldset { border: 2px solid #D4AF37; border-radius: .75rem; padding: 1rem; background: rgba(212,175,55,0.06); }
+        .icon-gold { color: #D4AF37; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-6">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-4 md:p-6">
 
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-        <h2 class="text-2xl font-bold mb-6 text-center gold-gradient-text">لوحة التحكم (أنت فقط)</h2>
-        
-        <!-- نموذج إضافة/تعديل -->
-        <form id="postForm" class="space-y-4 mb-8 border-b pb-8">
-            <input type="hidden" id="editIndex" value="-1">
-            <div>
-                <label class="block font-semibold mb-1">عنوان المنشور</label>
-                <input type="text" id="postTitle" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required>
-            </div>
-            <div>
-                <label class="block font-semibold mb-1">التصنيف (مثلاً: قضايا، نصائح قانونية)</label>
-                <input type="text" id="postCategory" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required>
-            </div>
-            <div>
-                <label class="block font-semibold mb-1">رابط صورة (اختياري)</label>
-                <input type="text" id="postImage" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" placeholder="https://...">
-            </div>
-            <div>
-                <label class="block font-semibold mb-1">نص المنشور</label>
-                <textarea id="postContent" rows="5" class="w-full p-2 rounded border bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600" required></textarea>
-            </div>
-            <div class="flex gap-2">
-                <button type="submit" class="btn-submit px-6 py-2">نشر المنشور</button>
-                <button type="button" onclick="resetForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
-            </div>
-        </form>
+    <div id="admin-root" class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 md:p-8 opacity-50">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <h2 class="text-2xl font-bold gold-gradient-text">لوحة تحكم مؤسسة الخبراء العرب</h2>
+            <div id="admin-header-actions"></div>
+        </div>
 
-        <!-- عرض المنشورات الحالية مع أزرار التعديل والحذف -->
-        <h3 class="text-xl font-bold mb-4">المنشورات الحالية</h3>
-        <div id="admin-posts-list" class="space-y-4"></div>
+        <p id="admin-status" role="status" aria-live="polite" class="mb-5 rounded-lg p-3 text-sm hidden"></p>
+
+        <nav id="admin-tabs" role="tablist" aria-label="أقسام لوحة التحكم" class="flex flex-wrap gap-2 mb-6 border-b border-gray-200 dark:border-gray-700 pb-4">
+            <button type="button" class="admin-tab" data-panel="panel-dashboard" role="tab" aria-selected="true">لوحة المعلومات</button>
+            <button type="button" class="admin-tab" data-panel="panel-posts" role="tab" aria-selected="false">المقالات</button>
+            <button type="button" class="admin-tab" data-panel="panel-cases" role="tab" aria-selected="false">القضايا</button>
+            <button type="button" class="admin-tab" data-panel="panel-lawyers" role="tab" aria-selected="false">المحامون</button>
+            <button type="button" class="admin-tab" data-panel="panel-services" role="tab" aria-selected="false">الخدمات</button>
+            <button type="button" class="admin-tab" data-panel="panel-practice-areas" role="tab" aria-selected="false">مجالات الممارسة</button>
+            <button type="button" class="admin-tab" data-panel="panel-contact" role="tab" aria-selected="false">طلبات التواصل</button>
+        </nav>
+
+        <!-- ===================== DASHBOARD ===================== -->
+        <section id="panel-dashboard" class="admin-panel active" role="tabpanel">
+            <div id="dashboard-loading" class="text-sm text-gray-500">جاري تحميل الإحصائيات...</div>
+            <div id="dashboard-stats" class="grid grid-cols-2 md:grid-cols-3 gap-4 hidden"></div>
+        </section>
+
+        <!-- ===================== POSTS ===================== -->
+        <section id="panel-posts" class="admin-panel" role="tabpanel">
+            <form id="postForm" class="space-y-4 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+                <input type="hidden" id="postId" value="">
+                <div>
+                    <label class="field-label" for="postTitle">عنوان المقال</label>
+                    <input type="text" id="postTitle" class="field-input" required>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="postCategory">التصنيف</label>
+                        <input type="text" id="postCategory" class="field-input" required placeholder="مثال: نصائح قانونية">
+                    </div>
+                    <div>
+                        <label class="field-label" for="postStatus">حالة النشر</label>
+                        <select id="postStatus" class="field-input">
+                            <option value="draft">مسودة</option>
+                            <option value="published">منشور</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="field-label" for="postImage">رابط الصورة (اختياري)</label>
+                    <input type="text" id="postImage" class="field-input" placeholder="https://...">
+                </div>
+                <div>
+                    <label class="field-label" for="postContent">نص المقال</label>
+                    <textarea id="postContent" rows="6" class="field-input" required></textarea>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="postSeoTitle">عنوان SEO (اختياري)</label>
+                        <input type="text" id="postSeoTitle" class="field-input">
+                    </div>
+                    <div>
+                        <label class="field-label" for="postSeoDescription">وصف SEO (اختياري)</label>
+                        <input type="text" id="postSeoDescription" class="field-input">
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-submit px-6 py-2">حفظ المقال</button>
+                    <button type="button" data-reset="postForm" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+                </div>
+            </form>
+            <h3 class="text-lg font-bold mb-3">المقالات الحالية</h3>
+            <div id="posts-admin-list" class="space-y-1"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
+
+        <!-- ===================== CASES ===================== -->
+        <section id="panel-cases" class="admin-panel" role="tabpanel">
+            <p class="text-sm bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 rounded-lg p-3 mb-5">
+                <i class="fas fa-shield-halved ml-1"></i>
+                البيانات الداخلية لا تُعرض للجمهور أبداً. الحقول الذهبية فقط هي التي تظهر على الموقع العام بعد نشر القضية.
+            </p>
+            <form id="caseForm" class="space-y-5 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+                <input type="hidden" id="caseId" value="">
+                <fieldset class="confidential-fieldset">
+                    <legend class="px-2 font-bold text-sm">بيانات داخلية (سرية)</legend>
+                    <div class="grid md:grid-cols-2 gap-4 mt-2">
+                        <div>
+                            <label class="field-label" for="caseInternalReference">الرقم المرجعي الداخلي</label>
+                            <input type="text" id="caseInternalReference" class="field-input" required>
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseTitle">عنوان القضية (داخلي)</label>
+                            <input type="text" id="caseTitle" class="field-input" required>
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseType">نوع القضية</label>
+                            <input type="text" id="caseType" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="casePracticeArea">مجال الممارسة</label>
+                            <select id="casePracticeArea" class="field-input"><option value="">— بدون —</option></select>
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseClientReference">مرجع العميل</label>
+                            <input type="text" id="caseClientReference" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseOpposingParty">الطرف المقابل</label>
+                            <input type="text" id="caseOpposingParty" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseCourt">المحكمة</label>
+                            <input type="text" id="caseCourt" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseJurisdiction">الاختصاص القضائي</label>
+                            <input type="text" id="caseJurisdiction" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseNumber">رقم القضية</label>
+                            <input type="text" id="caseNumber" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseAssignedLawyer">المحامي المسؤول</label>
+                            <select id="caseAssignedLawyer" class="field-input"><option value="">— بدون —</option></select>
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseFilingDate">تاريخ القيد</label>
+                            <input type="date" id="caseFilingDate" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseHearingDate">تاريخ الجلسة القادمة</label>
+                            <input type="date" id="caseHearingDate" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseStatus">حالة القضية</label>
+                            <select id="caseStatus" class="field-input">
+                                <option value="open">مفتوحة</option>
+                                <option value="in_progress">جارية</option>
+                                <option value="on_hold">معلّقة</option>
+                                <option value="closed">مغلقة</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="field-label" for="caseOutcomeDate">تاريخ الحكم</label>
+                            <input type="date" id="caseOutcomeDate" class="field-input">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="field-label" for="caseOutcome">نتيجة القضية (داخلي)</label>
+                        <textarea id="caseOutcome" rows="2" class="field-input"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label class="field-label" for="caseInternalNotes">ملاحظات داخلية</label>
+                        <textarea id="caseInternalNotes" rows="3" class="field-input"></textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset class="public-fieldset">
+                    <legend class="px-2 font-bold text-sm gold-gradient-text">بيانات عامة — تُعرض للجمهور بعد النشر فقط</legend>
+                    <div class="grid md:grid-cols-2 gap-4 mt-2">
+                        <div>
+                            <label class="field-label" for="casePublicTitle">العنوان العام</label>
+                            <input type="text" id="casePublicTitle" class="field-input">
+                        </div>
+                        <div>
+                            <label class="field-label" for="casePublicYear">السنة</label>
+                            <input type="number" id="casePublicYear" class="field-input" min="1900" max="2100">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="field-label" for="casePublicSummary">ملخص عام</label>
+                        <textarea id="casePublicSummary" rows="2" class="field-input"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label class="field-label" for="casePublicDescription">وصف عام</label>
+                        <textarea id="casePublicDescription" rows="3" class="field-input"></textarea>
+                    </div>
+                    <div class="mt-4">
+                        <label class="field-label" for="casePublicOutcome">النتيجة (صياغة عامة)</label>
+                        <textarea id="casePublicOutcome" rows="2" class="field-input"></textarea>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <label class="field-label" for="caseFeaturedImage">صورة مميزة (رابط)</label>
+                            <input type="text" id="caseFeaturedImage" class="field-input" placeholder="https://...">
+                        </div>
+                        <div>
+                            <label class="field-label" for="casePublicStatus">حالة النشر العامة</label>
+                            <select id="casePublicStatus" class="field-input">
+                                <option value="draft">مسودة (غير ظاهرة للعامة)</option>
+                                <option value="published">منشورة للعامة</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-submit px-6 py-2">حفظ القضية</button>
+                    <button type="button" data-reset="caseForm" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+                </div>
+            </form>
+            <h3 class="text-lg font-bold mb-3">القضايا الحالية</h3>
+            <div id="cases-admin-list" class="space-y-1"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
+
+        <!-- ===================== LAWYERS ===================== -->
+        <section id="panel-lawyers" class="admin-panel" role="tabpanel">
+            <form id="lawyerForm" class="space-y-4 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+                <input type="hidden" id="lawyerId" value="">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="lawyerFullName">الاسم الكامل</label>
+                        <input type="text" id="lawyerFullName" class="field-input" required>
+                    </div>
+                    <div>
+                        <label class="field-label" for="lawyerTitle">اللقب الوظيفي</label>
+                        <input type="text" id="lawyerTitle" class="field-input" placeholder="محامي، مستشار قانوني...">
+                    </div>
+                </div>
+                <div>
+                    <label class="field-label" for="lawyerBio">نبذة</label>
+                    <textarea id="lawyerBio" rows="3" class="field-input"></textarea>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="field-label" for="lawyerPhoto">رابط الصورة الشخصية</label>
+                        <input type="text" id="lawyerPhoto" class="field-input" placeholder="https://...">
+                    </div>
+                    <div>
+                        <label class="field-label" for="lawyerEmail">البريد الإلكتروني</label>
+                        <input type="email" id="lawyerEmail" class="field-input">
+                    </div>
+                    <div>
+                        <label class="field-label" for="lawyerPhone">الهاتف</label>
+                        <input type="text" id="lawyerPhone" class="field-input">
+                    </div>
+                </div>
+                <label class="flex items-center gap-2 text-sm font-semibold">
+                    <input type="checkbox" id="lawyerIsPublic" class="w-4 h-4"> إظهار على الموقع العام
+                </label>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-submit px-6 py-2">حفظ بيانات المحامي</button>
+                    <button type="button" data-reset="lawyerForm" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+                </div>
+            </form>
+            <h3 class="text-lg font-bold mb-3">المحامون المسجلون</h3>
+            <div id="lawyers-admin-list" class="space-y-1"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
+
+        <!-- ===================== SERVICES ===================== -->
+        <section id="panel-services" class="admin-panel" role="tabpanel">
+            <form id="serviceForm" class="space-y-4 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+                <input type="hidden" id="serviceId" value="">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="serviceName">اسم الخدمة</label>
+                        <input type="text" id="serviceName" class="field-input" required>
+                    </div>
+                    <div>
+                        <label class="field-label" for="servicePracticeArea">مجال الممارسة</label>
+                        <select id="servicePracticeArea" class="field-input"><option value="">— بدون —</option></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="field-label" for="serviceDescription">الوصف</label>
+                    <textarea id="serviceDescription" rows="3" class="field-input"></textarea>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="serviceOrder">ترتيب العرض</label>
+                        <input type="number" id="serviceOrder" class="field-input" value="0">
+                    </div>
+                    <div>
+                        <label class="field-label" for="serviceStatus">حالة النشر</label>
+                        <select id="serviceStatus" class="field-input">
+                            <option value="draft">مسودة</option>
+                            <option value="published">منشورة</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-submit px-6 py-2">حفظ الخدمة</button>
+                    <button type="button" data-reset="serviceForm" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+                </div>
+            </form>
+            <h3 class="text-lg font-bold mb-3">الخدمات الحالية</h3>
+            <div id="services-admin-list" class="space-y-1"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
+
+        <!-- ===================== PRACTICE AREAS ===================== -->
+        <section id="panel-practice-areas" class="admin-panel" role="tabpanel">
+            <form id="practiceAreaForm" class="space-y-4 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
+                <input type="hidden" id="practiceAreaId" value="">
+                <div>
+                    <label class="field-label" for="practiceAreaName">الاسم</label>
+                    <input type="text" id="practiceAreaName" class="field-input" required>
+                </div>
+                <div>
+                    <label class="field-label" for="practiceAreaDescription">الوصف</label>
+                    <textarea id="practiceAreaDescription" rows="3" class="field-input"></textarea>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="field-label" for="practiceAreaOrder">ترتيب العرض</label>
+                        <input type="number" id="practiceAreaOrder" class="field-input" value="0">
+                    </div>
+                    <label class="flex items-center gap-2 text-sm font-semibold mt-6">
+                        <input type="checkbox" id="practiceAreaActive" class="w-4 h-4" checked> نشط (ظاهر للعامة)
+                    </label>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-submit px-6 py-2">حفظ مجال الممارسة</button>
+                    <button type="button" data-reset="practiceAreaForm" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">إلغاء</button>
+                </div>
+            </form>
+            <h3 class="text-lg font-bold mb-3">مجالات الممارسة الحالية</h3>
+            <div id="practice-areas-admin-list" class="space-y-1"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
+
+        <!-- ===================== CONTACT REQUESTS ===================== -->
+        <section id="panel-contact" class="admin-panel" role="tabpanel">
+            <div class="flex flex-wrap gap-2 mb-4" id="contact-filter" role="tablist" aria-label="تصفية طلبات التواصل">
+                <button type="button" class="admin-tab" data-status="" aria-selected="true">الكل</button>
+                <button type="button" class="admin-tab" data-status="new" aria-selected="false">جديد</button>
+                <button type="button" class="admin-tab" data-status="in_progress" aria-selected="false">قيد المتابعة</button>
+                <button type="button" class="admin-tab" data-status="resolved" aria-selected="false">تم الحل</button>
+                <button type="button" class="admin-tab" data-status="archived" aria-selected="false">مؤرشف</button>
+            </div>
+            <div id="contact-admin-list" class="space-y-3"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
+        </section>
     </div>
 
-    <script>
-        // دالة لعرض المنشورات في لوحة التحكم
-        function renderAdminPosts() {
-            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
-            const container = document.getElementById('admin-posts-list');
-            container.innerHTML = '';
-            
-            // عرض من الأحدث للأقدم
-            posts.slice().reverse().forEach((post, index) => {
-                const realIndex = posts.length - 1 - index; 
-                const div = document.createElement('div');
-                div.className = "border-b pb-3 flex justify-between items-start";
-                div.innerHTML = `
-                    <div>
-                        <h4 class="font-bold">${post.title}</h4>
-                        <p class="text-sm text-gray-500 truncate max-xs">${post.content.substring(0, 50)}...</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="editPost(${realIndex})" class="text-blue-500 hover:text-blue-700"><i class="fas fa-edit"></i></button>
-                        <button onclick="deletePost(${realIndex})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        // إضافة أو تعديل منشور
-        document.getElementById('postForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const title = document.getElementById('postTitle').value;
-            const category = document.getElementById('postCategory').value;
-            const image = document.getElementById('postImage').value;
-            const content = document.getElementById('postContent').value;
-            const editIndex = document.getElementById('editIndex').value;
-
-            let posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
-            const today = new Date().toLocaleDateString('ar-EG');
-            
-            if (editIndex === '-1') {
-                // إضافة جديد
-                posts.push({ date: today, title, category, image, content });
-            } else {
-                // تعديل موجود
-                posts[editIndex] = { ...posts[editIndex], date: today, title, category, image, content };
-            }
-
-            // حفظ البيانات في المتصفح
-            localStorage.setItem('legalBlogPosts', JSON.stringify(posts));
-            
-            resetForm();
-            renderAdminPosts();
-            alert('تم حفظ المنشور بنجاح!');
-        });
-
-        // حذف منشور
-        function deletePost(index) {
-            if(!confirm('هل أنت متأكد من حذف هذا المنشور؟')) return;
-            let posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
-            posts.splice(index, 1);
-            localStorage.setItem('legalBlogPosts', JSON.stringify(posts));
-            renderAdminPosts();
-            alert('تم الحذف!');
-        }
-
-        // جلب بيانات التعديل للنموذج
-        function editPost(index) {
-            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
-            const post = posts[index];
-            document.getElementById('postTitle').value = post.title;
-            document.getElementById('postCategory').value = post.category;
-            document.getElementById('postImage').value = post.image;
-            document.getElementById('postContent').value = post.content;
-            document.getElementById('editIndex').value = index;
-        }
-
-        function resetForm() {
-            document.getElementById('postForm').reset();
-            document.getElementById('editIndex').value = '-1';
-        }
-
-        // التحميل الأولي
-        renderAdminPosts();
-    </script>
+    <script src="config.js"></script>
+    <script src="assets/js/platform.js"></script>
+    <script src="assets/js/admin.js"></script>
 </body>
 </html>

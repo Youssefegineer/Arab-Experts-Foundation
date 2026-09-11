@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قراءة المنشور - مؤسسة الخبراء العرب</title>
+    <meta id="meta-description" name="description" content="مقالات ونصائح قانونية من مؤسسة الخبراء العرب.">
+    <link id="meta-canonical" rel="canonical" href="post-detail.html">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -175,9 +177,9 @@
             <div class="flex items-center space-x-reverse space-x-2">
                 <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-16 md:h-16" width="48" height="48" loading="eager" />
                 <div class="text-right">
-                    <h1 class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">
+                    <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white tracking-wider">
                         <span data-translate="brand_name">مؤسسة الخبراء العرب</span>
-                    </h1>
+                    </p>
                     <p class="text-[10px] md:text-xs text-primary-light dark:text-primary-dark" style="color:#D4AF37;">
                         <span data-translate="brand_sub">للإستشارات القانونية وأعمال المحاماة</span>
                     </p>
@@ -189,6 +191,7 @@
                 <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_about">نبذة عني</a>
                 <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_services">خدماتنا</a>
                 <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="case-studies.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_case_studies">نتائج القضايا</a>
                 <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_certificates">الشهادات</a>
                 <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_posts">المنشورات</a>
                 <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_contact">التواصل</a>
@@ -214,6 +217,7 @@
                 <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
                 <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
                 <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
+                <a href="case-studies.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_case_studies">نتائج القضايا</a>
                 <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
                 <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_posts">المنشورات</a>
                 <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_contact">التواصل</a>
@@ -314,7 +318,7 @@
     </footer>
 
     <!-- ====== WHATSAPP FLOAT ====== -->
-    <a href="https://wa.me/201004426279" target="_blank" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
+    <a href="https://wa.me/201004426279" target="_blank" rel="noopener noreferrer" class="fixed bottom-4 md:bottom-6 left-4 md:left-6 w-12 h-12 md:w-14 md:h-14 bg-green-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 z-40 pulse-gold hover-3d" aria-label="تواصل عبر واتساب">
         <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
     </a>
 
@@ -369,8 +373,12 @@
 
         // ====== تحميل بيانات المنشور ======
         let currentPostId = null;
-        let currentPost = null;
 
+        // Post title/date/category/content/image are populated by assets/js/platform.js
+        // (bindPostDetail), which is the single source of truth for post content and
+        // fetches published posts live from Supabase. This handler only establishes
+        // currentPostId (for the local likes/comments features below) and redirects
+        // when no id is present in the URL.
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('id');
@@ -380,30 +388,8 @@
                 return;
             }
 
-            const posts = JSON.parse(localStorage.getItem('legalBlogPosts')) || [];
-            currentPostId = parseInt(postId);
-            currentPost = posts[currentPostId];
+            currentPostId = isNaN(Number(postId)) ? postId : Number(postId);
 
-            if (!currentPost) {
-                window.location.href = 'posts.html';
-                return;
-            }
-
-            document.getElementById('post-title').innerText = currentPost.title;
-            document.getElementById('post-date').innerText = currentPost.date;
-            document.getElementById('post-category').innerText = currentPost.category;
-            document.getElementById('post-content').innerHTML = currentPost.content.replace(/\n/g, '<br>');
-
-            const imgElement = document.getElementById('post-image');
-            if (currentPost.image && currentPost.image.trim() !== '') {
-                imgElement.src = currentPost.image;
-                imgElement.classList.remove('hidden');
-            } else {
-                imgElement.classList.add('hidden');
-            }
-            document.title = currentPost.title + ' - مؤسسة الخبراء العرب';
-
-            // تحميل اللايكات والتعليقات
             loadLikes();
             loadComments();
         });
@@ -461,17 +447,18 @@
             // عرض التعليقات من الأحدث للأقدم
             comments.reverse().forEach(comment => {
                 const div = document.createElement('div');
+                const escape = window.ArabExpertPlatform ? window.ArabExpertPlatform.escapeHtml : (value) => String(value || '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[character]);
                 div.className = "bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700";
                 div.innerHTML = `
                     <div class="flex items-center gap-2 mb-1">
                         <div class="w-6 h-6 rounded-full bg-primary-light/20 flex items-center justify-center text-primary-light text-xs">
                             <i class="fas fa-user"></i>
                         </div>
-                        <span class="text-xs font-bold text-gray-700 dark:text-gray-300">${comment.name || 'زائر'}</span>
+                        <span class="text-xs font-bold text-gray-700 dark:text-gray-300">${escape(comment.name || 'زائر')}</span>
                         <span class="text-xs text-gray-400">•</span>
-                        <span class="text-xs text-gray-400">${comment.date}</span>
+                        <span class="text-xs text-gray-400">${escape(comment.date)}</span>
                     </div>
-                    <p class="text-sm text-gray-700 dark:text-gray-300">${comment.text}</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">${escape(comment.text)}</p>
                 `;
                 container.appendChild(div);
             });
@@ -499,5 +486,7 @@
             loadComments();
         }
     </script>
+    <script src="config.js"></script>
+    <script src="assets/js/platform.js"></script>
 </body>
 </html>
