@@ -483,6 +483,16 @@
             Promise.resolve(opts.getFormRecord()).then(function (record) {
                 if (!record) return;
                 var editingId = opts.formEl.dataset.editingId;
+                // Editing an archived item is an active decision to bring it
+                // back into management, so saving the edit un-archives it too
+                // — otherwise archived_at silently outlives every other field
+                // change and the item stays hidden no matter what its status
+                // is set to. The dedicated Restore button still covers
+                // un-archiving on its own, with no other field touched.
+                if (editingId) {
+                    var existing = findById(editingId);
+                    if (existing && existing.archived_at) record.archived_at = null;
+                }
                 var originalLabel = submitBtn.textContent;
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'جاري الحفظ...';
@@ -866,10 +876,12 @@
     }
 
     // ===== Comment moderation =====
-    // New comments arrive as 'pending' (enforced server-side by a trigger, not
-    // just the app) and are invisible on the public site until approved here.
-    var commentsState = { statusFilter: 'pending' };
-    var commentStatusLabels = { pending: 'قيد المراجعة', approved: 'مقبول', rejected: 'مرفوض' };
+    // New comments arrive as 'approved' (enforced server-side by a trigger)
+    // and are visible on the public site immediately — this tab is for
+    // after-the-fact moderation: hide (reject) or permanently delete a
+    // comment once it's already live.
+    var commentsState = { statusFilter: '' };
+    var commentStatusLabels = { pending: 'قيد المراجعة', approved: 'ظاهر', rejected: 'مخفي' };
 
     function loadCommentModeration() {
         var listEl = document.getElementById('comments-admin-list');
@@ -899,8 +911,8 @@
                 '</div>' +
                 '<p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-2">' + escapeHtml(item.content) + '</p>' +
                 '<div class="flex gap-3">' +
-                (item.status !== 'approved' ? '<button type="button" data-approve-comment="' + item.id + '" class="text-emerald-600 hover:text-emerald-800 text-xs font-bold"><i class="fas fa-check ml-1"></i>موافقة</button>' : '') +
-                (item.status !== 'rejected' ? '<button type="button" data-reject-comment="' + item.id + '" class="text-amber-600 hover:text-amber-800 text-xs font-bold"><i class="fas fa-ban ml-1"></i>رفض</button>' : '') +
+                (item.status !== 'approved' ? '<button type="button" data-approve-comment="' + item.id + '" class="text-emerald-600 hover:text-emerald-800 text-xs font-bold"><i class="fas fa-check ml-1"></i>إظهار</button>' : '') +
+                (item.status !== 'rejected' ? '<button type="button" data-reject-comment="' + item.id + '" class="text-amber-600 hover:text-amber-800 text-xs font-bold"><i class="fas fa-ban ml-1"></i>إخفاء</button>' : '') +
                 '<button type="button" data-delete-comment="' + item.id + '" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fas fa-trash-can ml-1"></i>حذف نهائي</button>' +
                 '</div></div>';
         }).join('');
@@ -959,7 +971,7 @@
             countTable('services', 'status=eq.published&archived_at=is.null'),
             countTable('practice_areas', 'is_active=eq.true'),
             countTable('contact_requests', 'status=eq.new'),
-            countTable('post_comments', 'status=eq.pending')
+            countTable('post_comments', '')
         ]).then(function (counts) {
             var cards = [
                 { label: 'مقالات منشورة', value: counts[0], icon: 'fa-newspaper' },
@@ -970,7 +982,7 @@
                 { label: 'خدمات منشورة', value: counts[5], icon: 'fa-briefcase' },
                 { label: 'مجالات ممارسة نشطة', value: counts[6], icon: 'fa-layer-group' },
                 { label: 'طلبات تواصل جديدة', value: counts[7], icon: 'fa-envelope', highlight: counts[7] > 0 },
-                { label: 'تعليقات بانتظار المراجعة', value: counts[8], icon: 'fa-comments', highlight: counts[8] > 0 }
+                { label: 'إجمالي التعليقات', value: counts[8], icon: 'fa-comments' }
             ];
             statsEl.innerHTML = cards.map(function (card) {
                 return '<div class="p-4 rounded-xl border ' + (card.highlight ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20' : 'border-gray-200 dark:border-gray-700') + '">' +

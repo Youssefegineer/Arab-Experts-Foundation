@@ -411,13 +411,12 @@
         <section id="panel-comments" class="admin-panel" role="tabpanel">
             <p class="text-sm bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700 rounded-lg p-3 mb-5">
                 <i class="fas fa-shield-halved ml-1"></i>
-                كل تعليق جديد يبدأ كـ"قيد المراجعة" ولا يظهر على الموقع العام إلا بعد الموافقة عليه هنا.
+                كل تعليق جديد يظهر فوراً على الموقع العام لجميع الزوار. يمكنك من هنا إخفاء أو حذف أي تعليق بعد نشره.
             </p>
             <div class="flex flex-wrap gap-2 mb-4" id="comments-filter" role="tablist" aria-label="تصفية التعليقات">
-                <button type="button" class="admin-tab" data-status="pending" aria-selected="true">قيد المراجعة</button>
+                <button type="button" class="admin-tab" data-status="" aria-selected="true">الكل</button>
                 <button type="button" class="admin-tab" data-status="approved" aria-selected="false">مقبولة</button>
-                <button type="button" class="admin-tab" data-status="rejected" aria-selected="false">مرفوضة</button>
-                <button type="button" class="admin-tab" data-status="" aria-selected="false">الكل</button>
+                <button type="button" class="admin-tab" data-status="rejected" aria-selected="false">مخفية</button>
             </div>
             <div id="comments-admin-list" class="space-y-3"><p class="text-sm text-gray-500">جاري التحميل...</p></div>
         </section>

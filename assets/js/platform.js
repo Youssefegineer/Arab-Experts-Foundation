@@ -127,9 +127,10 @@
             });
     }
 
-    // New comments are always inserted as 'pending' — enforced server-side by
-    // a trigger regardless of what's sent here — so they won't appear via
-    // getPostComments() until a staff member approves them in the admin panel.
+    // New comments are inserted as 'approved' — enforced server-side by a
+    // trigger regardless of what's sent here — so they're visible to every
+    // visitor immediately. Staff can still hide or delete any comment
+    // afterwards from the admin Comments tab.
     function submitComment(record) {
         var payload = {
             post_id: record.post_id,
@@ -152,16 +153,13 @@
 
     // Moves the shared like_count via a narrow security-definer RPC (see
     // migration 20260911000004) rather than a direct UPDATE — anon never
-    // gets write access to public.posts itself. Returns the new count, or
-    // null if the call failed (caller falls back to optimistic math).
+    // gets write access to public.posts itself. Rejects on failure so the
+    // caller never shows a count that didn't actually persist server-side.
     function setPostLike(postId, liked) {
-        if (!isSupabaseConfigured() || !postId) return Promise.resolve(null);
+        if (!isSupabaseConfigured() || !postId) return Promise.reject(new Error('الإعجاب غير متاح في وضع المعاينة المحلي.'));
         return supabaseRequest('rpc/' + (liked ? 'increment_post_like' : 'decrement_post_like'), {
             method: 'POST',
             body: JSON.stringify({ target_post_id: postId })
-        }).catch(function (error) {
-            console.warn('Like update failed.', error);
-            return null;
         });
     }
 
@@ -272,10 +270,14 @@
             var willLike = index === -1;
             btn.disabled = true;
             setPostLike(postId, willLike).then(function (newCount) {
-                countEl.textContent = newCount != null ? newCount : Math.max(0, (Number(countEl.textContent) || 0) + (willLike ? 1 : -1));
+                if (newCount != null) countEl.textContent = newCount;
                 if (willLike) { ids.push(postId); } else { ids.splice(index, 1); }
                 saveLikedPostIds(ids);
                 setVisual(willLike);
+            }).catch(function (error) {
+                // Never show an incremented count the server didn't actually
+                // persist — that only looks like it "reset" on the next visit.
+                console.warn('Like update failed.', error);
             }).finally(function () { btn.disabled = false; });
         });
     }
@@ -329,8 +331,9 @@
             submitComment({ post_id: post.id, author_name: name, author_email: emailInput.value.trim(), content: content })
                 .then(function () {
                     form.reset();
-                    statusEl.textContent = 'شكراً لتعليقك! سيظهر بعد مراجعته من فريقنا.';
+                    statusEl.textContent = 'شكراً لتعليقك!';
                     statusEl.classList.remove('hidden');
+                    reload();
                 }).catch(function (error) {
                     statusEl.textContent = error.message || 'تعذر إرسال التعليق. حاول مرة أخرى.';
                     statusEl.classList.remove('hidden');

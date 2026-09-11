@@ -1,0 +1,5 @@
+/assets/js/*
+  Cache-Control: no-cache, must-revalidate
+
+/config.js
+  Cache-Control: no-cache, must-revalidate
