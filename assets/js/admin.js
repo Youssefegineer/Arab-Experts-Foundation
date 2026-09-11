@@ -2,7 +2,6 @@
     'use strict';
     var platform = window.ArabExpertPlatform;
     var config = platform && platform.config;
-    var sessionToken = sessionStorage.getItem('arabExpert.adminToken');
     var root = document.getElementById('admin-root');
     if (!root || !platform) return;
 
@@ -24,24 +23,126 @@
         status.classList.remove('hidden');
     }
 
+    // ===== Persistent session (access token + rotating refresh token) =====
+    // Stored in localStorage (not sessionStorage) so the admin stays signed in
+    // across browser restarts, same as any normal app. Supabase refresh tokens
+    // are long-lived and rotate on every use; we always persist the newest one.
+    var SESSION_KEY = 'arabExpert.adminSession';
+
+    function loadStoredSession() {
+        try {
+            var raw = localStorage.getItem(SESSION_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+    }
+
+    var storedSession = loadStoredSession();
+    var sessionToken = storedSession ? storedSession.access_token : null;
+    var refreshToken = storedSession ? storedSession.refresh_token : null;
+    var tokenExpiresAt = storedSession ? storedSession.expires_at : null;
+    var refreshTimer = null;
+    var refreshPromise = null;
+
+    function saveSession(tokenResponse) {
+        sessionToken = tokenResponse.access_token;
+        refreshToken = tokenResponse.refresh_token;
+        tokenExpiresAt = tokenResponse.expires_at || (Math.floor(Date.now() / 1000) + (tokenResponse.expires_in || 3600));
+        localStorage.setItem(SESSION_KEY, JSON.stringify({
+            access_token: sessionToken,
+            refresh_token: refreshToken,
+            expires_at: tokenExpiresAt
+        }));
+        scheduleProactiveRefresh();
+    }
+
+    function clearSession() {
+        sessionToken = null;
+        refreshToken = null;
+        tokenExpiresAt = null;
+        localStorage.removeItem(SESSION_KEY);
+        if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
+    }
+
+    // Refresh a couple of minutes before the access token actually expires so
+    // normal use never hits a 401 in the first place.
+    function scheduleProactiveRefresh() {
+        if (refreshTimer) clearTimeout(refreshTimer);
+        if (!tokenExpiresAt) return;
+        var delayMs = Math.max((tokenExpiresAt - Math.floor(Date.now() / 1000) - 120) * 1000, 5000);
+        refreshTimer = setTimeout(function () {
+            ensureRefreshed().catch(function () { /* surfaced to the user on their next action */ });
+        }, delayMs);
+    }
+
+    // A single in-flight refresh shared by every caller — boot() fires several
+    // requests in parallel, and Supabase rotates the refresh token on each use,
+    // so letting them each refresh independently would make all but the first
+    // one fail with an already-used refresh token.
+    function ensureRefreshed() {
+        if (refreshPromise) return refreshPromise;
+        if (!refreshToken) return Promise.reject(new Error('no refresh token'));
+        refreshPromise = fetch(config.url.replace(/\/$/, '') + '/auth/v1/token?grant_type=refresh_token', {
+            method: 'POST',
+            headers: { apikey: config.anonKey, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh_token: refreshToken })
+        }).then(function (response) {
+            if (!response.ok) throw new Error('refresh failed');
+            return response.json();
+        }).then(function (result) {
+            saveSession(result);
+            return sessionToken;
+        }).finally(function () { refreshPromise = null; });
+        return refreshPromise;
+    }
+
+    // Keep tabs in sync: if another tab refreshes (rotating the refresh token)
+    // or logs out, pick that up here instead of racing it with a stale token.
+    window.addEventListener('storage', function (event) {
+        if (event.key !== SESSION_KEY) return;
+        if (!event.newValue) { sessionToken = null; refreshToken = null; tokenExpiresAt = null; return; }
+        try {
+            var s = JSON.parse(event.newValue);
+            sessionToken = s.access_token; refreshToken = s.refresh_token; tokenExpiresAt = s.expires_at;
+        } catch (e) { /* ignore malformed value from another tab */ }
+    });
+
     // ===== Core REST helper (covers both rest/v1 and auth/v1) =====
-    function request(path, options) {
-        var opts = options || {};
-        var normalizedPath = path.replace(/^\/+/, '');
-        var basePath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 ? '' : 'rest/v1/';
+    // Builds fresh headers on every call instead of mutating the caller's
+    // options object, so a 401-triggered retry with a refreshed token never
+    // accidentally reuses the stale Authorization header from the first try.
+    function performFetch(normalizedPath, basePath, callerOpts, token) {
+        var opts = {};
+        for (var key in callerOpts) { if (key !== 'headers') opts[key] = callerOpts[key]; }
         opts.headers = Object.assign({
             apikey: config.anonKey,
-            Authorization: 'Bearer ' + (sessionToken || config.anonKey),
+            Authorization: 'Bearer ' + (token || config.anonKey),
             'Content-Type': 'application/json',
             Accept: 'application/json'
-        }, opts.headers || {});
-        return fetch(config.url.replace(/\/$/, '') + '/' + basePath + normalizedPath, opts).then(function (response) {
+        }, callerOpts.headers || {});
+        return fetch(config.url.replace(/\/$/, '') + '/' + basePath + normalizedPath, opts);
+    }
+
+    function authFetch(path, options) {
+        var callerOpts = options || {};
+        var normalizedPath = path.replace(/^\/+/, '');
+        var isFullPath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 || normalizedPath.indexOf('storage/v1/') === 0;
+        var basePath = isFullPath ? '' : 'rest/v1/';
+        return performFetch(normalizedPath, basePath, callerOpts, sessionToken).then(function (response) {
             if (response.status === 401 && sessionToken) {
-                sessionStorage.removeItem('arabExpert.adminToken');
-                sessionToken = null;
-                renderAuth();
-                throw new Error('انتهت جلسة الإدارة. يرجى تسجيل الدخول مرة أخرى.');
+                return ensureRefreshed().then(function (newToken) {
+                    return performFetch(normalizedPath, basePath, callerOpts, newToken);
+                }).catch(function () {
+                    clearSession();
+                    renderAuth();
+                    throw new Error('انتهت جلسة الإدارة. يرجى تسجيل الدخول مرة أخرى.');
+                });
             }
+            return response;
+        });
+    }
+
+    function request(path, options) {
+        return authFetch(path, options).then(function (response) {
             if (!response.ok) {
                 return response.text().then(function (text) {
                     var message = text;
@@ -60,13 +161,9 @@
     }
 
     function countTable(table, query) {
-        return fetch(config.url.replace(/\/$/, '') + '/rest/v1/' + table + '?select=id' + (query ? '&' + query : ''), {
+        return authFetch(table + '?select=id' + (query ? '&' + query : ''), {
             method: 'HEAD',
-            headers: {
-                apikey: config.anonKey,
-                Authorization: 'Bearer ' + (sessionToken || config.anonKey),
-                Prefer: 'count=exact'
-            }
+            headers: { Prefer: 'count=exact' }
         }).then(function (response) {
             var range = response.headers.get('content-range') || '';
             var match = range.match(/\/(\d+)$/);
@@ -82,7 +179,101 @@
         return request(table + '?id=eq.' + encodeURIComponent(id), { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify(patch) });
     }
 
+    function deleteRecord(table, id) {
+        return request(table + '?id=eq.' + encodeURIComponent(id), { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
+    }
+
     function statusBadge(text, cls) { return '<span class="badge ' + cls + '">' + escapeHtml(text) + '</span>'; }
+
+    // ===== Image uploads (Supabase Storage, "media" bucket) =====
+    // Storage RLS mirrors every other table: public read, staff-only write —
+    // see supabase/migrations/20260911000003_media_storage.sql. A successful
+    // upload just returns a public URL, which callers drop straight into the
+    // same text field the manual URL input already writes to — one field,
+    // one source of truth, whichever way it got filled in.
+    var MEDIA_BUCKET = 'media';
+    var MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+    var ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+    function uploadImage(file, folder) {
+        if (!file) return Promise.reject(new Error('لم يتم اختيار ملف.'));
+        if (ALLOWED_IMAGE_TYPES.indexOf(file.type) === -1) {
+            return Promise.reject(new Error('نوع الملف غير مدعوم. الأنواع المسموحة: JPEG, PNG, WEBP, GIF.'));
+        }
+        if (file.size > MAX_IMAGE_BYTES) {
+            return Promise.reject(new Error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجابايت.'));
+        }
+        var ext = (ALLOWED_IMAGE_TYPES.indexOf(file.type) !== -1 ? file.type.split('/')[1] : 'jpg').replace('jpeg', 'jpg');
+        var path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 10) + '.' + ext;
+        return authFetch('storage/v1/object/' + MEDIA_BUCKET + '/' + path, {
+            method: 'POST',
+            headers: { 'Content-Type': file.type, 'x-upsert': 'false' },
+            body: file
+        }).then(function (response) {
+            if (!response.ok) {
+                return response.text().then(function (text) {
+                    var message = text;
+                    try { message = JSON.parse(text).message || text; } catch (e) { /* not JSON */ }
+                    throw new Error(message || 'تعذر رفع الصورة.');
+                });
+            }
+            return config.url.replace(/\/$/, '') + '/storage/v1/object/public/' + MEDIA_BUCKET + '/' + path;
+        });
+    }
+
+    // Wires a "URL text field" + "upload from device" pair that share one
+    // value and one live preview. Used identically by posts, lawyers, and
+    // cases so the upload behavior is the same everywhere in the panel.
+    function wireImageField(opts) {
+        var urlInput = document.getElementById(opts.urlInputId);
+        var fileInput = document.getElementById(opts.fileInputId);
+        var preview = document.getElementById(opts.previewId);
+        var statusEl = document.getElementById(opts.statusId);
+        var clearBtn = document.getElementById(opts.clearButtonId);
+
+        function updatePreview() {
+            var url = urlInput.value.trim();
+            if (url) {
+                preview.src = url;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+                preview.removeAttribute('src');
+            }
+        }
+
+        urlInput.addEventListener('input', updatePreview);
+
+        fileInput.addEventListener('change', function () {
+            var file = fileInput.files && fileInput.files[0];
+            fileInput.value = '';
+            if (!file) return;
+            statusEl.textContent = 'جاري رفع الصورة...';
+            statusEl.classList.remove('hidden', 'text-red-600');
+            statusEl.classList.add('text-gray-500');
+            uploadImage(file, opts.folder).then(function (publicUrl) {
+                urlInput.value = publicUrl;
+                updatePreview();
+                statusEl.textContent = 'تم رفع الصورة بنجاح.';
+                statusEl.classList.remove('text-gray-500');
+                statusEl.classList.add('text-emerald-600');
+            }).catch(function (error) {
+                statusEl.textContent = error.message;
+                statusEl.classList.remove('text-gray-500');
+                statusEl.classList.add('text-red-600');
+            });
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                urlInput.value = '';
+                updatePreview();
+                if (statusEl) statusEl.classList.add('hidden');
+            });
+        }
+
+        return { refreshPreview: updatePreview };
+    }
 
     function populateSelect(selectEl, items, valueKey, labelKey, placeholder) {
         if (!selectEl) return;
@@ -90,6 +281,81 @@
         selectEl.innerHTML = '<option value="">' + placeholder + '</option>' +
             items.map(function (item) { return '<option value="' + item[valueKey] + '">' + escapeHtml(item[labelKey]) + '</option>'; }).join('');
         if (current) selectEl.value = current;
+    }
+
+    // ===== Row action buttons (shared markup so every entity list is consistent) =====
+    function editButtonHtml(id) {
+        return '<button type="button" data-edit-id="' + id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>';
+    }
+    function archiveButtonHtml(id) {
+        return '<button type="button" data-archive-id="' + id + '" class="text-amber-600 hover:text-amber-800" aria-label="أرشفة"><i class="fas fa-box-archive"></i></button>';
+    }
+    function restoreButtonHtml(id) {
+        return '<button type="button" data-restore-id="' + id + '" class="text-emerald-600 hover:text-emerald-800" aria-label="استعادة من الأرشيف"><i class="fas fa-rotate-left"></i></button>';
+    }
+    function deleteButtonHtml(id) {
+        return '<button type="button" data-delete-id="' + id + '" class="text-red-600 hover:text-red-800" aria-label="حذف نهائي"><i class="fas fa-trash-can"></i></button>';
+    }
+    function toggleButtonHtml(id, isActive) {
+        return '<button type="button" data-archive-id="' + id + '" class="text-amber-600 hover:text-amber-800" aria-label="تبديل التفعيل"><i class="fas fa-toggle-' + (isActive ? 'on' : 'off') + '"></i></button>';
+    }
+    // Standard action set for archived_at-based entities: edit, archive/restore, delete.
+    function standardActionsHtml(item) {
+        var archived = Boolean(item.archived_at);
+        return '<div class="flex gap-3 shrink-0">' + editButtonHtml(item.id) +
+            (archived ? restoreButtonHtml(item.id) : archiveButtonHtml(item.id)) +
+            deleteButtonHtml(item.id) + '</div>';
+    }
+
+    // ===== Styled confirmation modal (replaces native confirm() everywhere) =====
+    // Native confirm() blocks the whole browser, can't be styled to match the
+    // app, and offers no way to require typed confirmation for the riskiest
+    // actions (permanently deleting a case). This is the one dialog used for
+    // every archive / restore / delete / publish confirmation in the panel.
+    function showConfirmModal(options) {
+        return new Promise(function (resolve) {
+            var opts = options || {};
+            var overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/70 p-4';
+            var requireTextHtml = opts.requireText
+                ? '<p class="text-xs text-gray-500 dark:text-gray-400 mb-2">للتأكيد، اكتب <strong>' + escapeHtml(opts.requireText) + '</strong> في الحقل أدناه:</p>' +
+                  '<input type="text" id="confirm-modal-input" class="field-input mb-4" autocomplete="off" autocapitalize="off" spellcheck="false">'
+                : '';
+            overlay.innerHTML =
+                '<div class="w-full max-w-sm rounded-2xl bg-white dark:bg-gray-800 p-6 shadow-2xl" dir="rtl" role="alertdialog" aria-modal="true" aria-labelledby="confirm-modal-title">' +
+                '<h3 id="confirm-modal-title" class="text-lg font-bold mb-2 ' + (opts.danger ? 'text-red-600' : '') + '">' + escapeHtml(opts.title || '') + '</h3>' +
+                '<p class="text-sm text-gray-600 dark:text-gray-300 mb-4 whitespace-pre-line">' + escapeHtml(opts.message || '') + '</p>' +
+                requireTextHtml +
+                '<div class="flex gap-2 justify-end">' +
+                '<button type="button" id="confirm-modal-cancel" class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-sm font-semibold">' + escapeHtml(opts.cancelLabel || 'إلغاء') + '</button>' +
+                '<button type="button" id="confirm-modal-ok" class="px-4 py-2 rounded-lg text-sm font-bold text-white ' + (opts.danger ? 'bg-red-600 hover:bg-red-700' : 'bg-amber-600 hover:bg-amber-700') + '"' + (opts.requireText ? ' disabled' : '') + '>' + escapeHtml(opts.confirmLabel || 'تأكيد') + '</button>' +
+                '</div></div>';
+            document.body.appendChild(overlay);
+            var okBtn = document.getElementById('confirm-modal-ok');
+            var cancelBtn = document.getElementById('confirm-modal-cancel');
+            var input = document.getElementById('confirm-modal-input');
+            if (input) {
+                input.focus();
+                input.addEventListener('input', function () {
+                    okBtn.disabled = input.value.trim() !== opts.requireText;
+                });
+            } else {
+                okBtn.focus();
+            }
+            function close(result) {
+                overlay.remove();
+                document.removeEventListener('keydown', onKeydown);
+                resolve(result);
+            }
+            function onKeydown(event) {
+                if (event.key === 'Escape') close(false);
+                if (event.key === 'Enter' && document.activeElement !== input) close(!okBtn.disabled);
+            }
+            document.addEventListener('keydown', onKeydown);
+            okBtn.addEventListener('click', function () { close(true); });
+            cancelBtn.addEventListener('click', function () { close(false); });
+            overlay.addEventListener('click', function (event) { if (event.target === overlay) close(false); });
+        });
     }
 
     // ===== Generic list + create/edit/archive controller =====
@@ -125,6 +391,12 @@
             opts.listEl.querySelectorAll('[data-archive-id]').forEach(function (btn) {
                 btn.addEventListener('click', function () { archiveItem(btn.getAttribute('data-archive-id')); });
             });
+            opts.listEl.querySelectorAll('[data-restore-id]').forEach(function (btn) {
+                btn.addEventListener('click', function () { restoreItem(btn.getAttribute('data-restore-id')); });
+            });
+            opts.listEl.querySelectorAll('[data-delete-id]').forEach(function (btn) {
+                btn.addEventListener('click', function () { deleteItem(btn.getAttribute('data-delete-id')); });
+            });
         }
 
         function findById(id) {
@@ -144,33 +416,97 @@
             delete opts.formEl.dataset.editingId;
         }
 
+        // Disables every action button on one row while a request for it is
+        // in flight, so a slow connection can't turn one click into two.
+        function setRowBusy(id, busy) {
+            var selector = '[data-edit-id="' + id + '"], [data-archive-id="' + id + '"], [data-restore-id="' + id + '"], [data-delete-id="' + id + '"]';
+            opts.listEl.querySelectorAll(selector).forEach(function (btn) {
+                btn.disabled = busy;
+                btn.classList.toggle('opacity-40', busy);
+                btn.classList.toggle('pointer-events-none', busy);
+            });
+        }
+
         function archiveItem(id) {
             var record = findById(id);
-            if (!record || !confirm(opts.archiveConfirm)) return;
-            patchRecord(opts.table, record.id, opts.archivePatch(record))
-                .then(function () { setStatus('تم الحفظ بنجاح.', 'success'); load(); })
-                .catch(function (error) { setStatus('تعذر التنفيذ: ' + error.message, 'error'); });
+            if (!record) return;
+            showConfirmModal({
+                title: 'أرشفة',
+                message: opts.archiveConfirm,
+                confirmLabel: 'أرشفة'
+            }).then(function (confirmed) {
+                if (!confirmed) return;
+                setRowBusy(id, true);
+                return patchRecord(opts.table, record.id, opts.archivePatch(record))
+                    .then(function () { setStatus('تمت الأرشفة بنجاح.', 'success'); load(); })
+                    .catch(function (error) { setStatus('تعذر التنفيذ: ' + error.message, 'error'); setRowBusy(id, false); });
+            });
+        }
+
+        // Restoring only un-hides the item from the archive — it never
+        // auto-republishes it — so it's safe to run without a confirmation.
+        function restoreItem(id) {
+            var record = findById(id);
+            if (!record) return;
+            setRowBusy(id, true);
+            var patch = opts.restorePatch ? opts.restorePatch(record) : { archived_at: null };
+            patchRecord(opts.table, record.id, patch)
+                .then(function () { setStatus('تمت الاستعادة بنجاح.', 'success'); load(); })
+                .catch(function (error) { setStatus('تعذر الاستعادة: ' + error.message, 'error'); setRowBusy(id, false); });
+        }
+
+        function deleteItem(id) {
+            var record = findById(id);
+            if (!record) return;
+            showConfirmModal({
+                title: 'حذف نهائي',
+                message: opts.deleteConfirm || 'سيتم حذف هذا العنصر نهائياً ولا يمكن التراجع عن هذا الإجراء. هل أنت متأكد؟',
+                confirmLabel: 'حذف نهائي',
+                danger: true,
+                requireText: opts.deleteRequireText
+            }).then(function (confirmed) {
+                if (!confirmed) return;
+                setRowBusy(id, true);
+                return deleteRecord(opts.table, record.id)
+                    .then(function () { setStatus('تم الحذف نهائياً.', 'success'); load(); })
+                    .catch(function (error) { setStatus('تعذر الحذف: ' + error.message, 'error'); setRowBusy(id, false); });
+            });
         }
 
         opts.formEl.addEventListener('submit', function (event) {
             event.preventDefault();
-            var record = opts.getFormRecord();
-            if (!record) return;
-            var editingId = opts.formEl.dataset.editingId;
             var submitBtn = opts.formEl.querySelector('button[type="submit"]');
-            var originalLabel = submitBtn.textContent;
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'جاري الحفظ...';
-            var task = editingId ? patchRecord(opts.table, editingId, record) : postRecord(opts.table, record);
-            task.then(function () {
-                setStatus('تم الحفظ بنجاح.', 'success');
-                resetForm();
-                load();
-            }).catch(function (error) {
-                setStatus('تعذر الحفظ: ' + error.message, 'error');
-            }).finally(function () {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalLabel;
+            if (submitBtn.disabled) return;
+            // Wrapped in Promise.resolve so getFormRecord may return either a
+            // plain record (most entities) or a Promise (cases, which needs an
+            // async confirmation before publishing) with no special-casing here.
+            Promise.resolve(opts.getFormRecord()).then(function (record) {
+                if (!record) return;
+                var editingId = opts.formEl.dataset.editingId;
+                // Editing an archived item is an active decision to bring it
+                // back into management, so saving the edit un-archives it too
+                // — otherwise archived_at silently outlives every other field
+                // change and the item stays hidden no matter what its status
+                // is set to. The dedicated Restore button still covers
+                // un-archiving on its own, with no other field touched.
+                if (editingId) {
+                    var existing = findById(editingId);
+                    if (existing && existing.archived_at) record.archived_at = null;
+                }
+                var originalLabel = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'جاري الحفظ...';
+                var task = editingId ? patchRecord(opts.table, editingId, record) : postRecord(opts.table, record);
+                return task.then(function () {
+                    setStatus('تم الحفظ بنجاح.', 'success');
+                    resetForm();
+                    load();
+                }).catch(function (error) {
+                    setStatus('تعذر الحفظ: ' + error.message, 'error');
+                }).finally(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalLabel;
+                });
             });
         });
 
@@ -180,6 +516,26 @@
         return manager;
     }
 
+    // ===== Image upload wiring (one per form that has an image field) =====
+    var postImageField = wireImageField({
+        urlInputId: 'postImage', fileInputId: 'postImageFile', previewId: 'postImagePreview',
+        statusId: 'postImageStatus', clearButtonId: 'postImageClear', folder: 'posts'
+    });
+    var lawyerPhotoField = wireImageField({
+        urlInputId: 'lawyerPhoto', fileInputId: 'lawyerPhotoFile', previewId: 'lawyerPhotoPreview',
+        statusId: 'lawyerPhotoStatus', clearButtonId: 'lawyerPhotoClear', folder: 'lawyers'
+    });
+    var caseFeaturedImageField = wireImageField({
+        urlInputId: 'caseFeaturedImage', fileInputId: 'caseFeaturedImageFile', previewId: 'caseFeaturedImagePreview',
+        statusId: 'caseFeaturedImageStatus', clearButtonId: 'caseFeaturedImageClear', folder: 'cases'
+    });
+    // form.reset() clears field values but does NOT fire 'input'/'change' on
+    // them (only a 'reset' event on the form itself), so the image preview
+    // would otherwise still show the old image after a save or cancel.
+    document.getElementById('postForm').addEventListener('reset', function () { postImageField.refreshPreview(); });
+    document.getElementById('lawyerForm').addEventListener('reset', function () { lawyerPhotoField.refreshPreview(); });
+    document.getElementById('caseForm').addEventListener('reset', function () { caseFeaturedImageField.refreshPreview(); });
+
     // ===== Practice areas =====
     var practiceAreasManager = entityManager({
         table: 'practice_areas',
@@ -188,6 +544,7 @@
         formEl: document.getElementById('practiceAreaForm'),
         emptyMessage: 'لا توجد مجالات ممارسة بعد.',
         archiveConfirm: 'سيتم تغيير حالة تفعيل مجال الممارسة هذا. هل تريد المتابعة؟',
+        deleteConfirm: 'سيتم حذف مجال الممارسة هذا نهائياً. الخدمات والقضايا المرتبطة به لن تُحذف، لكن سيُفصل ارتباطها به تلقائياً. هل أنت متأكد؟',
         getFormRecord: function () {
             var name = document.getElementById('practiceAreaName').value.trim();
             if (!name) { setStatus('يرجى إدخال اسم مجال الممارسة.', 'error'); return null; }
@@ -211,10 +568,7 @@
             return '<div class="entity-row flex justify-between items-start gap-3">' +
                 '<div><h4 class="font-bold">' + escapeHtml(item.name) + '</h4>' +
                 '<p class="text-xs text-gray-500 mt-1">' + (item.is_active ? statusBadge('نشط', 'badge-published') : statusBadge('غير نشط', 'badge-archived')) + '</p></div>' +
-                '<div class="flex gap-3 shrink-0">' +
-                '<button type="button" data-edit-id="' + item.id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>' +
-                '<button type="button" data-archive-id="' + item.id + '" class="text-red-500 hover:text-red-700" aria-label="تبديل التفعيل"><i class="fas fa-toggle-' + (item.is_active ? 'on' : 'off') + '"></i></button>' +
-                '</div></div>';
+                '<div class="flex gap-3 shrink-0">' + editButtonHtml(item.id) + toggleButtonHtml(item.id, item.is_active) + deleteButtonHtml(item.id) + '</div></div>';
         },
         archivePatch: function (record) { return { is_active: !record.is_active }; }
     });
@@ -226,7 +580,8 @@
         listEl: document.getElementById('lawyers-admin-list'),
         formEl: document.getElementById('lawyerForm'),
         emptyMessage: 'لا يوجد محامون مسجلون بعد.',
-        archiveConfirm: 'سيتم أرشفة هذا المحامي وسيختفي من الموقع العام. هل تريد المتابعة؟',
+        archiveConfirm: 'سيتم أرشفة هذا المحامي وإخفاؤه من الموقع العام. يمكن استعادته لاحقاً في أي وقت. هل تريد المتابعة؟',
+        deleteConfirm: 'سيتم حذف بيانات هذا المحامي نهائياً، بما في ذلك النبذة وبيانات التواصل. هذا الإجراء لا يمكن التراجع عنه. هل أنت متأكد؟',
         getFormRecord: function () {
             var fullName = document.getElementById('lawyerFullName').value.trim();
             if (!fullName) { setStatus('يرجى إدخال الاسم الكامل.', 'error'); return null; }
@@ -245,6 +600,7 @@
             document.getElementById('lawyerTitle').value = record.title || '';
             document.getElementById('lawyerBio').value = record.bio || '';
             document.getElementById('lawyerPhoto').value = record.photo_url || '';
+            lawyerPhotoField.refreshPreview();
             document.getElementById('lawyerEmail').value = record.email || '';
             document.getElementById('lawyerPhone').value = record.phone || '';
             document.getElementById('lawyerIsPublic').checked = Boolean(record.is_public);
@@ -255,13 +611,10 @@
                 '<div><h4 class="font-bold">' + escapeHtml(item.full_name) + '</h4>' +
                 '<p class="text-xs text-gray-500 mt-1">' + escapeHtml(item.title || '') + ' ' +
                 (archived ? statusBadge('مؤرشف', 'badge-archived') : (item.is_public ? statusBadge('ظاهر للعامة', 'badge-published') : statusBadge('غير ظاهر', 'badge-draft'))) +
-                '</p></div>' +
-                '<div class="flex gap-3 shrink-0">' +
-                '<button type="button" data-edit-id="' + item.id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>' +
-                (archived ? '' : '<button type="button" data-archive-id="' + item.id + '" class="text-red-500 hover:text-red-700" aria-label="أرشفة"><i class="fas fa-box-archive"></i></button>') +
-                '</div></div>';
+                '</p></div>' + standardActionsHtml(item) + '</div>';
         },
-        archivePatch: function () { return { archived_at: nowIso() }; }
+        archivePatch: function () { return { archived_at: nowIso() }; },
+        restorePatch: function () { return { archived_at: null }; }
     });
 
     // ===== Services =====
@@ -271,7 +624,8 @@
         listEl: document.getElementById('services-admin-list'),
         formEl: document.getElementById('serviceForm'),
         emptyMessage: 'لا توجد خدمات بعد.',
-        archiveConfirm: 'سيتم أرشفة هذه الخدمة. هل تريد المتابعة؟',
+        archiveConfirm: 'سيتم أرشفة هذه الخدمة وإخفاؤها من الموقع العام. يمكن استعادتها لاحقاً في أي وقت. هل تريد المتابعة؟',
+        deleteConfirm: 'سيتم حذف هذه الخدمة نهائياً. هذا الإجراء لا يمكن التراجع عنه. هل أنت متأكد؟',
         getFormRecord: function () {
             var name = document.getElementById('serviceName').value.trim();
             if (!name) { setStatus('يرجى إدخال اسم الخدمة.', 'error'); return null; }
@@ -298,12 +652,10 @@
             return '<div class="entity-row flex justify-between items-start gap-3">' +
                 '<div><h4 class="font-bold">' + escapeHtml(item.name) + '</h4>' +
                 '<p class="text-xs text-gray-500 mt-1">' + (archived ? statusBadge('مؤرشف', 'badge-archived') : (item.status === 'published' ? statusBadge('منشورة', 'badge-published') : statusBadge('مسودة', 'badge-draft'))) + '</p></div>' +
-                '<div class="flex gap-3 shrink-0">' +
-                '<button type="button" data-edit-id="' + item.id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>' +
-                (archived ? '' : '<button type="button" data-archive-id="' + item.id + '" class="text-red-500 hover:text-red-700" aria-label="أرشفة"><i class="fas fa-box-archive"></i></button>') +
-                '</div></div>';
+                standardActionsHtml(item) + '</div>';
         },
-        archivePatch: function () { return { archived_at: nowIso(), status: 'draft' }; }
+        archivePatch: function () { return { archived_at: nowIso(), status: 'draft' }; },
+        restorePatch: function () { return { archived_at: null }; }
     });
 
     // ===== Posts =====
@@ -313,7 +665,8 @@
         listEl: document.getElementById('posts-admin-list'),
         formEl: document.getElementById('postForm'),
         emptyMessage: 'لا توجد مقالات بعد.',
-        archiveConfirm: 'سيتم أرشفة المقال بدلاً من حذفه نهائياً. هل تريد المتابعة؟',
+        archiveConfirm: 'سيتم أرشفة المقال وإخفاؤه من الموقع العام. يمكن استعادته لاحقاً في أي وقت. هل تريد المتابعة؟',
+        deleteConfirm: 'سيتم حذف هذا المقال نهائياً بكامل محتواه. هذا الإجراء لا يمكن التراجع عنه ولا يمكن استرجاع المقال بعده. هل أنت متأكد؟',
         getFormRecord: function () {
             var title = document.getElementById('postTitle').value.trim();
             var category = document.getElementById('postCategory').value.trim();
@@ -338,6 +691,7 @@
             document.getElementById('postTitle').value = record.title || '';
             document.getElementById('postCategory').value = record.category || '';
             document.getElementById('postImage').value = record.image || '';
+            postImageField.refreshPreview();
             document.getElementById('postContent').value = record.content || '';
             document.getElementById('postSeoTitle').value = record.seo_title || '';
             document.getElementById('postSeoDescription').value = record.seo_description || '';
@@ -349,13 +703,10 @@
                 '<div><h4 class="font-bold">' + escapeHtml(item.title) + '</h4>' +
                 '<p class="text-xs text-gray-500 my-1">' + escapeHtml((item.content || '').slice(0, 80)) + '...</p>' +
                 (archived ? statusBadge('مؤرشف', 'badge-archived') : (item.status === 'published' ? statusBadge('منشور', 'badge-published') : statusBadge('مسودة', 'badge-draft'))) +
-                '</div>' +
-                '<div class="flex gap-3 shrink-0">' +
-                '<button type="button" data-edit-id="' + item.id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>' +
-                (archived ? '' : '<button type="button" data-archive-id="' + item.id + '" class="text-red-500 hover:text-red-700" aria-label="أرشفة"><i class="fas fa-box-archive"></i></button>') +
-                '</div></div>';
+                '</div>' + standardActionsHtml(item) + '</div>';
         },
-        archivePatch: function () { return { archived_at: nowIso(), status: 'draft' }; }
+        archivePatch: function () { return { archived_at: nowIso(), status: 'draft' }; },
+        restorePatch: function () { return { archived_at: null }; }
     });
 
     // ===== Cases =====
@@ -365,7 +716,9 @@
         listEl: document.getElementById('cases-admin-list'),
         formEl: document.getElementById('caseForm'),
         emptyMessage: 'لا توجد قضايا مسجلة بعد.',
-        archiveConfirm: 'سيتم أرشفة هذه القضية. هل تريد المتابعة؟',
+        archiveConfirm: 'سيتم أرشفة هذه القضية وإخفاؤها من الموقع العام إن كانت منشورة. البيانات الداخلية تبقى محفوظة ويمكن استعادتها لاحقاً. هل تريد المتابعة؟',
+        deleteConfirm: 'سيتم حذف هذه القضية نهائياً بجميع بياناتها الداخلية والعامة (الملاحظات، مرجع العميل، تفاصيل الخصم، كل شيء). هذا الإجراء لا يمكن التراجع عنه إطلاقاً ولا توجد نسخة احتياطية تلقائية.',
+        deleteRequireText: 'حذف',
         getFormRecord: function () {
             var internalReference = document.getElementById('caseInternalReference').value.trim();
             var title = document.getElementById('caseTitle').value.trim();
@@ -383,41 +736,53 @@
                 return null;
             }
 
-            // Extra confirmation only when a case is actually transitioning from
-            // not-published to published — editing an already-published case (e.g.
-            // fixing internal notes) should not re-prompt every time.
-            var wasPublished = existing && existing.public_status === 'published';
-            if (publicStatus === 'published' && !wasPublished) {
-                var confirmed = confirm('سيتم نشر هذه القضية للعامة الآن. لن يظهر سوى الحقول الذهبية (العنوان العام، الملخص، الوصف، النتيجة، السنة، الصورة). هل تريد المتابعة؟');
-                if (!confirmed) { setStatus('تم إلغاء النشر. لم يتم حفظ أي تغييرات.', 'error'); return null; }
+            function buildRecord() {
+                return {
+                    internal_reference: internalReference,
+                    title: title,
+                    case_type: document.getElementById('caseType').value.trim() || null,
+                    practice_area_id: document.getElementById('casePracticeArea').value || null,
+                    client_reference: document.getElementById('caseClientReference').value.trim() || null,
+                    opposing_party: document.getElementById('caseOpposingParty').value.trim() || null,
+                    court: document.getElementById('caseCourt').value.trim() || null,
+                    jurisdiction: document.getElementById('caseJurisdiction').value.trim() || null,
+                    case_number: document.getElementById('caseNumber').value.trim() || null,
+                    filing_date: document.getElementById('caseFilingDate').value || null,
+                    hearing_date: document.getElementById('caseHearingDate').value || null,
+                    status: document.getElementById('caseStatus').value,
+                    outcome: document.getElementById('caseOutcome').value.trim() || null,
+                    outcome_date: document.getElementById('caseOutcomeDate').value || null,
+                    assigned_lawyer_id: document.getElementById('caseAssignedLawyer').value || null,
+                    internal_notes: document.getElementById('caseInternalNotes').value.trim() || null,
+                    public_title: publicTitle || null,
+                    public_summary: document.getElementById('casePublicSummary').value.trim() || null,
+                    public_description: document.getElementById('casePublicDescription').value.trim() || null,
+                    public_outcome: document.getElementById('casePublicOutcome').value.trim() || null,
+                    public_year: document.getElementById('casePublicYear').value ? Number(document.getElementById('casePublicYear').value) : null,
+                    featured_image: document.getElementById('caseFeaturedImage').value.trim() || null,
+                    public_status: publicStatus,
+                    public_slug: publicTitle ? (existing && existing.public_slug ? existing.public_slug : slugify(publicTitle)) : null
+                };
             }
 
-            return {
-                internal_reference: internalReference,
-                title: title,
-                case_type: document.getElementById('caseType').value.trim() || null,
-                practice_area_id: document.getElementById('casePracticeArea').value || null,
-                client_reference: document.getElementById('caseClientReference').value.trim() || null,
-                opposing_party: document.getElementById('caseOpposingParty').value.trim() || null,
-                court: document.getElementById('caseCourt').value.trim() || null,
-                jurisdiction: document.getElementById('caseJurisdiction').value.trim() || null,
-                case_number: document.getElementById('caseNumber').value.trim() || null,
-                filing_date: document.getElementById('caseFilingDate').value || null,
-                hearing_date: document.getElementById('caseHearingDate').value || null,
-                status: document.getElementById('caseStatus').value,
-                outcome: document.getElementById('caseOutcome').value.trim() || null,
-                outcome_date: document.getElementById('caseOutcomeDate').value || null,
-                assigned_lawyer_id: document.getElementById('caseAssignedLawyer').value || null,
-                internal_notes: document.getElementById('caseInternalNotes').value.trim() || null,
-                public_title: publicTitle || null,
-                public_summary: document.getElementById('casePublicSummary').value.trim() || null,
-                public_description: document.getElementById('casePublicDescription').value.trim() || null,
-                public_outcome: document.getElementById('casePublicOutcome').value.trim() || null,
-                public_year: document.getElementById('casePublicYear').value ? Number(document.getElementById('casePublicYear').value) : null,
-                featured_image: document.getElementById('caseFeaturedImage').value.trim() || null,
-                public_status: document.getElementById('casePublicStatus').value,
-                public_slug: publicTitle ? (existing && existing.public_slug ? existing.public_slug : slugify(publicTitle)) : null
-            };
+            // Extra confirmation only when a case is actually transitioning from
+            // not-published to published — editing an already-published case (e.g.
+            // fixing internal notes) should not re-prompt every time. Returning a
+            // Promise here (instead of the plain object every other branch
+            // returns) is fine — the submit handler awaits getFormRecord() either way.
+            var wasPublished = existing && existing.public_status === 'published';
+            if (publicStatus === 'published' && !wasPublished) {
+                return showConfirmModal({
+                    title: 'نشر القضية للعامة',
+                    message: 'سيتم نشر هذه القضية للعامة الآن. لن يظهر سوى الحقول الذهبية (العنوان العام، الملخص، الوصف، النتيجة، السنة، الصورة) — لن تظهر أي بيانات داخلية.',
+                    confirmLabel: 'نشر'
+                }).then(function (confirmed) {
+                    if (!confirmed) { setStatus('تم إلغاء النشر. لم يتم حفظ أي تغييرات.', 'error'); return null; }
+                    return buildRecord();
+                });
+            }
+
+            return buildRecord();
         },
         fillForm: function (record) {
             document.getElementById('caseInternalReference').value = record.internal_reference || '';
@@ -442,6 +807,7 @@
             document.getElementById('casePublicDescription').value = record.public_description || '';
             document.getElementById('casePublicOutcome').value = record.public_outcome || '';
             document.getElementById('caseFeaturedImage').value = record.featured_image || '';
+            caseFeaturedImageField.refreshPreview();
             document.getElementById('casePublicStatus').value = record.public_status || 'draft';
         },
         renderRow: function (item) {
@@ -449,12 +815,10 @@
             return '<div class="entity-row flex justify-between items-start gap-3">' +
                 '<div><h4 class="font-bold">' + escapeHtml(item.title) + ' <span class="text-xs text-gray-400">(' + escapeHtml(item.internal_reference) + ')</span></h4>' +
                 '<p class="text-xs text-gray-500 mt-1">' + (archived ? statusBadge('مؤرشف', 'badge-archived') : (item.public_status === 'published' ? statusBadge('منشورة للعامة', 'badge-published') : statusBadge('غير منشورة', 'badge-draft'))) + '</p></div>' +
-                '<div class="flex gap-3 shrink-0">' +
-                '<button type="button" data-edit-id="' + item.id + '" class="text-blue-500 hover:text-blue-700" aria-label="تعديل"><i class="fas fa-edit"></i></button>' +
-                (archived ? '' : '<button type="button" data-archive-id="' + item.id + '" class="text-red-500 hover:text-red-700" aria-label="أرشفة"><i class="fas fa-box-archive"></i></button>') +
-                '</div></div>';
+                standardActionsHtml(item) + '</div>';
         },
-        archivePatch: function () { return { archived_at: nowIso(), public_status: 'draft' }; }
+        archivePatch: function () { return { archived_at: nowIso(), public_status: 'draft' }; },
+        restorePatch: function () { return { archived_at: null }; }
     });
 
     // ===== Contact requests (inbox: read + status update, no create/delete) =====
@@ -511,6 +875,89 @@
         });
     }
 
+    // ===== Comment moderation =====
+    // New comments arrive as 'approved' (enforced server-side by a trigger)
+    // and are visible on the public site immediately — this tab is for
+    // after-the-fact moderation: hide (reject) or permanently delete a
+    // comment once it's already live.
+    var commentsState = { statusFilter: '' };
+    var commentStatusLabels = { pending: 'قيد المراجعة', approved: 'ظاهر', rejected: 'مخفي' };
+
+    function loadCommentModeration() {
+        var listEl = document.getElementById('comments-admin-list');
+        listEl.innerHTML = '<p class="text-sm text-gray-500">جاري التحميل...</p>';
+        // Embeds the related post's title in one request via PostgREST's
+        // foreign-key embedding (post_comments.post_id -> posts.id).
+        var query = 'select=id,author_name,author_email,content,status,created_at,posts(title)&order=created_at.desc' +
+            (commentsState.statusFilter ? '&status=eq.' + commentsState.statusFilter : '');
+        return request('post_comments?' + query).then(function (data) {
+            renderCommentModeration(data || []);
+        }).catch(function (error) {
+            listEl.innerHTML = '<p class="text-sm text-red-600">تعذر تحميل التعليقات: ' + escapeHtml(error.message) + '</p>';
+        });
+    }
+
+    function renderCommentModeration(items) {
+        var listEl = document.getElementById('comments-admin-list');
+        if (!items.length) { listEl.innerHTML = '<p class="text-sm text-gray-500 py-4">لا توجد تعليقات في هذا التصنيف.</p>'; return; }
+        listEl.innerHTML = items.map(function (item) {
+            var postTitle = item.posts && item.posts.title ? item.posts.title : 'منشور محذوف';
+            var badgeClass = item.status === 'approved' ? 'badge-published' : (item.status === 'rejected' ? 'badge-archived' : 'badge-draft');
+            return '<div class="entity-row" data-comment-id="' + item.id + '">' +
+                '<div class="flex flex-wrap justify-between items-start gap-2 mb-2">' +
+                '<div><h4 class="font-bold">' + escapeHtml(item.author_name) + '</h4>' +
+                '<p class="text-xs text-gray-500">على: ' + escapeHtml(postTitle) + (item.author_email ? ' · ' + escapeHtml(item.author_email) : '') + ' · ' + escapeHtml(new Date(item.created_at).toLocaleString('ar-EG')) + '</p></div>' +
+                statusBadge(commentStatusLabels[item.status] || item.status, badgeClass) +
+                '</div>' +
+                '<p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-2">' + escapeHtml(item.content) + '</p>' +
+                '<div class="flex gap-3">' +
+                (item.status !== 'approved' ? '<button type="button" data-approve-comment="' + item.id + '" class="text-emerald-600 hover:text-emerald-800 text-xs font-bold"><i class="fas fa-check ml-1"></i>إظهار</button>' : '') +
+                (item.status !== 'rejected' ? '<button type="button" data-reject-comment="' + item.id + '" class="text-amber-600 hover:text-amber-800 text-xs font-bold"><i class="fas fa-ban ml-1"></i>إخفاء</button>' : '') +
+                '<button type="button" data-delete-comment="' + item.id + '" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fas fa-trash-can ml-1"></i>حذف نهائي</button>' +
+                '</div></div>';
+        }).join('');
+
+        function setCommentStatus(id, status) {
+            patchRecord('post_comments', id, { status: status })
+                .then(function () { setStatus('تم تحديث حالة التعليق.', 'success'); loadCommentModeration(); })
+                .catch(function (error) { setStatus('تعذر التحديث: ' + error.message, 'error'); });
+        }
+
+        listEl.querySelectorAll('[data-approve-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () { setCommentStatus(btn.getAttribute('data-approve-comment'), 'approved'); });
+        });
+        listEl.querySelectorAll('[data-reject-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () { setCommentStatus(btn.getAttribute('data-reject-comment'), 'rejected'); });
+        });
+        listEl.querySelectorAll('[data-delete-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var id = btn.getAttribute('data-delete-comment');
+                showConfirmModal({
+                    title: 'حذف تعليق نهائياً',
+                    message: 'سيتم حذف هذا التعليق نهائياً. هذا الإجراء لا يمكن التراجع عنه.',
+                    confirmLabel: 'حذف نهائي',
+                    danger: true
+                }).then(function (confirmed) {
+                    if (!confirmed) return;
+                    deleteRecord('post_comments', id)
+                        .then(function () { setStatus('تم حذف التعليق.', 'success'); loadCommentModeration(); })
+                        .catch(function (error) { setStatus('تعذر الحذف: ' + error.message, 'error'); });
+                });
+            });
+        });
+    }
+
+    function initCommentFilters() {
+        document.querySelectorAll('#comments-filter .admin-tab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('#comments-filter .admin-tab').forEach(function (b) { b.setAttribute('aria-selected', 'false'); });
+                btn.setAttribute('aria-selected', 'true');
+                commentsState.statusFilter = btn.getAttribute('data-status');
+                loadCommentModeration();
+            });
+        });
+    }
+
     // ===== Dashboard =====
     function loadDashboard() {
         var loading = document.getElementById('dashboard-loading');
@@ -523,7 +970,8 @@
             countTable('lawyers', 'is_public=eq.true&archived_at=is.null'),
             countTable('services', 'status=eq.published&archived_at=is.null'),
             countTable('practice_areas', 'is_active=eq.true'),
-            countTable('contact_requests', 'status=eq.new')
+            countTable('contact_requests', 'status=eq.new'),
+            countTable('post_comments', '')
         ]).then(function (counts) {
             var cards = [
                 { label: 'مقالات منشورة', value: counts[0], icon: 'fa-newspaper' },
@@ -533,7 +981,8 @@
                 { label: 'محامون ظاهرون للعامة', value: counts[4], icon: 'fa-user-tie' },
                 { label: 'خدمات منشورة', value: counts[5], icon: 'fa-briefcase' },
                 { label: 'مجالات ممارسة نشطة', value: counts[6], icon: 'fa-layer-group' },
-                { label: 'طلبات تواصل جديدة', value: counts[7], icon: 'fa-envelope', highlight: counts[7] > 0 }
+                { label: 'طلبات تواصل جديدة', value: counts[7], icon: 'fa-envelope', highlight: counts[7] > 0 },
+                { label: 'إجمالي التعليقات', value: counts[8], icon: 'fa-comments' }
             ];
             statsEl.innerHTML = cards.map(function (card) {
                 return '<div class="p-4 rounded-xl border ' + (card.highlight ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20' : 'border-gray-200 dark:border-gray-700') + '">' +
@@ -571,7 +1020,16 @@
         button.className = 'rounded-lg bg-slate-700 px-4 py-2 text-sm font-bold text-white hover:bg-slate-800';
         button.textContent = 'تسجيل الخروج';
         button.addEventListener('click', function () {
-            sessionStorage.removeItem('arabExpert.adminToken');
+            var token = sessionToken;
+            clearSession();
+            if (token) {
+                // Best-effort server-side invalidation; the local session is
+                // already cleared either way, so a network failure here is fine.
+                fetch(config.url.replace(/\/$/, '') + '/auth/v1/logout', {
+                    method: 'POST',
+                    headers: { apikey: config.anonKey, Authorization: 'Bearer ' + token }
+                }).catch(function () {});
+            }
             window.location.reload();
         });
         actions.appendChild(button);
@@ -600,8 +1058,7 @@
                 method: 'POST',
                 body: JSON.stringify({ email: document.getElementById('admin-email').value, password: document.getElementById('admin-password').value })
             }).then(function (result) {
-                sessionToken = result.access_token;
-                sessionStorage.setItem('arabExpert.adminToken', sessionToken);
+                saveSession(result);
                 auth.remove();
                 root.classList.remove('opacity-50');
                 addLogoutButton();
@@ -627,22 +1084,36 @@
         postsManager.load();
         casesManager.load();
         loadContacts();
+        loadCommentModeration();
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         initTabs();
         initContactFilters();
-        if (platform.isSupabaseConfigured()) {
-            if (!sessionToken) {
-                renderAuth();
-            } else {
-                root.classList.remove('opacity-50');
-                addLogoutButton();
-                boot();
-            }
-        } else {
+        initCommentFilters();
+        if (!platform.isSupabaseConfigured()) {
             root.classList.remove('opacity-50');
             setStatus('لوحة التحكم تتطلب إعداد Supabase في config.js. لا يوجد وضع محلي لإدارة المحتوى.', 'error');
+            return;
+        }
+        if (!sessionToken) {
+            renderAuth();
+            return;
+        }
+        root.classList.remove('opacity-50');
+        addLogoutButton();
+        var now = Math.floor(Date.now() / 1000);
+        if (tokenExpiresAt && now > tokenExpiresAt - 60) {
+            // The stored access token is expired or about to be — refresh once
+            // up front instead of letting boot()'s parallel requests all hit
+            // 401 at the same time.
+            ensureRefreshed().then(boot).catch(function () {
+                clearSession();
+                renderAuth();
+            });
+        } else {
+            scheduleProactiveRefresh();
+            boot();
         }
     });
 }());
