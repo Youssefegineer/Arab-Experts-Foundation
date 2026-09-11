@@ -2,7 +2,6 @@
     'use strict';
     var platform = window.ArabExpertPlatform;
     var config = platform && platform.config;
-    var sessionToken = sessionStorage.getItem('arabExpert.adminToken');
     var root = document.getElementById('admin-root');
     if (!root || !platform) return;
 
@@ -24,24 +23,125 @@
         status.classList.remove('hidden');
     }
 
+    // ===== Persistent session (access token + rotating refresh token) =====
+    // Stored in localStorage (not sessionStorage) so the admin stays signed in
+    // across browser restarts, same as any normal app. Supabase refresh tokens
+    // are long-lived and rotate on every use; we always persist the newest one.
+    var SESSION_KEY = 'arabExpert.adminSession';
+
+    function loadStoredSession() {
+        try {
+            var raw = localStorage.getItem(SESSION_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+    }
+
+    var storedSession = loadStoredSession();
+    var sessionToken = storedSession ? storedSession.access_token : null;
+    var refreshToken = storedSession ? storedSession.refresh_token : null;
+    var tokenExpiresAt = storedSession ? storedSession.expires_at : null;
+    var refreshTimer = null;
+    var refreshPromise = null;
+
+    function saveSession(tokenResponse) {
+        sessionToken = tokenResponse.access_token;
+        refreshToken = tokenResponse.refresh_token;
+        tokenExpiresAt = tokenResponse.expires_at || (Math.floor(Date.now() / 1000) + (tokenResponse.expires_in || 3600));
+        localStorage.setItem(SESSION_KEY, JSON.stringify({
+            access_token: sessionToken,
+            refresh_token: refreshToken,
+            expires_at: tokenExpiresAt
+        }));
+        scheduleProactiveRefresh();
+    }
+
+    function clearSession() {
+        sessionToken = null;
+        refreshToken = null;
+        tokenExpiresAt = null;
+        localStorage.removeItem(SESSION_KEY);
+        if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
+    }
+
+    // Refresh a couple of minutes before the access token actually expires so
+    // normal use never hits a 401 in the first place.
+    function scheduleProactiveRefresh() {
+        if (refreshTimer) clearTimeout(refreshTimer);
+        if (!tokenExpiresAt) return;
+        var delayMs = Math.max((tokenExpiresAt - Math.floor(Date.now() / 1000) - 120) * 1000, 5000);
+        refreshTimer = setTimeout(function () {
+            ensureRefreshed().catch(function () { /* surfaced to the user on their next action */ });
+        }, delayMs);
+    }
+
+    // A single in-flight refresh shared by every caller — boot() fires several
+    // requests in parallel, and Supabase rotates the refresh token on each use,
+    // so letting them each refresh independently would make all but the first
+    // one fail with an already-used refresh token.
+    function ensureRefreshed() {
+        if (refreshPromise) return refreshPromise;
+        if (!refreshToken) return Promise.reject(new Error('no refresh token'));
+        refreshPromise = fetch(config.url.replace(/\/$/, '') + '/auth/v1/token?grant_type=refresh_token', {
+            method: 'POST',
+            headers: { apikey: config.anonKey, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh_token: refreshToken })
+        }).then(function (response) {
+            if (!response.ok) throw new Error('refresh failed');
+            return response.json();
+        }).then(function (result) {
+            saveSession(result);
+            return sessionToken;
+        }).finally(function () { refreshPromise = null; });
+        return refreshPromise;
+    }
+
+    // Keep tabs in sync: if another tab refreshes (rotating the refresh token)
+    // or logs out, pick that up here instead of racing it with a stale token.
+    window.addEventListener('storage', function (event) {
+        if (event.key !== SESSION_KEY) return;
+        if (!event.newValue) { sessionToken = null; refreshToken = null; tokenExpiresAt = null; return; }
+        try {
+            var s = JSON.parse(event.newValue);
+            sessionToken = s.access_token; refreshToken = s.refresh_token; tokenExpiresAt = s.expires_at;
+        } catch (e) { /* ignore malformed value from another tab */ }
+    });
+
     // ===== Core REST helper (covers both rest/v1 and auth/v1) =====
-    function request(path, options) {
-        var opts = options || {};
-        var normalizedPath = path.replace(/^\/+/, '');
-        var basePath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 ? '' : 'rest/v1/';
+    // Builds fresh headers on every call instead of mutating the caller's
+    // options object, so a 401-triggered retry with a refreshed token never
+    // accidentally reuses the stale Authorization header from the first try.
+    function performFetch(normalizedPath, basePath, callerOpts, token) {
+        var opts = {};
+        for (var key in callerOpts) { if (key !== 'headers') opts[key] = callerOpts[key]; }
         opts.headers = Object.assign({
             apikey: config.anonKey,
-            Authorization: 'Bearer ' + (sessionToken || config.anonKey),
+            Authorization: 'Bearer ' + (token || config.anonKey),
             'Content-Type': 'application/json',
             Accept: 'application/json'
-        }, opts.headers || {});
-        return fetch(config.url.replace(/\/$/, '') + '/' + basePath + normalizedPath, opts).then(function (response) {
+        }, callerOpts.headers || {});
+        return fetch(config.url.replace(/\/$/, '') + '/' + basePath + normalizedPath, opts);
+    }
+
+    function authFetch(path, options) {
+        var callerOpts = options || {};
+        var normalizedPath = path.replace(/^\/+/, '');
+        var basePath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 ? '' : 'rest/v1/';
+        return performFetch(normalizedPath, basePath, callerOpts, sessionToken).then(function (response) {
             if (response.status === 401 && sessionToken) {
-                sessionStorage.removeItem('arabExpert.adminToken');
-                sessionToken = null;
-                renderAuth();
-                throw new Error('انتهت جلسة الإدارة. يرجى تسجيل الدخول مرة أخرى.');
+                return ensureRefreshed().then(function (newToken) {
+                    return performFetch(normalizedPath, basePath, callerOpts, newToken);
+                }).catch(function () {
+                    clearSession();
+                    renderAuth();
+                    throw new Error('انتهت جلسة الإدارة. يرجى تسجيل الدخول مرة أخرى.');
+                });
             }
+            return response;
+        });
+    }
+
+    function request(path, options) {
+        return authFetch(path, options).then(function (response) {
             if (!response.ok) {
                 return response.text().then(function (text) {
                     var message = text;
@@ -60,13 +160,9 @@
     }
 
     function countTable(table, query) {
-        return fetch(config.url.replace(/\/$/, '') + '/rest/v1/' + table + '?select=id' + (query ? '&' + query : ''), {
+        return authFetch(table + '?select=id' + (query ? '&' + query : ''), {
             method: 'HEAD',
-            headers: {
-                apikey: config.anonKey,
-                Authorization: 'Bearer ' + (sessionToken || config.anonKey),
-                Prefer: 'count=exact'
-            }
+            headers: { Prefer: 'count=exact' }
         }).then(function (response) {
             var range = response.headers.get('content-range') || '';
             var match = range.match(/\/(\d+)$/);
@@ -571,7 +667,16 @@
         button.className = 'rounded-lg bg-slate-700 px-4 py-2 text-sm font-bold text-white hover:bg-slate-800';
         button.textContent = 'تسجيل الخروج';
         button.addEventListener('click', function () {
-            sessionStorage.removeItem('arabExpert.adminToken');
+            var token = sessionToken;
+            clearSession();
+            if (token) {
+                // Best-effort server-side invalidation; the local session is
+                // already cleared either way, so a network failure here is fine.
+                fetch(config.url.replace(/\/$/, '') + '/auth/v1/logout', {
+                    method: 'POST',
+                    headers: { apikey: config.anonKey, Authorization: 'Bearer ' + token }
+                }).catch(function () {});
+            }
             window.location.reload();
         });
         actions.appendChild(button);
@@ -600,8 +705,7 @@
                 method: 'POST',
                 body: JSON.stringify({ email: document.getElementById('admin-email').value, password: document.getElementById('admin-password').value })
             }).then(function (result) {
-                sessionToken = result.access_token;
-                sessionStorage.setItem('arabExpert.adminToken', sessionToken);
+                saveSession(result);
                 auth.remove();
                 root.classList.remove('opacity-50');
                 addLogoutButton();
@@ -632,17 +736,29 @@
     document.addEventListener('DOMContentLoaded', function () {
         initTabs();
         initContactFilters();
-        if (platform.isSupabaseConfigured()) {
-            if (!sessionToken) {
-                renderAuth();
-            } else {
-                root.classList.remove('opacity-50');
-                addLogoutButton();
-                boot();
-            }
-        } else {
+        if (!platform.isSupabaseConfigured()) {
             root.classList.remove('opacity-50');
             setStatus('لوحة التحكم تتطلب إعداد Supabase في config.js. لا يوجد وضع محلي لإدارة المحتوى.', 'error');
+            return;
+        }
+        if (!sessionToken) {
+            renderAuth();
+            return;
+        }
+        root.classList.remove('opacity-50');
+        addLogoutButton();
+        var now = Math.floor(Date.now() / 1000);
+        if (tokenExpiresAt && now > tokenExpiresAt - 60) {
+            // The stored access token is expired or about to be — refresh once
+            // up front instead of letting boot()'s parallel requests all hit
+            // 401 at the same time.
+            ensureRefreshed().then(boot).catch(function () {
+                clearSession();
+                renderAuth();
+            });
+        } else {
+            scheduleProactiveRefresh();
+            boot();
         }
     });
 }());
