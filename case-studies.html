@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنشورات والمقالات - مؤسسة الخبراء العرب</title>
-    <meta name="description" content="آخر المنشورات والمقالات القانونية للمستشار يسري رشاد عراقي.">
-    <link rel="canonical" href="posts.html">
-    <meta property="og:title" content="المنشورات والمقالات - مؤسسة الخبراء العرب">
-    <meta property="og:description" content="آخر المنشورات والمقالات القانونية للمستشار يسري رشاد عراقي.">
+    <title>نتائج القضايا - مؤسسة الخبراء العرب</title>
+    <meta name="description" content="نماذج من القضايا التي تولتها مؤسسة الخبراء العرب ونتائجها، بعد موافقة العميل على نشرها.">
+    <meta property="og:title" content="نتائج القضايا - مؤسسة الخبراء العرب">
+    <meta property="og:description" content="نماذج من القضايا التي تولتها مؤسسة الخبراء العرب ونتائجها.">
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="ar_EG">
+    <link rel="canonical" href="case-studies.html">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -18,14 +17,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: {
-                            light: '#D4AF37',
-                            dark: '#F5D27F'
-                        },
-                        secondary: {
-                            light: '#1E293B',
-                            dark: '#F1F5F9'
-                        },
+                        primary: { light: '#D4AF37', dark: '#F5D27F' },
+                        secondary: { light: '#1E293B', dark: '#F1F5F9' },
                         darkBg: '#0F172A',
                         lightBg: '#FFFFFF'
                     },
@@ -41,153 +34,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ====== الأنماط الأساسية الخاصة بموقعك ====== */
-        body {
-            font-family: 'Tajawal', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-        
-        .elegant-text {
-            font-family: 'Cormorant Garamond', serif;
-        }
-        
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .nav-link {
-            position: relative;
-            text-decoration: none;
-            padding: 0.5rem 0;
-            color: #94A3B8 !important;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            right: 0;
-            background-color: #D4AF37;
-            transition: width 0.3s ease;
-        }
-        
-        .dark .nav-link::after {
-            background-color: #F5D27F;
-        }
-        
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-        
-        .nav-link:hover {
-            color: #D4AF37 !important;
-        }
-        
-        .nav-link.active {
-            color: #D4AF37 !important;
-        }
-
-        .hero-pattern {
-            background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-                              radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%);
-        }
-
-        .scroll-animate {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1);
-        }
-
-        .scroll-animate.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
-        .delay-4 { transition-delay: 0.4s; }
-
-        .hover-3d {
-            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.4s ease;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .hover-3d:hover {
-            transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
-            box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3);
-        }
-
-        .shake {
-            transition: transform 0.3s ease;
-        }
-        .shake:hover {
-            transform: translateX(-3px) translateX(3px);
-        }
-
-        .footer-card {
-            background: transparent;
-            border-radius: 1.5rem;
-            transition: all 0.4s ease;
-            border: 1px solid transparent;
-        }
-
-        .footer-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
-        }
-
-        .dark .footer-card:hover {
-            border-color: rgba(245, 210, 127, 0.3);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
-        }
-
-        .footer-contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-contact-item i {
-            margin-top: 0.2rem;
-            min-width: 1.2rem;
-        }
-        
-        /* ====== تنسيق الكروت ====== */
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .post-card {
-            background: white;
-            border-radius: 1.5rem;
-            transition: all 0.4s ease;
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            cursor: pointer;
-        }
-        .dark .post-card {
-            background: #1E293B;
-            border-color: rgba(245, 210, 127, 0.1);
-        }
-        .post-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
-        }
+        body { font-family: 'Tajawal', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; scroll-behavior: smooth; overflow-x: hidden; }
+        .elegant-text { font-family: 'Cormorant Garamond', serif; }
+        .gold-gradient-text { background: linear-gradient(135deg, #D4AF37 0%, #F5D27F 50%, #B8860B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-link { position: relative; text-decoration: none; padding: 0.5rem 0; color: #94A3B8 !important; font-weight: 500; transition: color 0.3s ease; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; right: 0; background-color: #D4AF37; transition: width 0.3s ease; }
+        .dark .nav-link::after { background-color: #F5D27F; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .nav-link:hover { color: #D4AF37 !important; }
+        .nav-link.active { color: #D4AF37 !important; }
+        .hero-pattern { background-image: radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.08) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(245, 210, 127, 0.08) 0%, transparent 50%); }
+        .hover-3d { transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1), box-shadow 0.4s ease; transform-style: preserve-3d; will-change: transform; }
+        .hover-3d:hover { transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02); box-shadow: 0 25px 40px -12px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,175,55,0.3); }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2); }
+        .shake { transition: transform 0.3s ease; }
+        .shake:hover { transform: translateX(-3px) translateX(3px); }
+        .footer-card { background: transparent; border-radius: 1.5rem; transition: all 0.4s ease; border: 1px solid transparent; }
+        .footer-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15); }
+        .dark .footer-card:hover { border-color: rgba(245, 210, 127, 0.3); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15); }
+        .footer-contact-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .footer-contact-item i { margin-top: 0.2rem; min-width: 1.2rem; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .creative-card { background: white; border-radius: 1.5rem; border: 1px solid rgba(212, 175, 55, 0.1); }
+        .dark .creative-card { background: #1E293B; border-color: rgba(245, 210, 127, 0.1); }
     </style>
 </head>
 <body class="bg-lightBg text-secondary-light dark:bg-darkBg dark:text-secondary-dark">
@@ -206,18 +76,18 @@
                     </p>
                 </div>
             </div>
-            
+
             <div class="hidden md:flex items-center gap-6 lg:gap-8">
                 <a href="index.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_home">الرئيسية</a>
                 <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_about">نبذة عني</a>
                 <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_services">خدماتنا</a>
                 <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_cases">هيئة الدفاع</a>
-                <a href="case-studies.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_case_studies">نتائج القضايا</a>
+                <a href="case-studies.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" data-translate="nav_case_studies">نتائج القضايا</a>
                 <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_certificates">الشهادات</a>
-                <a href="posts.html" class="nav-link text-primary-light dark:text-primary-dark font-medium active" data-translate="nav_posts">المنشورات</a>
+                <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_posts">المنشورات</a>
                 <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium" data-translate="nav_contact">التواصل</a>
             </div>
-            
+
             <div class="flex items-center space-x-reverse space-x-2">
                 <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 shake" aria-label="تغيير اللغة">
                     <span class="text-sm md:text-base font-bold text-gray-900 dark:text-white" id="lang-text">EN</span>
@@ -238,51 +108,48 @@
                 <a href="about.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_about">نبذة عني</a>
                 <a href="services.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_services">خدماتنا</a>
                 <a href="cases.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_cases">هيئة الدفاع</a>
-                <a href="case-studies.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_case_studies">نتائج القضايا</a>
+                <a href="case-studies.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active" data-translate="nav_case_studies">نتائج القضايا</a>
                 <a href="certificates.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_certificates">الشهادات</a>
-                <a href="posts.html" class="nav-link text-primary-light dark:text-primary-dark font-medium py-2 text-right active" data-translate="nav_posts">المنشورات</a>
+                <a href="posts.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_posts">المنشورات</a>
                 <a href="contact.html" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark font-medium py-2 text-right" data-translate="nav_contact">التواصل</a>
             </div>
         </div>
     </nav>
 
-    <!-- ====== HERO SECTION (مطابقة لباقي الموقع) ====== -->
+    <!-- ====== HERO SECTION ====== -->
     <section class="pt-28 pb-12 hero-pattern relative overflow-hidden">
         <div class="container mx-auto px-4 md:px-6 text-center max-w-4xl mx-auto">
-            <div class="inline-block px-4 py-1.5 md:px-6 md:py-2 bg-primary-light/10 dark:bg-primary-dark/10 rounded-full mb-4 md:mb-6 scroll-animate show">
-                <span class="text-primary-light dark:text-primary-dark font-semibold text-sm md:text-base" data-translate="hero_badge">✦ المنشورات القانونية ✦</span>
+            <div class="inline-block px-4 py-1.5 md:px-6 md:py-2 bg-primary-light/10 dark:bg-primary-dark/10 rounded-full mb-4 md:mb-6">
+                <span class="text-primary-light dark:text-primary-dark font-semibold text-sm md:text-base" data-translate="cs_hero_badge">✦ نتائج قضايانا ✦</span>
             </div>
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 fade-in delay-100 scroll-animate show">
-                <span class="text-secondary-light dark:text-white block" data-translate="hero_title1">آخر المنشورات</span>
-                <span class="gold-gradient-text text-4xl md:text-6xl lg:text-7xl" data-translate="hero_title2">والمقالات</span>
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
+                <span class="text-secondary-light dark:text-white block" data-translate="cs_hero_title1">نماذج من</span>
+                <span class="gold-gradient-text text-4xl md:text-6xl lg:text-7xl" data-translate="cs_hero_title2">قضايا نجحنا في حلها</span>
             </h1>
             <div class="w-16 md:w-24 h-1 bg-gradient-to-r from-primary-light to-[#B8860B] dark:from-primary-dark dark:to-[#E6C878] mx-auto mb-4 md:mb-6"></div>
-            <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed fade-in delay-200 scroll-animate show" data-translate="hero_desc">
-                أحدث المقالات القانونية والنصائح والإرشادات من مكتب المستشار يسري رشاد عراقي
+            <p class="text-base md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed" data-translate="cs_hero_desc">
+                نعرض هنا ملخصات عامة لقضايا تولتها المؤسسة، بعد موافقة العميل صراحةً على نشرها. لا تُعرض أي بيانات خاصة بالعملاء أو تفاصيل داخلية للقضية.
             </p>
         </div>
     </section>
 
-    <!-- ====== POSTS GRID ====== -->
+    <!-- ====== CASES GRID ====== -->
     <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800">
         <div class="container mx-auto px-4 md:px-6">
-            
-            <div id="posts-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 perspective-container">
-                <!-- الكود سيقوم بإنشاء الكروت هنا تلقائياً -->
+            <div id="cases-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <div class="col-span-full text-center py-10 text-gray-500 dark:text-gray-400">
                     <i class="fas fa-spinner fa-spin text-4xl text-primary-light mb-4"></i>
-                    <p>جاري تحميل المنشورات...</p>
+                    <p>جاري تحميل القضايا...</p>
                 </div>
             </div>
-
         </div>
     </section>
 
     <!-- ====== FOOTER (مطابق لباقي الصفحات) ====== -->
     <footer class="bg-secondary-light dark:bg-gray-900 text-white pt-12 md:pt-20">
         <div class="container mx-auto px-4 md:px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 perspective-container">
-                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-1 text-center md:text-right">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+                <div class="footer-card p-3 md:p-4 rounded-lg text-center md:text-right">
                     <div class="flex items-center justify-center md:justify-start mb-4 md:mb-6">
                         <img src="image-removebg-preview.png" alt="شعار يسري رشاد" class="w-12 h-12 md:w-14 md:h-14 ml-3 md:ml-4" width="48" height="48" loading="lazy">
                         <div>
@@ -293,21 +160,21 @@
                     <p class="text-gray-300 dark:text-gray-400 text-sm md:text-base leading-relaxed" data-translate="footer_desc">مكتب محاماة متخصص يقدم حلولاً قانونية متميزة منذ أكثر من 20 عاماً.</p>
                 </div>
 
-                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-2 text-center">
+                <div class="footer-card p-3 md:p-4 rounded-lg text-center">
                     <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_links">روابط سريعة</h4>
                     <ul class="space-y-2 md:space-y-3">
                         <li><a href="index.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_home">الرئيسية</a></li>
                         <li><a href="about.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_about">نبذة عني</a></li>
                         <li><a href="services.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_services">خدماتنا</a></li>
                         <li><a href="cases.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_cases">هيئة الدفاع</a></li>
-                        <li><a href="case-studies.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_case_studies">نتائج القضايا</a></li>
+                        <li><a href="case-studies.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" data-translate="footer_case_studies">نتائج القضايا</a></li>
                         <li><a href="certificates.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_certificates">الشهادات</a></li>
-                        <li><a href="posts.html" class="text-primary-light dark:text-primary-dark text-sm md:text-base hover:opacity-80 transition-colors font-semibold" data-translate="footer_posts">المنشورات</a></li>
+                        <li><a href="posts.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_posts">المنشورات</a></li>
                         <li><a href="contact.html" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_contact">التواصل</a></li>
                     </ul>
                 </div>
 
-                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-3 text-center">
+                <div class="footer-card p-3 md:p-4 rounded-lg text-center">
                     <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_services_title">خدماتنا</h4>
                     <ul class="space-y-2 md:space-y-3">
                         <li><a href="services.html#civil" class="text-gray-300 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-sm md:text-base" data-translate="footer_service1">القضاء المدني والتجاري</a></li>
@@ -318,7 +185,7 @@
                     </ul>
                 </div>
 
-                <div class="footer-card p-3 md:p-4 rounded-lg scroll-animate delay-4 text-center md:text-right">
+                <div class="footer-card p-3 md:p-4 rounded-lg text-center md:text-right">
                     <h4 class="text-lg md:text-xl font-bold mb-4 md:mb-6" data-translate="footer_contact_title">تواصل معنا</h4>
                     <div class="space-y-3 md:space-y-4">
                         <div class="footer-contact-item">
@@ -344,55 +211,24 @@
                         <a href="https://2u.pw/n9vE1k" target="_blank" rel="noopener noreferrer" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب انستغرام">
                             <i class="fa-brands fa-instagram text-sm md:text-base"></i>
                         </a>
-                        <a href="#" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="حساب لينكد إن">
-                            <i class="fab fa-linkedin-in text-sm md:text-base"></i>
-                        </a>
-                        <a href="https://wa.me/201004426279" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="واتساب">
+                        <a href="https://wa.me/201004426279" target="_blank" rel="noopener noreferrer" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-700 hover:bg-primary-light dark:hover:bg-primary-dark rounded-full transition-all duration-300 shake" aria-label="واتساب">
                             <i class="fab fa-whatsapp text-sm md:text-base"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-10 md:mt-12 pt-6 md:pt-8 border-t-2 border-primary-light/30 dark:border-primary-dark/30 scroll-animate delay-5">
-                <div class="flex items-center justify-center gap-3 md:gap-4 mb-3 md:mb-4">
-                    <div class="h-px flex-1 bg-gradient-to-r from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
-                    <div class="text-primary-light dark:text-primary-dark text-xs md:text-sm flex items-center gap-2">
-                        <i class="fas fa-gavel"></i>
-                        <span class="elegant-text text-base md:text-lg font-bold">✦</span>
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <div class="h-px flex-1 bg-gradient-to-l from-transparent to-primary-light/50 dark:to-primary-dark/50"></div>
-                </div>
-
+            <div class="mt-10 md:mt-12 pt-6 md:pt-8 border-t-2 border-primary-light/30 dark:border-primary-dark/30">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
                     <p class="text-gray-400 dark:text-gray-500 text-xs md:text-sm text-center md:text-right leading-relaxed">
                         <span class="text-primary-light dark:text-primary-dark font-bold" data-translate="footer_copyright">© 2026</span>
                         <span class="text-gray-300 dark:text-gray-400" data-translate="footer_rights">جميع الحقوق محفوظة لـ</span>
                         <span class="text-white dark:text-white font-bold" data-translate="footer_firm_name">مؤسسة الخبراء العرب للمحاماة</span>
-                        <span class="text-gray-500 dark:text-gray-600 mx-1 md:mx-2">|</span>
-                        <span class="text-gray-400 dark:text-gray-500" data-translate="footer_location">مصر - القاهرة</span>
                     </p>
-                    <div class="flex items-center space-x-reverse space-x-4 md:space-x-6">
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_privacy">
-                            <i class="fas fa-shield-alt text-[10px] md:text-xs"></i>
-                            <span>سياسة الخصوصية</span>
-                        </a>
-                        <span class="text-gray-600 dark:text-gray-700">|</span>
-                        <a href="#" class="text-gray-400 dark:text-gray-500 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300 text-xs md:text-sm flex items-center gap-1" data-translate="footer_terms">
-                            <i class="fas fa-file-contract text-[10px] md:text-xs"></i>
-                            <span>شروط الإستخدام</span>
-                        </a>
-                    </div>
                 </div>
-
                 <div class="text-center mt-2 md:mt-3">
                     <p class="text-gray-500 dark:text-gray-600 text-[10px] md:text-xs font-light" data-translate="footer_credit">
                         تصميم وتطوير <span class="text-primary-light dark:text-primary-dark">فريق التسويق الإلكتروني</span>
-                        <span class="mx-1 md:mx-2 text-gray-600 dark:text-gray-700">•</span>
-                        <i class="fas fa-code text-primary-light/50 dark:text-primary-dark/50"></i>
-                        <span class="mx-0.5 md:mx-1 text-gray-500 dark:text-gray-600">بكل</span>
-                        <i class="fas fa-heart text-red-400/70 dark:text-red-500/70"></i>
                     </p>
                 </div>
             </div>
@@ -404,9 +240,7 @@
         <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
     </a>
 
-    <!-- ====== JAVASCRIPT (تم تحديثه ليعمل مع صفحة التفاصيل) ====== -->
     <script>
-        // ====== Mobile Menu ======
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (mobileMenuBtn) {
@@ -415,8 +249,6 @@
                 mobileMenuBtn.setAttribute('aria-expanded', !expanded);
             });
         }
-
-        // ====== Theme Toggle ======
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle?.querySelector('i');
         if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -438,11 +270,11 @@
                 }
             });
         }
-
-        // Posts are rendered by assets/js/platform.js (bindPublicContent), which targets
-        // #posts-container directly. No separate loader is needed here.
+        // Cases are rendered by assets/js/platform.js (bindCaseStudies), which reads
+        // only from the cases_public view (never the confidential cases table) and
+        // targets #cases-container directly.
     </script>
     <script src="config.js"></script>
     <script src="assets/js/platform.js"></script>
 </body>
-</html> 
+</html>

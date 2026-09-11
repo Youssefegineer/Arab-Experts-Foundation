@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Replace REPLACE_WITH_YOUR_DOMAIN below with the real production domain before
+  deploying (e.g. https://arabexpertlaw.com). Sitemap URLs must be absolute, so
+  this file intentionally will not validate until that placeholder is replaced.
+  Dynamic pages (post-detail.html, case-study.html) are content-driven and are
+  not listed here; they are reachable via internal links from posts.html and
+  case-studies.html, which search engines follow.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/index.html</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/services.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/cases.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/case-studies.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/certificates.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/posts.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://REPLACE_WITH_YOUR_DOMAIN/contact.html</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+</urlset>
