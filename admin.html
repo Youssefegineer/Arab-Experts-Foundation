@@ -28,6 +28,12 @@
         .admin-panel { display: none; }
         .admin-panel.active { display: block; }
         .field-label { display: block; font-weight: 600; margin-bottom: .25rem; font-size: .875rem; }
+        .upload-trigger { display: inline-flex; align-items: center; gap: .4rem; font-size: .75rem; font-weight: 700; color: #B8860B; cursor: pointer; }
+        .dark .upload-trigger { color: #F5D27F; }
+        .upload-trigger:hover { opacity: .8; }
+        .upload-trigger:focus-within { outline: 2px solid #D4AF37; outline-offset: 3px; border-radius: 4px; }
+        .image-preview { margin-top: .5rem; height: 6rem; border-radius: .5rem; border: 1px solid #e5e7eb; object-fit: cover; }
+        .dark .image-preview { border-color: #374151; }
         .field-input { width: 100%; padding: .5rem .75rem; border-radius: .5rem; border: 1px solid #d1d5db; background: #f9fafb; }
         .dark .field-input { background: #374151; border-color: #4b5563; color: #e5e7eb; }
         .entity-row { border-bottom: 1px solid #e5e7eb; padding: .75rem 0; }
@@ -93,8 +99,16 @@
                     </div>
                 </div>
                 <div>
-                    <label class="field-label" for="postImage">رابط الصورة (اختياري)</label>
+                    <label class="field-label" for="postImage">صورة المقال (رابط أو رفع من الجهاز، اختياري)</label>
                     <input type="text" id="postImage" class="field-input" placeholder="https://...">
+                    <div class="flex items-center gap-3 mt-2">
+                        <label class="upload-trigger" for="postImageFile"><i class="fas fa-upload"></i><span>رفع صورة من الجهاز</span>
+                            <input type="file" id="postImageFile" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only">
+                        </label>
+                        <button type="button" id="postImageClear" class="text-xs text-gray-400 hover:text-red-500">إزالة الصورة</button>
+                    </div>
+                    <p id="postImageStatus" class="text-xs mt-1 hidden" role="status"></p>
+                    <img id="postImagePreview" src="" alt="معاينة صورة المقال" class="image-preview hidden">
                 </div>
                 <div>
                     <label class="field-label" for="postContent">نص المقال</label>
@@ -228,8 +242,16 @@
                     </div>
                     <div class="grid md:grid-cols-2 gap-4 mt-4">
                         <div>
-                            <label class="field-label" for="caseFeaturedImage">صورة مميزة (رابط)</label>
+                            <label class="field-label" for="caseFeaturedImage">صورة مميزة (رابط أو رفع من الجهاز)</label>
                             <input type="text" id="caseFeaturedImage" class="field-input" placeholder="https://...">
+                            <div class="flex items-center gap-3 mt-2">
+                                <label class="upload-trigger" for="caseFeaturedImageFile"><i class="fas fa-upload"></i><span>رفع صورة من الجهاز</span>
+                                    <input type="file" id="caseFeaturedImageFile" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only">
+                                </label>
+                                <button type="button" id="caseFeaturedImageClear" class="text-xs text-gray-400 hover:text-red-500">إزالة الصورة</button>
+                            </div>
+                            <p id="caseFeaturedImageStatus" class="text-xs mt-1 hidden" role="status"></p>
+                            <img id="caseFeaturedImagePreview" src="" alt="معاينة الصورة المميزة" class="image-preview hidden">
                         </div>
                         <div>
                             <label class="field-label" for="casePublicStatus">حالة النشر العامة</label>
@@ -270,8 +292,16 @@
                 </div>
                 <div class="grid md:grid-cols-3 gap-4">
                     <div>
-                        <label class="field-label" for="lawyerPhoto">رابط الصورة الشخصية</label>
+                        <label class="field-label" for="lawyerPhoto">الصورة الشخصية (رابط أو رفع من الجهاز)</label>
                         <input type="text" id="lawyerPhoto" class="field-input" placeholder="https://...">
+                        <div class="flex items-center gap-3 mt-2">
+                            <label class="upload-trigger" for="lawyerPhotoFile"><i class="fas fa-upload"></i><span>رفع صورة من الجهاز</span>
+                                <input type="file" id="lawyerPhotoFile" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only">
+                            </label>
+                            <button type="button" id="lawyerPhotoClear" class="text-xs text-gray-400 hover:text-red-500">إزالة الصورة</button>
+                        </div>
+                        <p id="lawyerPhotoStatus" class="text-xs mt-1 hidden" role="status"></p>
+                        <img id="lawyerPhotoPreview" src="" alt="معاينة الصورة الشخصية" class="image-preview hidden">
                     </div>
                     <div>
                         <label class="field-label" for="lawyerEmail">البريد الإلكتروني</label>

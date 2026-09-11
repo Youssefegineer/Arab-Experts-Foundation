@@ -125,7 +125,8 @@
     function authFetch(path, options) {
         var callerOpts = options || {};
         var normalizedPath = path.replace(/^\/+/, '');
-        var basePath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 ? '' : 'rest/v1/';
+        var isFullPath = normalizedPath.indexOf('rest/v1/') === 0 || normalizedPath.indexOf('auth/v1/') === 0 || normalizedPath.indexOf('storage/v1/') === 0;
+        var basePath = isFullPath ? '' : 'rest/v1/';
         return performFetch(normalizedPath, basePath, callerOpts, sessionToken).then(function (response) {
             if (response.status === 401 && sessionToken) {
                 return ensureRefreshed().then(function (newToken) {
@@ -183,6 +184,96 @@
     }
 
     function statusBadge(text, cls) { return '<span class="badge ' + cls + '">' + escapeHtml(text) + '</span>'; }
+
+    // ===== Image uploads (Supabase Storage, "media" bucket) =====
+    // Storage RLS mirrors every other table: public read, staff-only write —
+    // see supabase/migrations/20260911000003_media_storage.sql. A successful
+    // upload just returns a public URL, which callers drop straight into the
+    // same text field the manual URL input already writes to — one field,
+    // one source of truth, whichever way it got filled in.
+    var MEDIA_BUCKET = 'media';
+    var MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+    var ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+    function uploadImage(file, folder) {
+        if (!file) return Promise.reject(new Error('لم يتم اختيار ملف.'));
+        if (ALLOWED_IMAGE_TYPES.indexOf(file.type) === -1) {
+            return Promise.reject(new Error('نوع الملف غير مدعوم. الأنواع المسموحة: JPEG, PNG, WEBP, GIF.'));
+        }
+        if (file.size > MAX_IMAGE_BYTES) {
+            return Promise.reject(new Error('حجم الصورة كبير جداً. الحد الأقصى 5 ميجابايت.'));
+        }
+        var ext = (ALLOWED_IMAGE_TYPES.indexOf(file.type) !== -1 ? file.type.split('/')[1] : 'jpg').replace('jpeg', 'jpg');
+        var path = folder + '/' + Date.now() + '-' + Math.random().toString(36).slice(2, 10) + '.' + ext;
+        return authFetch('storage/v1/object/' + MEDIA_BUCKET + '/' + path, {
+            method: 'POST',
+            headers: { 'Content-Type': file.type, 'x-upsert': 'false' },
+            body: file
+        }).then(function (response) {
+            if (!response.ok) {
+                return response.text().then(function (text) {
+                    var message = text;
+                    try { message = JSON.parse(text).message || text; } catch (e) { /* not JSON */ }
+                    throw new Error(message || 'تعذر رفع الصورة.');
+                });
+            }
+            return config.url.replace(/\/$/, '') + '/storage/v1/object/public/' + MEDIA_BUCKET + '/' + path;
+        });
+    }
+
+    // Wires a "URL text field" + "upload from device" pair that share one
+    // value and one live preview. Used identically by posts, lawyers, and
+    // cases so the upload behavior is the same everywhere in the panel.
+    function wireImageField(opts) {
+        var urlInput = document.getElementById(opts.urlInputId);
+        var fileInput = document.getElementById(opts.fileInputId);
+        var preview = document.getElementById(opts.previewId);
+        var statusEl = document.getElementById(opts.statusId);
+        var clearBtn = document.getElementById(opts.clearButtonId);
+
+        function updatePreview() {
+            var url = urlInput.value.trim();
+            if (url) {
+                preview.src = url;
+                preview.classList.remove('hidden');
+            } else {
+                preview.classList.add('hidden');
+                preview.removeAttribute('src');
+            }
+        }
+
+        urlInput.addEventListener('input', updatePreview);
+
+        fileInput.addEventListener('change', function () {
+            var file = fileInput.files && fileInput.files[0];
+            fileInput.value = '';
+            if (!file) return;
+            statusEl.textContent = 'جاري رفع الصورة...';
+            statusEl.classList.remove('hidden', 'text-red-600');
+            statusEl.classList.add('text-gray-500');
+            uploadImage(file, opts.folder).then(function (publicUrl) {
+                urlInput.value = publicUrl;
+                updatePreview();
+                statusEl.textContent = 'تم رفع الصورة بنجاح.';
+                statusEl.classList.remove('text-gray-500');
+                statusEl.classList.add('text-emerald-600');
+            }).catch(function (error) {
+                statusEl.textContent = error.message;
+                statusEl.classList.remove('text-gray-500');
+                statusEl.classList.add('text-red-600');
+            });
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                urlInput.value = '';
+                updatePreview();
+                if (statusEl) statusEl.classList.add('hidden');
+            });
+        }
+
+        return { refreshPreview: updatePreview };
+    }
 
     function populateSelect(selectEl, items, valueKey, labelKey, placeholder) {
         if (!selectEl) return;
@@ -415,6 +506,26 @@
         return manager;
     }
 
+    // ===== Image upload wiring (one per form that has an image field) =====
+    var postImageField = wireImageField({
+        urlInputId: 'postImage', fileInputId: 'postImageFile', previewId: 'postImagePreview',
+        statusId: 'postImageStatus', clearButtonId: 'postImageClear', folder: 'posts'
+    });
+    var lawyerPhotoField = wireImageField({
+        urlInputId: 'lawyerPhoto', fileInputId: 'lawyerPhotoFile', previewId: 'lawyerPhotoPreview',
+        statusId: 'lawyerPhotoStatus', clearButtonId: 'lawyerPhotoClear', folder: 'lawyers'
+    });
+    var caseFeaturedImageField = wireImageField({
+        urlInputId: 'caseFeaturedImage', fileInputId: 'caseFeaturedImageFile', previewId: 'caseFeaturedImagePreview',
+        statusId: 'caseFeaturedImageStatus', clearButtonId: 'caseFeaturedImageClear', folder: 'cases'
+    });
+    // form.reset() clears field values but does NOT fire 'input'/'change' on
+    // them (only a 'reset' event on the form itself), so the image preview
+    // would otherwise still show the old image after a save or cancel.
+    document.getElementById('postForm').addEventListener('reset', function () { postImageField.refreshPreview(); });
+    document.getElementById('lawyerForm').addEventListener('reset', function () { lawyerPhotoField.refreshPreview(); });
+    document.getElementById('caseForm').addEventListener('reset', function () { caseFeaturedImageField.refreshPreview(); });
+
     // ===== Practice areas =====
     var practiceAreasManager = entityManager({
         table: 'practice_areas',
@@ -479,6 +590,7 @@
             document.getElementById('lawyerTitle').value = record.title || '';
             document.getElementById('lawyerBio').value = record.bio || '';
             document.getElementById('lawyerPhoto').value = record.photo_url || '';
+            lawyerPhotoField.refreshPreview();
             document.getElementById('lawyerEmail').value = record.email || '';
             document.getElementById('lawyerPhone').value = record.phone || '';
             document.getElementById('lawyerIsPublic').checked = Boolean(record.is_public);
@@ -569,6 +681,7 @@
             document.getElementById('postTitle').value = record.title || '';
             document.getElementById('postCategory').value = record.category || '';
             document.getElementById('postImage').value = record.image || '';
+            postImageField.refreshPreview();
             document.getElementById('postContent').value = record.content || '';
             document.getElementById('postSeoTitle').value = record.seo_title || '';
             document.getElementById('postSeoDescription').value = record.seo_description || '';
@@ -684,6 +797,7 @@
             document.getElementById('casePublicDescription').value = record.public_description || '';
             document.getElementById('casePublicOutcome').value = record.public_outcome || '';
             document.getElementById('caseFeaturedImage').value = record.featured_image || '';
+            caseFeaturedImageField.refreshPreview();
             document.getElementById('casePublicStatus').value = record.public_status || 'draft';
         },
         renderRow: function (item) {
