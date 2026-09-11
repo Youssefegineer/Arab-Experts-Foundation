@@ -87,7 +87,7 @@
                 return post.status === 'published' && !post.archived_at;
             }));
         }
-        return supabaseRequest('posts?select=id,title,category,image,content,published_at&status=eq.published&archived_at=is.null&order=published_at.desc')
+        return supabaseRequest('posts?select=id,title,category,image,content,published_at,like_count&status=eq.published&archived_at=is.null&order=published_at.desc')
             .catch(function (error) {
                 console.warn('Published content could not be loaded from Supabase.', error);
                 return [];
@@ -114,6 +114,55 @@
                 console.warn('Published case could not be loaded from Supabase.', error);
                 return null;
             });
+    }
+
+    // Only approved comments are ever readable by anon (enforced by RLS, not
+    // just this select) — pending/rejected comments never reach this query.
+    function getPostComments(postId) {
+        if (!isSupabaseConfigured() || !postId) return Promise.resolve([]);
+        return supabaseRequest('post_comments?select=id,author_name,content,created_at&post_id=eq.' + encodeURIComponent(postId) + '&status=eq.approved&order=created_at.desc')
+            .catch(function (error) {
+                console.warn('Comments could not be loaded from Supabase.', error);
+                return [];
+            });
+    }
+
+    // New comments are always inserted as 'pending' — enforced server-side by
+    // a trigger regardless of what's sent here — so they won't appear via
+    // getPostComments() until a staff member approves them in the admin panel.
+    function submitComment(record) {
+        var payload = {
+            post_id: record.post_id,
+            author_name: String(record.author_name || '').trim(),
+            author_email: record.author_email ? String(record.author_email).trim() : null,
+            content: String(record.content || '').trim()
+        };
+        if (!payload.post_id || !payload.author_name || !payload.content) {
+            return Promise.reject(new Error('الاسم والتعليق مطلوبان.'));
+        }
+        if (!isSupabaseConfigured()) {
+            return Promise.reject(new Error('التعليقات غير متاحة في وضع المعاينة المحلي.'));
+        }
+        return supabaseRequest('post_comments', {
+            method: 'POST',
+            headers: { Prefer: 'return=minimal' },
+            body: JSON.stringify(payload)
+        });
+    }
+
+    // Moves the shared like_count via a narrow security-definer RPC (see
+    // migration 20260911000004) rather than a direct UPDATE — anon never
+    // gets write access to public.posts itself. Returns the new count, or
+    // null if the call failed (caller falls back to optimistic math).
+    function setPostLike(postId, liked) {
+        if (!isSupabaseConfigured() || !postId) return Promise.resolve(null);
+        return supabaseRequest('rpc/' + (liked ? 'increment_post_like' : 'decrement_post_like'), {
+            method: 'POST',
+            body: JSON.stringify({ target_post_id: postId })
+        }).catch(function (error) {
+            console.warn('Like update failed.', error);
+            return null;
+        });
     }
 
     // practice_areas is a fully public table (own RLS policy), safe to read directly.
@@ -184,6 +233,110 @@
             }
             document.title = post.title + ' - مؤسسة الخبراء العرب';
             updateMeta(post.title + ' - مؤسسة الخبراء العرب', post.content, 'post-detail.html?id=' + encodeURIComponent(post.id || requestedId));
+            bindLikes(post);
+            bindComments(post);
+        });
+    }
+
+    function likedPostIds() {
+        try { return JSON.parse(localStorage.getItem('arabExpert.likedPosts') || '[]'); } catch (e) { return []; }
+    }
+    function saveLikedPostIds(ids) {
+        try { localStorage.setItem('arabExpert.likedPosts', JSON.stringify(ids)); } catch (e) { /* storage unavailable */ }
+    }
+
+    // The like COUNT is server-authoritative (post.like_count, moved via the
+    // RPC functions); "has this browser already liked this post" is a purely
+    // local UI nicety with no security meaning, so it's fine to keep that one
+    // bit in localStorage — nothing about the shared count depends on it.
+    function bindLikes(post) {
+        var btn = document.getElementById('like-btn');
+        var countEl = document.getElementById('like-count');
+        var iconEl = document.getElementById('like-icon');
+        if (!btn || !countEl) return;
+        var postId = post.id;
+
+        function setVisual(isLiked) {
+            if (!iconEl) return;
+            iconEl.classList.toggle('text-red-500', isLiked);
+            iconEl.classList.toggle('text-gray-600', !isLiked);
+            iconEl.classList.toggle('dark:text-gray-400', !isLiked);
+        }
+
+        countEl.textContent = post.like_count || 0;
+        setVisual(likedPostIds().indexOf(postId) !== -1);
+
+        btn.addEventListener('click', function () {
+            var ids = likedPostIds();
+            var index = ids.indexOf(postId);
+            var willLike = index === -1;
+            btn.disabled = true;
+            setPostLike(postId, willLike).then(function (newCount) {
+                countEl.textContent = newCount != null ? newCount : Math.max(0, (Number(countEl.textContent) || 0) + (willLike ? 1 : -1));
+                if (willLike) { ids.push(postId); } else { ids.splice(index, 1); }
+                saveLikedPostIds(ids);
+                setVisual(willLike);
+            }).finally(function () { btn.disabled = false; });
+        });
+    }
+
+    function commentItemHtml(comment) {
+        var date = comment.created_at ? new Date(comment.created_at).toLocaleDateString('ar-EG') : '';
+        return '<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">' +
+            '<div class="flex items-center gap-2 mb-1">' +
+            '<div class="w-6 h-6 rounded-full bg-primary-light/20 flex items-center justify-center text-primary-light text-xs"><i class="fas fa-user"></i></div>' +
+            '<span class="text-xs font-bold text-gray-700 dark:text-gray-300">' + escapeHtml(comment.author_name) + '</span>' +
+            '<span class="text-xs text-gray-400">•</span>' +
+            '<span class="text-xs text-gray-400">' + escapeHtml(date) + '</span>' +
+            '</div>' +
+            '<p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">' + escapeHtml(comment.content) + '</p></div>';
+    }
+
+    function renderComments(container, comments) {
+        container.innerHTML = comments.length ? comments.map(commentItemHtml).join('') :
+            '<p class="text-center text-gray-500 dark:text-gray-400 text-sm py-4">لا توجد تعليقات بعد. كن أول من يعلق!</p>';
+    }
+
+    function bindComments(post) {
+        var list = document.getElementById('comments-list');
+        var form = document.getElementById('comment-form');
+        if (!list) return;
+
+        function reload() {
+            list.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 text-sm py-4">جاري التحميل...</p>';
+            getPostComments(post.id).then(function (comments) { renderComments(list, comments); });
+        }
+        reload();
+
+        if (!form || form.dataset.bound) return;
+        form.dataset.bound = 'true';
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            var nameInput = document.getElementById('comment-name');
+            var emailInput = document.getElementById('comment-email');
+            var textInput = document.getElementById('comment-input');
+            var statusEl = document.getElementById('comment-status');
+            var submitBtn = document.getElementById('comment-submit');
+            var name = nameInput.value.trim();
+            var content = textInput.value.trim();
+            if (!name || !content) {
+                statusEl.textContent = 'يرجى إدخال الاسم ونص التعليق.';
+                statusEl.classList.remove('hidden');
+                return;
+            }
+            submitBtn.disabled = true;
+            statusEl.classList.add('hidden');
+            submitComment({ post_id: post.id, author_name: name, author_email: emailInput.value.trim(), content: content })
+                .then(function () {
+                    form.reset();
+                    statusEl.textContent = 'شكراً لتعليقك! سيظهر بعد مراجعته من فريقنا.';
+                    statusEl.classList.remove('hidden');
+                }).catch(function (error) {
+                    statusEl.textContent = error.message || 'تعذر إرسال التعليق. حاول مرة أخرى.';
+                    statusEl.classList.remove('hidden');
+                }).finally(function () {
+                    submitBtn.disabled = false;
+                });
         });
     }
 
@@ -320,6 +473,9 @@
         getPublishedCases: getPublishedCases,
         getPublishedCaseBySlug: getPublishedCaseBySlug,
         getActivePracticeAreas: getActivePracticeAreas,
+        getPostComments: getPostComments,
+        submitComment: submitComment,
+        setPostLike: setPostLike,
         submitContactRequest: submitContactRequest,
         readLocal: readLocal,
         writeLocal: writeLocal,

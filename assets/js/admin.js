@@ -865,6 +865,87 @@
         });
     }
 
+    // ===== Comment moderation =====
+    // New comments arrive as 'pending' (enforced server-side by a trigger, not
+    // just the app) and are invisible on the public site until approved here.
+    var commentsState = { statusFilter: 'pending' };
+    var commentStatusLabels = { pending: 'قيد المراجعة', approved: 'مقبول', rejected: 'مرفوض' };
+
+    function loadCommentModeration() {
+        var listEl = document.getElementById('comments-admin-list');
+        listEl.innerHTML = '<p class="text-sm text-gray-500">جاري التحميل...</p>';
+        // Embeds the related post's title in one request via PostgREST's
+        // foreign-key embedding (post_comments.post_id -> posts.id).
+        var query = 'select=id,author_name,author_email,content,status,created_at,posts(title)&order=created_at.desc' +
+            (commentsState.statusFilter ? '&status=eq.' + commentsState.statusFilter : '');
+        return request('post_comments?' + query).then(function (data) {
+            renderCommentModeration(data || []);
+        }).catch(function (error) {
+            listEl.innerHTML = '<p class="text-sm text-red-600">تعذر تحميل التعليقات: ' + escapeHtml(error.message) + '</p>';
+        });
+    }
+
+    function renderCommentModeration(items) {
+        var listEl = document.getElementById('comments-admin-list');
+        if (!items.length) { listEl.innerHTML = '<p class="text-sm text-gray-500 py-4">لا توجد تعليقات في هذا التصنيف.</p>'; return; }
+        listEl.innerHTML = items.map(function (item) {
+            var postTitle = item.posts && item.posts.title ? item.posts.title : 'منشور محذوف';
+            var badgeClass = item.status === 'approved' ? 'badge-published' : (item.status === 'rejected' ? 'badge-archived' : 'badge-draft');
+            return '<div class="entity-row" data-comment-id="' + item.id + '">' +
+                '<div class="flex flex-wrap justify-between items-start gap-2 mb-2">' +
+                '<div><h4 class="font-bold">' + escapeHtml(item.author_name) + '</h4>' +
+                '<p class="text-xs text-gray-500">على: ' + escapeHtml(postTitle) + (item.author_email ? ' · ' + escapeHtml(item.author_email) : '') + ' · ' + escapeHtml(new Date(item.created_at).toLocaleString('ar-EG')) + '</p></div>' +
+                statusBadge(commentStatusLabels[item.status] || item.status, badgeClass) +
+                '</div>' +
+                '<p class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-2">' + escapeHtml(item.content) + '</p>' +
+                '<div class="flex gap-3">' +
+                (item.status !== 'approved' ? '<button type="button" data-approve-comment="' + item.id + '" class="text-emerald-600 hover:text-emerald-800 text-xs font-bold"><i class="fas fa-check ml-1"></i>موافقة</button>' : '') +
+                (item.status !== 'rejected' ? '<button type="button" data-reject-comment="' + item.id + '" class="text-amber-600 hover:text-amber-800 text-xs font-bold"><i class="fas fa-ban ml-1"></i>رفض</button>' : '') +
+                '<button type="button" data-delete-comment="' + item.id + '" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fas fa-trash-can ml-1"></i>حذف نهائي</button>' +
+                '</div></div>';
+        }).join('');
+
+        function setCommentStatus(id, status) {
+            patchRecord('post_comments', id, { status: status })
+                .then(function () { setStatus('تم تحديث حالة التعليق.', 'success'); loadCommentModeration(); })
+                .catch(function (error) { setStatus('تعذر التحديث: ' + error.message, 'error'); });
+        }
+
+        listEl.querySelectorAll('[data-approve-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () { setCommentStatus(btn.getAttribute('data-approve-comment'), 'approved'); });
+        });
+        listEl.querySelectorAll('[data-reject-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () { setCommentStatus(btn.getAttribute('data-reject-comment'), 'rejected'); });
+        });
+        listEl.querySelectorAll('[data-delete-comment]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var id = btn.getAttribute('data-delete-comment');
+                showConfirmModal({
+                    title: 'حذف تعليق نهائياً',
+                    message: 'سيتم حذف هذا التعليق نهائياً. هذا الإجراء لا يمكن التراجع عنه.',
+                    confirmLabel: 'حذف نهائي',
+                    danger: true
+                }).then(function (confirmed) {
+                    if (!confirmed) return;
+                    deleteRecord('post_comments', id)
+                        .then(function () { setStatus('تم حذف التعليق.', 'success'); loadCommentModeration(); })
+                        .catch(function (error) { setStatus('تعذر الحذف: ' + error.message, 'error'); });
+                });
+            });
+        });
+    }
+
+    function initCommentFilters() {
+        document.querySelectorAll('#comments-filter .admin-tab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('#comments-filter .admin-tab').forEach(function (b) { b.setAttribute('aria-selected', 'false'); });
+                btn.setAttribute('aria-selected', 'true');
+                commentsState.statusFilter = btn.getAttribute('data-status');
+                loadCommentModeration();
+            });
+        });
+    }
+
     // ===== Dashboard =====
     function loadDashboard() {
         var loading = document.getElementById('dashboard-loading');
@@ -877,7 +958,8 @@
             countTable('lawyers', 'is_public=eq.true&archived_at=is.null'),
             countTable('services', 'status=eq.published&archived_at=is.null'),
             countTable('practice_areas', 'is_active=eq.true'),
-            countTable('contact_requests', 'status=eq.new')
+            countTable('contact_requests', 'status=eq.new'),
+            countTable('post_comments', 'status=eq.pending')
         ]).then(function (counts) {
             var cards = [
                 { label: 'مقالات منشورة', value: counts[0], icon: 'fa-newspaper' },
@@ -887,7 +969,8 @@
                 { label: 'محامون ظاهرون للعامة', value: counts[4], icon: 'fa-user-tie' },
                 { label: 'خدمات منشورة', value: counts[5], icon: 'fa-briefcase' },
                 { label: 'مجالات ممارسة نشطة', value: counts[6], icon: 'fa-layer-group' },
-                { label: 'طلبات تواصل جديدة', value: counts[7], icon: 'fa-envelope', highlight: counts[7] > 0 }
+                { label: 'طلبات تواصل جديدة', value: counts[7], icon: 'fa-envelope', highlight: counts[7] > 0 },
+                { label: 'تعليقات بانتظار المراجعة', value: counts[8], icon: 'fa-comments', highlight: counts[8] > 0 }
             ];
             statsEl.innerHTML = cards.map(function (card) {
                 return '<div class="p-4 rounded-xl border ' + (card.highlight ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20' : 'border-gray-200 dark:border-gray-700') + '">' +
@@ -989,11 +1072,13 @@
         postsManager.load();
         casesManager.load();
         loadContacts();
+        loadCommentModeration();
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         initTabs();
         initContactFilters();
+        initCommentFilters();
         if (!platform.isSupabaseConfigured()) {
             root.classList.remove('opacity-50');
             setStatus('لوحة التحكم تتطلب إعداد Supabase في config.js. لا يوجد وضع محلي لإدارة المحتوى.', 'error');
